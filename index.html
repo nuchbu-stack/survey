@@ -105,26 +105,27 @@
       }
     });
 
-    // ส่งฟอร์ม (mockup)
-    document.getElementById('surveyForm').addEventListener('submit', function(e) {
-      e.preventDefault();
+// ส่งฟอร์ม (mockup)
+document.getElementById('surveyForm').addEventListener('submit', function(e) {
+  e.preventDefault();
 
-      let q2Value = this.q2.value;
-      if (q2Value === 'อื่นๆ') {
-        q2Value = this.q2_other.value;
-      }
+  let q2Value = this.q2.value;
+  if (q2Value === 'อื่นๆ') {
+    q2Value = this.q2_other.value;
+  }
 
-      const formData = {
-        q1: this.q1.value,
-        q2: q2Value,
-        q3: this.q3.value
-      };
+  const formData = {
+    q1: this.q1.value,
+    q2: q2Value,
+    q3: this.q3.value
+  };
 
-      console.log('ส่งข้อมูล:', formData);
+  console.log('ส่งข้อมูล:', formData);
 
-      this.classList.add('hidden');
-      document.getElementById('successMsg').classList.remove('hidden');
-    });
+  this.classList.add('hidden');
+  document.getElementById('successMsg').classList.remove('hidden');
+});
+
   </script>
 </body>
 </html>
