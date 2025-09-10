@@ -2,6 +2,17 @@
 // ตั้งค่า: ใส่ URL ของ Apps Script Web App ที่ได้จากการ deploy
 const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxBjkxTETG4LMtiKiUZcItojm2ulpYzekZQqwJmyAjPFX3PwGEZMkAWyo6qLcxUKHOqNg/exec";
 
+fetch("ttps://script.google.com/macros/s/AKfycbxBjkxTETG4LMtiKiUZcItojm2ulpYzekZQqwJmyAjPFX3PwGEZMkAWyo6qLcxUKHOqNg/exec", {
+  method: "POST",
+  body: new URLSearchParams(formData)
+})
+.then(response => response.json())
+.then(data => {
+  this.classList.add('hidden');
+  document.getElementById('successMsg').classList.remove('hidden');
+})
+.catch(err => alert("เกิดข้อผิดพลาดในการบันทึกข้อมูล"));
+
 document.addEventListener("DOMContentLoaded", () => {
   const form = document.getElementById("surveyForm");
 
