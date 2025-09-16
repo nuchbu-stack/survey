@@ -105,14 +105,11 @@
       }
     });
 
-// ส่งฟอร์ม (mockup)
 document.getElementById('surveyForm').addEventListener('submit', function(e) {
   e.preventDefault();
 
   let q2Value = this.q2.value;
-  if (q2Value === 'อื่นๆ') {
-    q2Value = this.q2_other.value;
-  }
+  if (q2Value === 'อื่นๆ') q2Value = this.q2_other.value;
 
   const formData = {
     q1: this.q1.value,
@@ -120,11 +117,18 @@ document.getElementById('surveyForm').addEventListener('submit', function(e) {
     q3: this.q3.value
   };
 
-  console.log('ส่งข้อมูล:', formData);
-
-  this.classList.add('hidden');
-  document.getElementById('successMsg').classList.remove('hidden');
+  fetch("https://script.google.com/macros/s/AKfycbxBjkxTETG4LMtiKiUZcItojm2ulpYzekZQqwJmyAjPFX3PwGEZMkAWyo6qLcxUKHOqNg/exec", {
+    method: "POST",
+    body: new URLSearchParams(formData)
+  })
+  .then(response => response.json())
+  .then(data => {
+    this.classList.add('hidden');
+    document.getElementById('successMsg').classList.remove('hidden');
+  })
+  .catch(err => alert("เกิดข้อผิดพลาดในการบันทึกข้อมูล"));
 });
+
 
   </script>
 </body>
