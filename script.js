@@ -4,18 +4,18 @@ document.addEventListener('DOMContentLoaded', () => {
   const form = document.getElementById('surveyForm');
   const q1Options = document.querySelectorAll('.emoji-option input');
 
-  // จัดการ active state ของข้อ 1
+  // active state ของข้อ 1
   q1Options.forEach(input => {
     input.addEventListener('change', () => {
       q1Options.forEach(i => i.parentElement.querySelector('div').classList.remove('border-blue-700', 'shadow-lg'));
       if (input.checked) {
         const box = input.parentElement.querySelector('div');
-        box.classList.add('border-blue-700', 'shadow-lg'); // ขอบและ shadow สำหรับ active
+        box.classList.add('border-blue-700', 'shadow-lg');
       }
     });
   });
 
-  // แสดงช่องอื่นๆ ถ้าเลือก "อื่นๆ"
+  // แสดงช่องอื่นๆ ของข้อ 2
   q2.addEventListener('change', () => {
     if (q2.value === 'อื่นๆ') {
       q2OtherContainer.classList.remove('hidden');
@@ -26,7 +26,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // ส่งฟอร์ม
+  // submit ฟอร์ม
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
 
@@ -39,23 +39,16 @@ document.addEventListener('DOMContentLoaded', () => {
     formData.append('q3', form.q3.value);
 
     try {
-      const response = await fetch('https://script.google.com/macros/s/AKfycbxBjkxTETG4LMtiKiUZcItojm2ulpYzekZQqwJmyAjPFX3PwGEZMkAWyo6qLcxUKHOqNg/exec', { // เปลี่ยนเป็น Web App URL ของคุณ
+      const response = await fetch('https://script.google.com/macros/s/AKfycbxBjkxTETG4LMtiKiUZcItojm2ulpYzekZQqwJmyAjPFX3PwGEZMkAWyo6qLcxUKHOqNg/exec', {
         method: 'POST',
         body: formData
       });
       const result = await response.json();
 
       if (result.status === 'success') {
-        // แจ้งเตือนผู้ใช้
         alert('บันทึกข้อมูลเรียบร้อย ขอบคุณที่ตอบแบบสอบถาม');
-
-        // รีเซ็ตฟอร์ม
         form.reset();
-
-        // รีเซ็ต active state ของข้อ 1
         q1Options.forEach(i => i.parentElement.querySelector('div').classList.remove('border-blue-700', 'shadow-lg'));
-
-        // ซ่อนช่อง "อื่นๆ" ของข้อ 2
         q2OtherContainer.classList.add('hidden');
         q2OtherContainer.querySelector('input').required = false;
       } else {
