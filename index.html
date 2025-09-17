@@ -70,7 +70,9 @@
           <option value="ความผิดพลาด/ความถูกต้อง">ความผิดพลาด/ความถูกต้อง - ความถูกต้อง / ไม่ชัดเจน</option>
           <option value="อื่นๆ">อื่นๆ (โปรดระบุ)</option>
         </select>
-        <input type="text" name="q2_other" id="q2_other" placeholder="โปรดระบุ..." class="w-full p-2 mt-2 rounded-lg border border-gray-300 hidden">
+        <div id="q2_other_container" class="hidden mt-2">
+          <input type="text" name="q2_other" id="q2_other" placeholder="โปรดระบุ..." class="w-full p-2 rounded-lg border border-gray-300">
+        </div>
       </div>
 
       <!-- คำถาม 3 -->
@@ -85,6 +87,23 @@
 
     <p id="successMsg" class="hidden text-green-600 font-medium text-center mt-4">บันทึกข้อมูลเรียบร้อย ขอบคุณที่ตอบแบบสอบถาม</p>
   </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const q2 = document.getElementById('q2');
+      const q2OtherContainer = document.getElementById('q2_other_container');
+
+      q2.addEventListener('change', () => {
+        if (q2.value === 'อื่นๆ') {
+          q2OtherContainer.classList.remove('hidden');
+          q2OtherContainer.querySelector('input').required = true;
+        } else {
+          q2OtherContainer.classList.add('hidden');
+          q2OtherContainer.querySelector('input').required = false;
+        }
+      });
+    });
+  </script>
 
   <script src="script.js"></script>
 </body>
