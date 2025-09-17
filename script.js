@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
     formData.append('q3', form.q3.value);
 
     try {
-      const response = await fetch('Yhttps://script.google.com/macros/s/AKfycbxBjkxTETG4LMtiKiUZcItojm2ulpYzekZQqwJmyAjPFX3PwGEZMkAWyo6qLcxUKHOqNg/exec', { // เปลี่ยนเป็น Web App URL
+      const response = await fetch('https://script.google.com/macros/s/AKfycbxBjkxTETG4LMtiKiUZcItojm2ulpYzekZQqwJmyAjPFX3PwGEZMkAWyo6qLcxUKHOqNg/exec', { // เปลี่ยนเป็น Web App URL
         method: 'POST',
         body: formData
       });
