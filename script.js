@@ -39,7 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
     formData.append('q3', form.q3.value);
 
     try {
-      const response = await fetch('https://script.google.com/macros/s/AKfycbxBjkxTETG4LMtiKiUZcItojm2ulpYzekZQqwJmyAjPFX3PwGEZMkAWyo6qLcxUKHOqNg/exec', {
+      const response = await fetch('https://script.google.com/macros/s/AKfycbzaSid1smIHH6wXB3KcZrBG27RSuzc4Vo5V2VGGpdZnVDP9jTCjT0RG6wfiCjSZR8Z13g/exec', {
         method: 'POST',
         body: formData
       });
