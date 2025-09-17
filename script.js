@@ -39,15 +39,25 @@ document.addEventListener('DOMContentLoaded', () => {
     formData.append('q3', form.q3.value);
 
     try {
-      const response = await fetch('https://script.google.com/macros/s/AKfycbxBjkxTETG4LMtiKiUZcItojm2ulpYzekZQqwJmyAjPFX3PwGEZMkAWyo6qLcxUKHOqNg/exec', { // เปลี่ยนเป็น Web App URL
+      const response = await fetch('https://script.google.com/macros/s/AKfycbxBjkxTETG4LMtiKiUZcItojm2ulpYzekZQqwJmyAjPFX3PwGEZMkAWyo6qLcxUKHOqNg/exec', { // เปลี่ยนเป็น Web App URL ของคุณ
         method: 'POST',
         body: formData
       });
       const result = await response.json();
 
       if (result.status === 'success') {
-        form.classList.add('hidden');
-        document.getElementById('successMsg').classList.remove('hidden');
+        // แจ้งเตือนผู้ใช้
+        alert('บันทึกข้อมูลเรียบร้อย ขอบคุณที่ตอบแบบสอบถาม');
+
+        // รีเซ็ตฟอร์ม
+        form.reset();
+
+        // รีเซ็ต active state ของข้อ 1
+        q1Options.forEach(i => i.parentElement.querySelector('div').classList.remove('border-blue-700', 'shadow-lg'));
+
+        // ซ่อนช่อง "อื่นๆ" ของข้อ 2
+        q2OtherContainer.classList.add('hidden');
+        q2OtherContainer.querySelector('input').required = false;
       } else {
         alert('เกิดข้อผิดพลาดขณะบันทึก: ' + result.message);
       }
