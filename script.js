@@ -1,74 +1,62 @@
 // script.js
-// ตั้งค่า: ใส่ URL ของ Apps Script Web App ที่ได้จากการ deploy
+// แทนที่ตรงนี้ด้วย URL ที่ได้จากการ Deploy Google Apps Script Web App
 const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxBjkxTETG4LMtiKiUZcItojm2ulpYzekZQqwJmyAjPFX3PwGEZMkAWyo6qLcxUKHOqNg/exec";
-
-fetch("ttps://script.google.com/macros/s/AKfycbxBjkxTETG4LMtiKiUZcItojm2ulpYzekZQqwJmyAjPFX3PwGEZMkAWyo6qLcxUKHOqNg/exec", {
-  method: "POST",
-  body: new URLSearchParams(formData)
-})
-.then(response => response.json())
-.then(data => {
-  this.classList.add('hidden');
-  document.getElementById('successMsg').classList.remove('hidden');
-})
-.catch(err => alert("เกิดข้อผิดพลาดในการบันทึกข้อมูล"));
 
 document.addEventListener("DOMContentLoaded", () => {
   const form = document.getElementById("surveyForm");
+  const q2 = document.getElementById("q2");
+  const q2_other = document.getElementById("q2_other");
 
-  // ถ้าต้องการให้เลือก department จาก query param ?dept=IT
-  const urlParams = new URLSearchParams(window.location.search);
-  const presetDept = urlParams.get('dept'); // e.g. ?dept=IT
-  if (presetDept) {
-    // ถ้า index.html มีฟิลด์ department (hidden or select), set ค่านี้
-    const deptField = document.querySelector('[name="department"]');
-    if (deptField) deptField.value = presetDept;
-  }
+  // แสดงช่องอื่นๆ เมื่อเลือก "อื่นๆ"
+  q2.addEventListener("change", function () {
+    if (this.value === "อื่นๆ") {
+      q2_other.classList.remove("hidden");
+      q2_other.required = true;
+    } else {
+      q2_other.classList.add("hidden");
+      q2_other.required = false;
+    }
+  });
 
-  // q2_other visibility is handled in index.html by change listener
-  form.addEventListener("submit", async (e) => {
+  // ส่งข้อมูลแบบ JSON ไป Apps Script
+  form.addEventListener("submit", async function (e) {
     e.preventDefault();
 
-    // ถ้า form มี field department ใช้ค่าจากฟอร์ม มิฉะนั้น fallback เป็น 'General'
-    const departmentField = form.querySelector('[name="department"]');
-    const department = departmentField ? departmentField.value || 'General' : (presetDept || 'General');
-
-    const q1 = form.q1 ? form.q1.value : '';
-    let q2 = form.q2 ? form.q2.value : '';
-    const q2Other = form.q2_other ? form.q2_other.value.trim() : '';
-    if (q2 === 'อื่นๆ' && q2Other) q2 = q2Other;
-
-    const q3 = form.q3 ? form.q3.value : '';
+    // เตรียมค่า
+    let q1 = form.q1 ? form.q1.value : "";
+    let q2Val = q2.value;
+    if (q2Val === "อื่นๆ") q2Val = q2_other.value.trim();
+    let q3 = form.q3 ? form.q3.value.trim() : "";
 
     if (!q1) {
       alert("กรุณาเลือกระดับความพึงพอใจ");
       return;
     }
 
-    const payload = { department, q1, q2, q3 };
+    const payload = {
+      q1: q1,
+      q2: q2Val,
+      q3: q3
+    };
 
     try {
       const res = await fetch(APPS_SCRIPT_URL, {
-        method: 'POST',
-        body: JSON.stringify(payload),
-        headers: { 'Content-Type': 'application/json' }
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
       });
-      const result = await res.json();
-      if (result.status === 'success') {
-        form.reset();
-        // แสดงข้อความสำเร็จ (หากมี element #successMsg)
-        const success = document.getElementById('successMsg');
-        if (success) {
-          form.classList.add('hidden');
-          success.classList.remove('hidden');
-        } else {
-          alert("บันทึกเรียบร้อย");
-        }
+
+      const json = await res.json();
+      if (json && json.status === "success") {
+        form.classList.add("hidden");
+        document.getElementById("successMsg").classList.remove("hidden");
       } else {
-        alert("เกิดข้อผิดพลาด: " + (result.message || 'unknown'));
+        console.error("Response:", json);
+        alert("เกิดข้อผิดพลาดขณะบันทึก กรุณาลองใหม่");
       }
     } catch (err) {
-      alert("ส่งข้อมูลไม่สำเร็จ: " + err);
+      console.error(err);
+      alert("ไม่สามารถเชื่อมต่อเซิร์ฟเวอร์ได้ กรุณาตรวจสอบ URL และการ Deploy ของ Apps Script");
     }
   });
 });
