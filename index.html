@@ -1,72 +1,64 @@
 <!DOCTYPE html>
 <html lang="th">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>แบบประเมินความพึงพอใจ</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <style>
-    .emoji-option { transition: all 0.2s ease; }
-    /* เมื่อเลือกแล้ว ให้เด่นขึ้น แต่ไม่เปลี่ยนสีพื้นหลังของตัวเลือก */
-    .emoji-option input:checked + div {
-      outline: 3px solid #1d4ed8; /* blue-700 */
-      box-shadow: 0 0 0 4px rgba(29,78,216,0.2);
-      transform: translateY(-2px) scale(1.03);
-    }
-  </style>
 </head>
 <body class="bg-gray-100 min-h-screen flex items-center justify-center">
   <div class="bg-white p-8 rounded-2xl shadow-lg w-full max-w-2xl">
     <h1 class="text-2xl font-bold mb-6 text-center">แบบประเมินความพึงพอใจ</h1>
 
     <form id="surveyForm" class="space-y-6">
-      <!-- คำถาม 1 -->
+      <!-- Q1 -->
       <div>
         <label class="block mb-2 font-medium">1. ระดับความพึงพอใจของท่าน</label>
-        <div class="flex justify-between items-stretch space-x-2">
-          <!-- 5 -->
-          <label class="emoji-option cursor-pointer w-full">
+        <div class="flex gap-3">
+          <!-- value 5 -->
+          <label class="emoji-option cursor-pointer flex-1">
             <input type="radio" name="q1" value="5" class="hidden" required>
             <div class="flex flex-col items-center p-3 rounded-xl border-2 border-transparent bg-green-500 text-white hover:brightness-105">
-              <span class="emoji text-3xl">😁</span>
-              <span class="label mt-1">มากที่สุด</span>
+              <span class="text-3xl">😁</span>
+              <span class="mt-1">มากที่สุด</span>
             </div>
           </label>
           <!-- 4 -->
-          <label class="emoji-option cursor-pointer w-full">
+          <label class="emoji-option cursor-pointer flex-1">
             <input type="radio" name="q1" value="4" class="hidden">
             <div class="flex flex-col items-center p-3 rounded-xl border-2 border-transparent bg-lime-500 text-white hover:brightness-105">
-              <span class="emoji text-3xl">😊</span>
-              <span class="label mt-1">มาก</span>
+              <span class="text-3xl">😊</span>
+              <span class="mt-1">มาก</span>
             </div>
           </label>
           <!-- 3 -->
-          <label class="emoji-option cursor-pointer w-full">
+          <label class="emoji-option cursor-pointer flex-1">
             <input type="radio" name="q1" value="3" class="hidden">
             <div class="flex flex-col items-center p-3 rounded-xl border-2 border-transparent bg-yellow-300 text-black hover:brightness-105">
-              <span class="emoji text-3xl">😐</span>
-              <span class="label mt-1">ปานกลาง</span>
+              <span class="text-3xl">😐</span>
+              <span class="mt-1">ปานกลาง</span>
             </div>
           </label>
           <!-- 2 -->
-          <label class="emoji-option cursor-pointer w-full">
+          <label class="emoji-option cursor-pointer flex-1">
             <input type="radio" name="q1" value="2" class="hidden">
             <div class="flex flex-col items-center p-3 rounded-xl border-2 border-transparent bg-orange-400 text-white hover:brightness-105">
-              <span class="emoji text-3xl">😕</span>
-              <span class="label mt-1">น้อย</span>
+              <span class="text-3xl">😕</span>
+              <span class="mt-1">น้อย</span>
             </div>
           </label>
           <!-- 1 -->
-          <label class="emoji-option cursor-pointer w-full">
+          <label class="emoji-option cursor-pointer flex-1">
             <input type="radio" name="q1" value="1" class="hidden">
             <div class="flex flex-col items-center p-3 rounded-xl border-2 border-transparent bg-red-500 text-white hover:brightness-105">
-              <span class="emoji text-3xl">😡</span>
-              <span class="label mt-1">น้อยที่สุด</span>
+              <span class="text-3xl">😡</span>
+              <span class="mt-1">น้อยที่สุด</span>
             </div>
           </label>
         </div>
       </div>
 
-      <!-- คำถาม 2 -->
+      <!-- Q2 -->
       <div>
         <label class="block mb-2 font-medium">2. ท่านไม่พึงพอใจในเรื่องใด</label>
         <select name="q2" id="q2" class="w-full p-2 rounded-lg border border-gray-300" required>
@@ -79,57 +71,21 @@
         <input type="text" name="q2_other" id="q2_other" placeholder="โปรดระบุ..." class="w-full p-2 mt-2 rounded-lg border border-gray-300 hidden">
       </div>
 
-      <!-- คำถาม 3 -->
+      <!-- Q3 -->
       <div>
         <label class="block mb-2 font-medium">3. ข้อเสนอแนะเพิ่มเติม</label>
         <textarea name="q3" rows="3" class="w-full p-2 rounded-lg border border-gray-300"></textarea>
       </div>
 
-      <!-- ปุ่มส่ง -->
-      <button type="submit" class="w-full bg-blue-500 text-white font-semibold py-2 px-4 rounded-lg shadow-md hover:bg-blue-600 transition">ส่งแบบประเมิน</button>
+      <!-- Submit -->
+      <button id="submitBtn" type="submit" class="w-full bg-blue-500 text-white font-semibold py-2 px-4 rounded-lg shadow-md hover:bg-blue-600 transition">
+        ส่งแบบประเมิน
+      </button>
     </form>
 
     <p id="successMsg" class="hidden text-green-600 font-medium text-center mt-4">บันทึกข้อมูลเรียบร้อย ขอบคุณที่ตอบแบบสอบถาม</p>
   </div>
 
-  <script>
-    // แสดงช่องอื่นๆ ถ้าเลือก "อื่นๆ"
-    document.getElementById('q2').addEventListener('change', function() {
-      const otherInput = document.getElementById('q2_other');
-      if (this.value === 'อื่นๆ') {
-        otherInput.classList.remove('hidden');
-        otherInput.required = true;
-      } else {
-        otherInput.classList.add('hidden');
-        otherInput.required = false;
-      }
-    });
-
-document.getElementById('surveyForm').addEventListener('submit', function(e) {
-  e.preventDefault();
-
-  let q2Value = this.q2.value;
-  if (q2Value === 'อื่นๆ') q2Value = this.q2_other.value;
-
-  const formData = {
-    q1: this.q1.value,
-    q2: q2Value,
-    q3: this.q3.value
-  };
-
-  fetch("https://script.google.com/macros/s/AKfycbxBjkxTETG4LMtiKiUZcItojm2ulpYzekZQqwJmyAjPFX3PwGEZMkAWyo6qLcxUKHOqNg/exec", {
-    method: "POST",
-    body: new URLSearchParams(formData)
-  })
-  .then(response => response.json())
-  .then(data => {
-    this.classList.add('hidden');
-    document.getElementById('successMsg').classList.remove('hidden');
-  })
-  .catch(err => alert("เกิดข้อผิดพลาดในการบันทึกข้อมูล"));
-});
-
-
-  </script>
+  <script src="script.js"></script>
 </body>
 </html>
