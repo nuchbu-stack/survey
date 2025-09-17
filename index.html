@@ -7,7 +7,7 @@
   <style>
     .emoji-option { transition: all 0.2s ease; }
     .emoji-option input:checked + div {
-      outline: 3px solid #1d4ed8; /* blue-700 */
+      outline: 3px solid #1d4ed8;
       box-shadow: 0 0 0 4px rgba(29,78,216,0.2);
       transform: translateY(-2px) scale(1.03);
     }
@@ -102,9 +102,39 @@
           q2OtherContainer.querySelector('input').required = false;
         }
       });
+
+      const form = document.getElementById('surveyForm');
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        let q2Value = form.q2.value;
+        if (q2Value === 'อื่นๆ') q2Value = document.getElementById('q2_other').value;
+
+        const formData = new URLSearchParams();
+        formData.append('q1', form.q1.value);
+        formData.append('q2', q2Value);
+        formData.append('q3', form.q3.value);
+
+        try {
+          const response = await fetch('https://script.google.com/macros/s/AKfycbxBjkxTETG4LMtiKiUZcItojm2ulpYzekZQqwJmyAjPFX3PwGEZMkAWyo6qLcxUKHOqNg/exec', {
+            method: 'POST',
+            body: formData
+          });
+
+          const result = await response.json();
+
+          if (result.status === 'success') {
+            form.classList.add('hidden');
+            document.getElementById('successMsg').classList.remove('hidden');
+          } else {
+            alert('เกิดข้อผิดพลาดขณะบันทึก: ' + result.message);
+          }
+        } catch(err) {
+          console.error(err);
+          alert('เกิดข้อผิดพลาดขณะบันทึก กรุณาลองใหม่');
+        }
+      });
     });
   </script>
-
-  <script src="script.js"></script>
 </body>
 </html>
