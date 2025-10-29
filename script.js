@@ -10,15 +10,29 @@ const q1Options = document.querySelectorAll("#q1Options .option");
 const q2Section = document.getElementById("q2Section");
 const q2Other = document.getElementById("q2Other");
 const thankYou = document.getElementById("thankYou");
-const submitButton = form.querySelector('button[type="submit"]');
+
 
 /********************
  * Config
  ********************/
 const GAS_URL = "https://script.google.com/macros/s/AKfycbyGhPwMCqvXhU0TMue4AfU0TOo2Nms7Iy9kFCfun-wqYFrb7ntTB5uBUPDDXGpYoIPa/exec";
-const DEPARTMENT = "ASU_E";          // ใช้โหลด services
-const DEPARTMENT_LABEL = "การสร้างเจ้าของธุรกิจฯ_2";             // ชื่อที่จะเก็บลงชีท
 const JSON_URL = "https://nuchbu-stack.github.io/q0Options.json";
+
+// อ่านพารามิเตอร์ URL
+const params = new URLSearchParams(location.search);
+const DEPARTMENT  = params.get("unit") || "ASU_E";  // หน่วยงาน
+const STAFF_PARAM = (params.get("staff") || "").trim(); // โหมดรายบุคคล
+const LANG_PARAM  = (params.get("lang") || "").toLowerCase();
+
+// ภาษาปัจจุบัน
+let CURRENT_LANG = localStorage.getItem("lang") || "th";
+
+// ตัวแปรเกี่ยวกับผู้ให้บริการ/ชื่อชีต (จะเซ็ตใน loadServices)
+let BASE_SHEET_LABEL     = "";   // เช่น "การสร้างเจ้าของธุรกิจฯ" (รวมหน่วย)
+let PROVIDER_SHEET_LABEL = "";   // เช่น "การสร้างเจ้าของธุรกิจฯ_สุภาพร" (รายบุคคล)
+let PROVIDER_MODE        = "aggregate"; // "aggregate" | "url_person" | "list_person"
+let PROVIDER_CODE        = "";   // เช่น "A39089"
+let PROVIDER_DISPLAY     = "";   // เช่น "A39089 สุภาพร กรองกรุด"
 
 /********************
  * i18n
@@ -26,7 +40,7 @@ const JSON_URL = "https://nuchbu-stack.github.io/q0Options.json";
 const I18N = {
   th: {
     titleMain: "แบบประเมินความพึงพอใจ",
-    titleSub: "คณะการสร้างเจ้าของธุรกิจและการบริหารกิจการ (SEM)",
+    titleSub: "มหาวิทยาลัยกรุงเทพ",
 
     qUser_label: "ผู้รับบริการคือ",
     qUser_student: "นักศึกษา",
@@ -68,7 +82,7 @@ const I18N = {
   },
   en: {
     titleMain: "Satisfaction Evaluation Form",
-    titleSub: "School of Entrepreneurship and Management (SEM)",
+    titleSub: "Bangkok University",
 
     qUser_label: "Service Recipient: You are...",
     qUser_student: "Student",
@@ -111,14 +125,6 @@ const I18N = {
 };
 
 
-let CURRENT_LANG = localStorage.getItem("lang") || "th";
-
-function renderHeader(lang = "th") {
-  const t = I18N_HEADER[lang] || I18N_HEADER.th;
-  document.getElementById("title-main").textContent = t.titleMain;
-  document.getElementById("title-sub").textContent = t.titleSub;
-}
-
 function isOther(val) {
   if (!val) return false;
   const s = val.toString().trim().toLowerCase();
@@ -128,6 +134,20 @@ function isOther(val) {
   if (s.startsWith('other')) return true; // ครอบคลุม others/other./other (...)
   return false;
 }
+
+// เพิ่ม helper สำหรับ label 2 ภาษา และตั้งชื่อหน่วยบนหน้า
+function pickLabel(obj, lang = "th") {
+  if (!obj) return "";
+  if (lang === "en") return (obj.en || obj.th || "").trim();
+  return (obj.th || obj.en || "").trim();
+}
+
+// ตั้งชื่อหน่วยที่ "แสดงบนเว็บ" (บรรทัดรอง/ใต้ titleMain)
+function setWebUnitTitle(text) {
+  const el = document.getElementById("title-sub");
+  if (el) el.textContent = text || "";
+}
+
 
 /********************
  * Auto return timers
@@ -211,6 +231,158 @@ function buildQ0OptionObj(item, lang) {
   return { value, label };
 }
 
+// รองรับ “Templates/use/extend” สำหรับ Q0 (นอกเหนือจาก conf.options เดิม)
+function resolveOptions(data, conf) {
+  if (Array.isArray(conf)) return conf; // รองรับโครงเก่า (options เป็น array ตรงๆ)
+
+  const templates = data?.Templates || {};
+  let base = [];
+
+  if (conf?.use && templates[conf.use]) {
+    base = templates[conf.use];
+  }
+
+  if (conf?.extend?.use && templates[conf.extend.use]) {
+    base = templates[conf.extend.use];
+
+    if (Array.isArray(conf.extend.remove) && conf.extend.remove.length) {
+      const rm = new Set(conf.extend.remove.map(s => String(s).trim()));
+      base = base.filter(item => {
+        const v = (typeof item === "string") ? item.trim()
+                 : (item?.th || item?.en || "").trim();
+        return !rm.has(v);
+      });
+    }
+
+    if (Array.isArray(conf.extend.add)) {
+      base = base.concat(conf.extend.add);
+    }
+  }
+
+  if (Array.isArray(conf?.options)) base = conf.options;
+
+  return Array.isArray(base) ? base : [];
+}
+
+// เพิ่มระบบ “ผู้ให้บริการ 3 โหมด” (aggregate / URL รายบุคคล / ลิสต์ให้เลือก)
+function renderProvider(data, cfg) {
+  // <p> ใต้หัวฟอร์มไว้แสดงชื่อผู้ให้บริการ
+  const header = document.querySelector(".form-header");
+  let headerP = header?.querySelector("p.provider-display");
+  if (!headerP && header) {
+    headerP = document.createElement("p");
+    headerP.className = "provider-display";
+    header.appendChild(headerP);
+  }
+  const setHeader = (text) => { if (headerP) headerP.textContent = text || ""; };
+
+  // container สำหรับลิสต์ (สร้างอัตโนมัติ)
+  let providerWrap = document.getElementById("providerWrap");
+  let providerSelect = document.getElementById("providerSelect");
+  const ensureWrap = () => {
+    if (!providerWrap) {
+      providerWrap = document.createElement("div");
+      providerWrap.id = "providerWrap";
+      providerWrap.className = "question";
+      const label = document.createElement("label");
+      label.className = "label";
+      label.id = "providerLabel";
+      const sel = document.createElement("select");
+      sel.id = "providerSelect";
+      providerWrap.append(label, sel);
+      const anchor = document.getElementById("q0Section") || document.getElementById("qUserSection") || document.querySelector("form");
+      anchor?.parentNode?.insertBefore(providerWrap, anchor);
+      providerSelect = sel;
+    }
+  };
+  const hideWrap = () => providerWrap?.classList.add("hidden");
+  const showWrap = () => providerWrap?.classList.remove("hidden");
+
+  // reset state
+  PROVIDER_MODE        = "aggregate";
+  PROVIDER_CODE        = "";
+  PROVIDER_DISPLAY     = "";
+  PROVIDER_SHEET_LABEL = "";
+  setHeader("");
+
+  const pv = cfg.providers || { mode: "aggregate" };
+  const mode   = (pv.mode || "aggregate").toLowerCase();
+  const people = Array.isArray(pv.people) ? pv.people : [];
+
+  // โหมด 1: รวมทั้งหน่วย
+  if (mode === "aggregate") { hideWrap(); setHeader(""); return; }
+
+  // โหมด auto: URL → ลิสต์ → รวม
+  // (2) URL รายบุคคล
+  if (STAFF_PARAM && people.length) {
+    const found = people.find(p => p.code === STAFF_PARAM);
+    if (found) {
+      PROVIDER_MODE        = "url_person";
+      PROVIDER_CODE        = found.code;
+      PROVIDER_DISPLAY     = (found.display_th || found.code).trim();
+      PROVIDER_SHEET_LABEL = (found.sheet_label || BASE_SHEET_LABEL).trim();
+      hideWrap();
+      setHeader(PROVIDER_DISPLAY);
+      return;
+    }
+  }
+
+  // (3) ลิสต์ให้เลือก (ถ้ายังไม่ล็อกจาก URL และมีรายชื่อ)
+  if (people.length) {
+    ensureWrap();
+    const labelEl  = document.getElementById("providerLabel");
+    if (labelEl) labelEl.textContent = pickLabel(pv.label, CURRENT_LANG) || "ผู้ให้บริการ";
+
+    const allowAgg = !!pv.allow_aggregate_in_list;
+    const aggText  = pickLabel(pv.aggregate_label, CURRENT_LANG) || "ประเมินรวมทั้งหน่วยงาน";
+
+    let opts = `<option value="">— ${pickLabel(pv.label, CURRENT_LANG) || "ผู้ให้บริการ"} —</option>`;
+    if (allowAgg) {
+      opts += `<option value="__AGG__" data-display="${aggText}" data-sheet="${BASE_SHEET_LABEL}">${aggText}</option>`;
+    }
+    opts += people.map(p =>
+      `<option value="${p.code}"
+               data-display="${(p.display_th||p.code).replace(/"/g,'&quot;')}"
+               data-sheet="${(p.sheet_label||BASE_SHEET_LABEL).replace(/"/g,'&quot;')}">${p.display_th||p.code}</option>`
+    ).join("");
+    providerSelect.innerHTML = opts;
+
+    if (pv.require_on_list && !allowAgg) providerSelect.setAttribute("required","required");
+    else providerSelect.removeAttribute("required");
+
+    providerSelect.onchange = () => {
+      const v = providerSelect.value;
+      const opt = providerSelect.selectedOptions[0];
+      if (v === "__AGG__") {
+        PROVIDER_MODE        = "aggregate";
+        PROVIDER_CODE        = "";
+        PROVIDER_DISPLAY     = "";
+        PROVIDER_SHEET_LABEL = BASE_SHEET_LABEL;
+        setHeader("");
+      } else if (v) {
+        PROVIDER_MODE        = "list_person";
+        PROVIDER_CODE        = v;
+        PROVIDER_DISPLAY     = opt?.dataset?.display || v;
+        PROVIDER_SHEET_LABEL = opt?.dataset?.sheet || BASE_SHEET_LABEL;
+        setHeader(PROVIDER_DISPLAY);
+      } else {
+        PROVIDER_MODE        = "aggregate";
+        PROVIDER_CODE        = "";
+        PROVIDER_DISPLAY     = "";
+        PROVIDER_SHEET_LABEL = "";
+        setHeader("");
+      }
+    };
+
+    showWrap();
+    return;
+  }
+
+  // ไม่มีรายชื่อเลย → รวม
+  hideWrap(); setHeader("");
+}
+
+
 async function loadServices() {
   try {
     q0.disabled = true;
@@ -219,45 +391,104 @@ async function loadServices() {
     const res = await fetch(JSON_URL + "?v=" + Date.now());
     const data = await res.json();
 
-    // เปิด/ปิด QUser ตาม Features.UserType
+    // QUser: เปิด/ปิดตาม Features.UserType
     const hasUserType = !!data?.Features?.UserType?.includes(DEPARTMENT);
     qUserSection?.classList.toggle("hidden", !hasUserType);
     if (!hasUserType) document.getElementById("qUserError")?.classList.add("hidden");
 
-    // ดึง config ของหน่วยงาน
+    // อ่าน config ของหน่วย
     let conf = data[DEPARTMENT];
-    // เผื่อรูปแบบเก่าเป็น array ของ string ไทยล้วน
-    if (Array.isArray(conf)) conf = { hasServices: true, options: conf };
-
-    // ไม่มี Q0 สำหรับหน่วยนี้
-    if (!conf || conf.hasServices === false) {
+    if (!conf) {
+      // กันพลาด: ไม่มีหน่วย → ซ่อน Q0/QUser
       q0Section?.classList.add("hidden");
-      q0.disabled = true;
-      q0.value = "--";
-      q0Other.value = "";
-      q0Other.classList.add("hidden");
+      qUserSection?.classList.add("hidden");
       return;
     }
+    // รองรับโครงเก่า (array options ตรงๆ)
+    if (Array.isArray(conf)) conf = { config: { hasServices: true }, options: conf };
+    const cfg = conf.config || {};
 
-    // เติม option: value=ไทยเสมอ, label=ตามภาษา UI
-    q0.innerHTML = `<option value="" disabled selected>${I18N[CURRENT_LANG].q0_placeholder}</option>`;
-    conf.options.forEach(item => {
-      const { value, label } = buildQ0OptionObj(item, CURRENT_LANG);
-      if (!value || !label) return;
-      const opt = document.createElement("option");
-      opt.value = value;       // ✅ ส่งไปชีทเป็น "ไทย" เสมอ
-      opt.textContent = label; // 👁️ เห็นตามภาษา UI
-      q0.appendChild(opt);
-    });
+    // ภาษา per-unit (langs + default_lang + override จาก URL)
+    const langs = Array.isArray(cfg.langs) && cfg.langs.length ? cfg.langs : ["th"];
+    const defaultLang = (cfg.default_lang || "th").toLowerCase();
+    const storedLang  = localStorage.getItem("lang");
 
-    q0.disabled = false;
-    q0Section?.classList.remove("hidden");
+    function pickInitialLang() {
+      if (LANG_PARAM && langs.includes(LANG_PARAM)) return LANG_PARAM;
+      if (storedLang && langs.includes(storedLang)) return storedLang;
+      if (defaultLang && langs.includes(defaultLang)) return defaultLang;
+      if (langs.includes("th")) return "th";
+      return langs[0];
+    }
+    CURRENT_LANG = pickInitialLang();
+    localStorage.setItem("lang", CURRENT_LANG);
 
-    // อัปเดต placeholder ของช่อง "ระบุเรื่องฯ" ให้ตรงภาษา
-    if (q0Other) q0Other.placeholder = I18N[CURRENT_LANG].q0_other_placeholder;
+    // ปุ่มสลับภาษา: ซ่อนถ้าไทยล้วน
+    const langSwitch = document.querySelector(".lang-switch");
+    if (langs.length === 1 && langs[0] === "th") langSwitch?.classList.add("hidden");
+    else langSwitch?.classList.remove("hidden");
 
+    // ถ้ายังไม่มี switchLang ให้สร้าง (ล็อกไม่ให้เลือกภาษาที่หน่วยไม่รองรับ)
+    if (typeof window.switchLang === "function") {
+      const _orig = window.switchLang;
+      window.switchLang = function(nextLang) {
+        if (!langs.includes(nextLang)) return;
+        localStorage.setItem("lang", nextLang);
+        CURRENT_LANG = nextLang;
+        _orig(nextLang);
+        rerenderDynamicParts(data, conf);
+      };
+    } else {
+      window.switchLang = function(nextLang) {
+        if (!langs.includes(nextLang)) return;
+        localStorage.setItem("lang", nextLang);
+        CURRENT_LANG = nextLang;
+        applyLang(CURRENT_LANG);
+        rerenderDynamicParts(data, conf);
+      };
+    }
+
+    // ตั้งข้อความ UI จาก I18N ของคุณ
+    applyLang(CURRENT_LANG);
+
+    // เรื่องที่ 5: ชื่อหน่วย "ที่แสดงบนเว็บ" (display_title) → ถ้าไม่ตั้ง ใช้ I18N.titleSub → สุดท้ายใช้ sheet_label/DEPARTMENT กันว่าง
+    const webTitle =
+      pickLabel(cfg.display_title, CURRENT_LANG)
+      || I18N[CURRENT_LANG]?.titleSub
+      || (cfg.sheet_label || DEPARTMENT);
+    setWebUnitTitle(webTitle);
+
+    // ตั้งชื่อชีตฐานของหน่วยสำหรับบันทึก
+    BASE_SHEET_LABEL = cfg.sheet_label || DEPARTMENT;
+
+    // Q0: แสดง/ซ่อน
+    const hasServices = (cfg.hasServices !== false);
+    q0Section?.classList.toggle("hidden", !hasServices);
+
+    // ผู้ให้บริการ 3 โหมด
+    renderProvider(data, cfg);
+
+    // เติมตัวเลือก Q0 จาก Templates/use/extend/options
+    if (hasServices && q0) {
+      q0.innerHTML = `<option value="" disabled selected>${I18N[CURRENT_LANG].q0_placeholder}</option>`;
+      const list = resolveOptions(data, conf);
+      list.forEach(item => {
+        const { value, label } = buildQ0OptionObj(item, CURRENT_LANG);
+        if (!value || !label) return;
+        const opt = document.createElement("option");
+        opt.value = value;       // บันทึกเป็นไทย
+        opt.textContent = label; // แสดงตามภาษา
+        q0.appendChild(opt);
+      });
+
+      q0.disabled = false;
+      q0Section?.classList.remove("hidden");
+
+      // อัปเดต placeholder ช่อง "ระบุเรื่องฯ" ให้ตรงภาษา
+      if (q0Other) q0Other.placeholder = I18N[CURRENT_LANG].q0_other_placeholder;
+    }
   } catch (err) {
-    console.error("โหลด services.json ไม่ได้", err);
+    console.error("โหลด q0Options.json ไม่ได้", err);
     q0Section?.classList.add("hidden");
     q0.disabled = true;
     q0.value = "--";
@@ -266,8 +497,37 @@ async function loadServices() {
   }
 }
 
-// เรียกครั้งแรก
-loadServices();
+// เพิ่ม rerenderDynamicParts() เรียกใช้ตอนสลับภาษา
+function rerenderDynamicParts(data, conf) {
+  applyLang(CURRENT_LANG);
+
+  // อัปเดตชื่อหน่วยบนเว็บตามภาษา
+  const cfg = conf?.config || {};
+  const webTitle =
+    pickLabel(cfg.display_title, CURRENT_LANG)
+    || I18N[CURRENT_LANG]?.titleSub
+    || (cfg.sheet_label || DEPARTMENT);
+  setWebUnitTitle(webTitle);
+
+  // re-render provider
+  renderProvider(data, cfg);
+
+  // re-render Q0
+  const hasServices = (cfg.hasServices !== false);
+  if (q0 && hasServices) {
+    q0.innerHTML = `<option value="" disabled selected>${I18N[CURRENT_LANG].q0_placeholder}</option>`;
+    const list = resolveOptions(data, conf);
+    list.forEach(item => {
+      const { value, label } = buildQ0OptionObj(item, CURRENT_LANG);
+      if (!value || !label) return;
+      const opt = document.createElement("option");
+      opt.value = value;
+      opt.textContent = label;
+      q0.appendChild(opt);
+    });
+    if (q0Other) q0Other.placeholder = I18N[CURRENT_LANG].q0_other_placeholder;
+  }
+}
 
 
 /********************
@@ -414,15 +674,25 @@ form.addEventListener("submit", async (e) => {
 
   if (!valid) return;
 
-  // ส่งข้อมูล (background) + ไปหน้า Thank You ทันที
+  // department ที่จะบันทึกลงชีต (รวมหน่วย vs รายบุคคล)
+  const deptToSave =
+    (PROVIDER_SHEET_LABEL && PROVIDER_MODE !== "aggregate")
+      ? PROVIDER_SHEET_LABEL
+      : (BASE_SHEET_LABEL || DEPARTMENT);
+
   const payload = new URLSearchParams({
-    department: DEPARTMENT_LABEL,
+    department:      deptToSave,       // ← ชื่อชีต (เช่น "การสร้างเจ้าของธุรกิจฯ" หรือ "การสร้างเจ้าของธุรกิจฯ_สุภาพร")
+    providerMode:    PROVIDER_MODE,    // "aggregate" | "url_person" | "list_person"
+    providerCode:    PROVIDER_CODE,    // เช่น A39089
+    providerDisplay: PROVIDER_DISPLAY, // เช่น "A39089 สุภาพร กรองกรุด"
+
     qUser: finalQUser,
     q0: finalQ0,
     q1: q1Value,
     q2: finalQ2,
     q3: document.getElementById("q3").value.trim()
   });
+
 
   form.classList.add("hidden");
   thankYou.classList.remove("hidden");
@@ -476,7 +746,7 @@ form.addEventListener("submit", async (e) => {
 
   fetch(GAS_URL + "?cachebust=" + Date.now(), {
     method: "POST",
-    body: new URLSearchParams(payload)
+    body: payload
   }).catch(err => console.error("ส่งข้อมูลไม่สำเร็จ (background)", err));
 });
 
@@ -491,8 +761,6 @@ function applyLang(lang) {
   // ▼ เปลี่ยนหัวข้อ
   document.getElementById("title-main")
     ?.replaceChildren(document.createTextNode(t.titleMain));
-  document.getElementById("title-sub")
-    ?.replaceChildren(document.createTextNode(t.titleSub));
 
 
   // QUser label & options (ต้องมี id ตามนี้ใน HTML)
@@ -585,16 +853,25 @@ function applyLang(lang) {
     b.classList.toggle("active", b.dataset.lang === lang)
   );
 
-  // โหลด Q0 ใหม่ตามภาษา + อัปเดต error ที่กำลังโชว์อยู่
-  loadServices();
+  // อัปเดตข้อความ error ที่กำลังโชว์อยู่เท่านั้น (rerender รายการ/ชื่อหน่วยให้ switchLang จัดการ)
   updateErrorTexts();
 }
 
 document.addEventListener("DOMContentLoaded", () => {
   document.querySelectorAll(".lang-btn").forEach(btn => {
-    btn.addEventListener("click", () => applyLang(btn.dataset.lang));
+    btn.addEventListener("click", () => {
+      if (typeof window.switchLang === "function") {
+        window.switchLang(btn.dataset.lang);
+      } else {
+        // fallback (รอบแรกก่อน loadServices ตั้ง switchLang)
+        applyLang(btn.dataset.lang);
+      }
+    });
   });
+
   applyLang(CURRENT_LANG);
+
+  loadServices().catch(console.error);
 
   // ✅ Event delegation ให้ปุ่ม "ทำแบบสอบถามอีกครั้ง" (againBtn)
   // ทำงานได้แม้ DOM ถูก re-render จากการสลับภาษา
