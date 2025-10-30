@@ -4,7 +4,8 @@
 
     "UserType": ["ASU_LI1","ASU_LI2","ASU_AC","ASU_BA","ASU_CA","ASU_HM","SUP_HM","ASU_EC","ASU_ITI",
                  "ASU_FA","ASU_EE1","ASU_EE2","ASU_BUI","ASU_ARC","ASU_SEM","ASU_DC","ASU_BUCI",
-                 "ASU_grad","clinic"]
+                 "ASU_grad","GE",
+                 "clinic"]
   },
 
   "Templates": {
