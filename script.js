@@ -16,7 +16,7 @@ const thankYou = document.getElementById("thankYou");
  * Config
  ********************/
 const GAS_URL = "https://script.google.com/macros/s/AKfycbyGhPwMCqvXhU0TMue4AfU0TOo2Nms7Iy9kFCfun-wqYFrb7ntTB5uBUPDDXGpYoIPa/exec";
-const JSON_URL = "https://nuchbu-stack.github.io/q0Options.json";
+const JSON_URL = new URL("q0Options.json", window.location.href).href;
 
 // อ่านพารามิเตอร์ URL
 const params = new URLSearchParams(location.search);
