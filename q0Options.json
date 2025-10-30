@@ -44,7 +44,22 @@
       "เรื่องอื่นๆ หรือประสานงานทั่วไป"
     ]
   }, 
-  
+
+  "ASU_LI1": {
+    "config": {
+      "group": "support", 
+      "langs": ["th"],
+      "default_lang": "th",
+      "sheet_label": "สถาบันภาษา_1",
+      "display_title": {
+        "th": "สถาบันภาษา",
+        "en": "Language Institute"
+      },
+      "providers": { "mode": "aggregate" }
+    },
+    "use": "COMMON_STUDENT_SERVICES"
+  },
+
   "ASU_LI2": {
     "config": {
       "group": "support", 
