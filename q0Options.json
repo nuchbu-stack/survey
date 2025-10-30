@@ -93,6 +93,34 @@
     "use": "COMMON_STUDENT_SERVICES"
   },  
 
+  "ASU_BA": {
+    "config": {
+      "group": "faculty", 
+      "langs": ["th"],
+      "default_lang": "th",
+      "sheet_label": "บริหารธุรกิจ",
+      "display_title": {
+        "th": "คณะบริหารธุรกิจ",
+        "en": "School of Business Administration"
+      },
+      "providers": {
+        "_comment": "โหมดผู้ให้บริการ: 'aggregate' = รวมหน่วย; 'auto' = URL รายบุคคล → ลิสต์ให้เลือก (ถ้ามี people) → รวมหน่วย",
+        "_notes": "require_on_list: true = ถ้ามีลิสต์ต้องเลือก; allow_aggregate_in_list: true = แสดงตัวเลือก 'ประเมินรวมทั้งหน่วยงาน' รวมในลิสต์ด้วย",
+
+        "mode": "auto",
+        "label": { "th": "ผู้ให้บริการ", "en": "Service provider" },
+        "aggregate_label": { "th": "ประเมินรวมทั้งหน่วยงาน", "en": "Evaluate the unit" },
+        "require_on_list": true,
+        "allow_aggregate_in_list": false,
+        "people": [
+          { "code": "1" },
+          { "code": "2"}
+        ]
+      }
+    },
+    "use": "COMMON_STUDENT_SERVICES"
+  },  
+
   "ASU_HM": {
     "config": {
       "_note": "langs ภาษาที่หน่วยรองรับ ['th'] หรือ ['th','en']",
