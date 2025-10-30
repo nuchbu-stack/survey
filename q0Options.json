@@ -114,8 +114,8 @@
         "require_on_list": true,
         "allow_aggregate_in_list": false,
         "people": [
-          { "code": "1" },
-          { "code": "2", "display_th": "C53014 กอบแก้ว มูลมณี" }
+          { "code": "ba_1" },
+          { "code": "ba_2", "display_th": "C53014 กอบแก้ว มูลมณี" }
         ]
       }
     },
