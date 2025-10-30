@@ -2,7 +2,7 @@
   "Features": {
     "_comment": "รายชื่อ <unitKey> ที่ต้องแสดงคำถาม 'ผู้รับบริการคือ' (QUser). ถ้าไม่อยู่ในลิสต์จะซ่อน QUser อัตโนมัติ.",
 
-    "UserType": ["ASU","ASU_E","ASU_LI1","ASU_LI2","ASU_FA","ASU_EE","ASU_HM","SUP_HM","clinic"]
+    "UserType": ["ASU_LI1","ASU_LI2","ASU_AC","ASU_FA","ASU_EE","ASU_HM","SUP_HM","clinic"]
   },
 
   "Templates": {
@@ -77,6 +77,21 @@
       "การอธิบายการสอบวัดระดับ"
     ]
   },
+
+  "ASU_AC": {
+    "config": {
+      "group": "faculty", 
+      "langs": ["th"],
+      "default_lang": "th",
+      "sheet_label": "บัญชี",
+      "display_title": {
+        "th": "คณะบัญชี",
+        "en": "School of Accounting"
+      },
+      "providers": { "mode": "aggregate" }
+    },
+    "use": "COMMON_STUDENT_SERVICES"
+  },  
 
   "ASU_HM": {
     "config": {
