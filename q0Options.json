@@ -3,7 +3,8 @@
     "_comment": "รายชื่อ <unitKey> ที่ต้องแสดงคำถาม 'ผู้รับบริการคือ' (QUser). ถ้าไม่อยู่ในลิสต์จะซ่อน QUser อัตโนมัติ.",
 
     "UserType": ["ASU_LI1","ASU_LI2","ASU_AC","ASU_BA","ASU_CA","ASU_HM","SUP_HM","ASU_EC","ASU_ITI",
-                 "ASU_FA","ASU_EE1","ASU_EE2","ASU_BUI","ASU_ARC","clinic"]
+                 "ASU_FA","ASU_EE1","ASU_EE2","ASU_BUI","ASU_ARC","ASU_SEM","ASU_DC","ASU_BUCI",
+                 "ASU_grad","clinic"]
   },
 
   "Templates": {
@@ -371,6 +372,121 @@
       "add": ["ภาระงาน การสนับสนุนงานด้านคุณภาพหลักสูตร AUN-QA EdPEx",
               "อื่นๆ"]
     }
+  },
+
+  "ASU_SEM": {
+    "config": {
+      "group": "faculty", 
+      "langs": ["th","en"],
+      "default_lang": "th",
+      "sheet_label": "การสร้างเจ้าของธุรกิจฯ",
+      "display_title": {
+        "th": "คณะการสร้างเจ้าของธุรกิจและการบริหารกิจการ (SEM)",
+        "en": "School of Entrepreneurship and Management"
+      },
+      "providers": {
+        "mode": "auto",
+        "show_provider_in_ui": "none", 
+        "label": { "th": "ผู้ให้บริการ", "en": "Service provider" },
+        "aggregate_label": { "th": "ประเมินรวมทั้งหน่วยงาน", "en": "Evaluate the unit" },
+        "require_on_list": true,
+        "allow_aggregate_in_list": false,
+        "people": [
+          { "code": "sem_1" },
+          { "code": "sem_2" }
+        ]
+      }
+    },
+    "use": "COMMON_STUDENT_SERVICES"
+  },
+
+  "ASU_DC": {
+    "config": {
+      "group": "faculty", 
+      "langs": ["th"],
+      "default_lang": "th",
+      "sheet_label": "ดิจิทัลมีเดียฯ",
+      "display_title": {
+        "th": "คณะดิจิทัลมีเดียและศิลปะภาพยนตร์",
+        "en": "School of Digital Media and Cinematic Arts"
+      },
+      "providers": {
+        "mode": "auto",
+        "show_provider_in_ui": "none", 
+        "label": { "th": "ผู้ให้บริการ", "en": "Service provider" },
+        "aggregate_label": { "th": "ประเมินรวมทั้งหน่วยงาน", "en": "Evaluate the unit" },
+        "require_on_list": true,
+        "allow_aggregate_in_list": false,
+        "people": [
+          { "code": "dc_1" },
+          { "code": "dc_2" }
+        ]
+      }
+    },
+    "use": "COMMON_STUDENT_SERVICES"
+  },
+
+  "ASU_BUCI": {
+    "config": {
+      "group": "faculty", 
+      "langs": ["th","en"],
+      "default_lang": "th",
+      "sheet_label": "วิทยาลัยนานาชาติจีน",
+      "display_title": {
+        "th": "วิทยาลัยนานาชาติจีน",
+        "en": "Bangkok University Chinese International"
+      },
+      "providers": {
+        "mode": "auto",
+        "show_provider_in_ui": "none", 
+        "label": { "th": "ผู้ให้บริการ", "en": "Service provider" },
+        "aggregate_label": { "th": "ประเมินรวมทั้งหน่วยงาน", "en": "Evaluate the unit" },
+        "require_on_list": true,
+        "allow_aggregate_in_list": false,
+        "people": [
+          { "code": "buci_1" },
+          { "code": "buci_2" }
+        ]
+      }
+    },
+    "use": "COMMON_STUDENT_SERVICES"
+  },
+
+  "ASU_grad": {
+    "config": {
+      "group": "faculty", 
+      "langs": ["th"],
+      "default_lang": "th",
+      "sheet_label": "บัณฑิตวิทยาลัย",
+      "display_title": {
+        "th": "บัณฑิตวิทยาลัย",
+        "en": "Graduate School"
+      },
+      "providers": { "mode": "aggregate" }
+    },
+    "options": [   
+      "การเรียนการสอน /  วิทยานิพนธ์ / การค้นคว้าอิสระ",
+      "การลงทะเบียน / งานทะเบียน / ขอเอกสาร",
+      "ข้อมูลหลักสูตร / การรับสมัคร",
+      "การประสานงานกับหน่วยงานอื่น ๆ",
+      "เรื่องร้องเรียน",
+      "อื่น ๆ"
+    ]
+  },
+
+  "GE": {
+    "config": {
+      "group": "support", 
+      "langs": ["th"],
+      "default_lang": "th",
+      "sheet_label": "GE",
+      "display_title": {
+        "th": "ศูนย์บริหารจัดการหมวดวิชาศึกษาทั่วไป - GE",
+        "en": "General Education Administration Center"
+      },
+      "providers": { "mode": "aggregate" }
+    },
+    "use": "COMMON_STUDENT_SERVICES"
   },
 
   "clinic": {
