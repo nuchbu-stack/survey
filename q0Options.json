@@ -108,13 +108,14 @@
         "_notes": "require_on_list: true = ถ้ามีลิสต์ต้องเลือก; allow_aggregate_in_list: true = แสดงตัวเลือก 'ประเมินรวมทั้งหน่วยงาน' รวมในลิสต์ด้วย",
 
         "mode": "auto",
+        "show_provider_in_ui": "none", 
         "label": { "th": "ผู้ให้บริการ", "en": "Service provider" },
         "aggregate_label": { "th": "ประเมินรวมทั้งหน่วยงาน", "en": "Evaluate the unit" },
         "require_on_list": true,
         "allow_aggregate_in_list": false,
         "people": [
           { "code": "1" },
-          { "code": "2"}
+          { "code": "2", "display_th": "C53014 กอบแก้ว มูลมณี" }
         ]
       }
     },

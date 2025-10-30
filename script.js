@@ -319,14 +319,24 @@ function renderProvider(data, cfg) {
     const found = people.find(p => p.code === STAFF_PARAM);
     if (found) {
       PROVIDER_MODE        = "url_person";
-      PROVIDER_CODE        = found.code;
-      PROVIDER_DISPLAY     = (found.display_th || found.code).trim();
+      PROVIDER_CODE        = (found.code || "").trim();
       PROVIDER_SHEET_LABEL = (found.sheet_label || BASE_SHEET_LABEL).trim();
+
+      // สร้าง label ตามภาษา, ถ้าไม่มี display_* ทั้งคู่ → label = ""
+      const labelTh = (found.display_th || "").trim();
+      const labelEn = (found.display_en || "").trim();
+      const label   = (CURRENT_LANG === "en") ? (labelEn || labelTh) : (labelTh || labelEn);
+
+      // เก็บลงตัวแปรที่จะส่งไปหลังบ้านได้ตามเดิม (จะเป็น "" ก็ได้)
+      PROVIDER_DISPLAY = label;
+
+      // ซ่อน UI ถ้าไม่มี display_* (ไม่แสดงชื่อ/รหัสใด ๆ บนฟอร์ม)
       hideWrap();
-      setHeader(PROVIDER_DISPLAY);
+      setHeader(label || "");   // ไม่มี label → ไม่แสดงอะไรเลย
       return;
     }
   }
+
 
   // (3) ลิสต์ให้เลือก (ถ้ายังไม่ล็อกจาก URL และมีรายชื่อ)
   if (people.length) {
