@@ -233,37 +233,62 @@ function buildQ0OptionObj(item, lang) {
 }
 
 // รองรับ “Templates/use/extend” สำหรับ Q0 (นอกเหนือจาก conf.options เดิม)
+// รองรับ templates + use + extend(remove/add) + options
 function resolveOptions(data, conf) {
-  if (Array.isArray(conf)) return conf; // รองรับโครงเก่า (options เป็น array ตรงๆ)
+  // โครงเก่า: conf เป็น array ตรง ๆ
+  if (Array.isArray(conf)) return conf;
 
   const templates = data?.Templates || {};
   let base = [];
 
-  if (conf?.use && templates[conf.use]) {
-    base = templates[conf.use];
+  // 1) เริ่มจาก template ที่อ้างด้วย use (ถ้ามี)
+  if (conf?.use && Array.isArray(templates[conf.use])) {
+    base = templates[conf.use].slice();
   }
 
-  if (conf?.extend?.use && templates[conf.extend.use]) {
-    base = templates[conf.extend.use];
+  // 2) ประมวลผล extend เสมอ แม้จะไม่มี extend.use
+  const ext = conf?.extend;
+  if (ext) {
+    // ถ้ามี extend.use ให้สลับฐานเป็น template อื่น
+    if (ext.use && Array.isArray(templates[ext.use])) {
+      base = templates[ext.use].slice();
+    }
 
-    if (Array.isArray(conf.extend.remove) && conf.extend.remove.length) {
-      const rm = new Set(conf.extend.remove.map(s => String(s).trim()));
+    // helper: ทำ normalization ให้จับคู่ได้ทั้ง "อื่นๆ" และ "อื่น ๆ"
+    const norm = (x) => String(x || "")
+      .replace(/\s+/g, " ")
+      .replace(/อื่น\s*ๆ/g, "อื่นๆ")
+      .trim();
+
+    // 2.1 remove
+    if (Array.isArray(ext.remove) && ext.remove.length) {
+      const rm = new Set(ext.remove.map(s => {
+        if (typeof s === "string") return norm(s);
+        if (s && typeof s === "object") return norm(s.th || s.en || "");
+        return norm(String(s));
+      }));
       base = base.filter(item => {
-        const v = (typeof item === "string") ? item.trim()
-                 : (item?.th || item?.en || "").trim();
-        return !rm.has(v);
+        const raw = (typeof item === "string")
+          ? item
+          : (item?.th || item?.en || "");
+        return !rm.has(norm(raw));
       });
     }
 
-    if (Array.isArray(conf.extend.add)) {
-      base = base.concat(conf.extend.add);
+    // 2.2 add
+    if (Array.isArray(ext.add) && ext.add.length) {
+      base = base.concat(ext.add);
     }
   }
 
-  if (Array.isArray(conf?.options)) base = conf.options;
+  // 3) ถ้ามี options ให้ override ทั้งหมด
+  if (Array.isArray(conf?.options)) {
+    base = conf.options;
+  }
 
   return Array.isArray(base) ? base : [];
 }
+
 
 // ตัวช่วยเลือกข้อความ (วางเหนือ renderProvider)
 function personUIandSaveLabels(p, uiLang = "th") {
