@@ -127,7 +127,7 @@
       "_note": "langs ภาษาที่หน่วยรองรับ ['th'] หรือ ['th','en']",
       
       "group": "faculty", 
-      "langs": ["th"],
+      "langs": ["th","en"],
       "default_lang": "th",
       "sheet_label": "มนุษยศาสตร์ฯ",
       "display_title": {
