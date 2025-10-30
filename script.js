@@ -436,26 +436,23 @@ async function loadServices() {
 
     function pickInitialLang(langsArr, def) {
       const allow = (x) => x && langsArr.includes(x);
-      if (allow(LANG_PARAM))   return LANG_PARAM;     // URL ชนะ
-      if (allow(storedLang))   return storedLang;     // ค่าค้างเดิม (ถ้าอยู่ใน langs)
-      if (allow(def))          return def;            // ค่าจาก config.default_lang
-      return langsArr[0];                              // fallback ตัวแรกของหน่วย
+      // ลำดับที่ถูกต้อง:
+      // 1) URL ?lang=  2) default_lang ของหน่วย  3) stored localStorage  4) ตัวแรกของหน่วย
+      if (allow(LANG_PARAM))  return LANG_PARAM;
+      if (allow(def))         return def;          // ให้ default_lang ชนะ stored
+      if (allow(storedLang))  return storedLang;
+      return langsArr[0];
     }
 
-    // คำนวณภาษาเริ่มต้นใหม่ "ทุกครั้ง" ที่โหลดหน่วย และเขียนทับ localStorage
     CURRENT_LANG = pickInitialLang(langs, defaultLang);
     localStorage.setItem("lang", CURRENT_LANG);
     document.documentElement.setAttribute("lang", CURRENT_LANG);
 
-    // ปุ่มสลับภาษา: ซ่อนถ้าไทยล้วน (และปิดปุ่ม EN ให้แน่ใจ)
+    // ปุ่มสลับภาษา: ซ่อนถ้าไทยล้วน และปิดปุ่ม EN
     const langSwitch = document.querySelector(".lang-switch");
     const thOnly = (langs.length === 1 && langs[0] === "th");
-
-    // ซ่อน/โชว์ทั้งคอนเทนเนอร์
     if (langSwitch) langSwitch.classList.toggle("hidden", thOnly);
 
-
-    // ปิดปุ่ม EN ให้แน่ใจ (กันกรณี CSS/DOM อื่นมา override)
     const enBtn = document.querySelector('.lang-btn[data-lang="en"]');
     if (enBtn) {
       if (thOnly) {
