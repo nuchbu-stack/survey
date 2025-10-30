@@ -367,6 +367,7 @@
     },
     "use": "COMMON_STUDENT_SERVICES",
     "extend": {
+      "remove": [ "อื่นๆ" ], 
       "add": ["ภาระงาน การสนับสนุนงานด้านคุณภาพหลักสูตร AUN-QA EdPEx",
               "อื่นๆ"]
     }
