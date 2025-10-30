@@ -2,7 +2,7 @@
   "Features": {
     "_comment": "รายชื่อ <unitKey> ที่ต้องแสดงคำถาม 'ผู้รับบริการคือ' (QUser). ถ้าไม่อยู่ในลิสต์จะซ่อน QUser อัตโนมัติ.",
 
-    "UserType": ["ASU","ASU_E","ASU_language_institute","ASU_FA","ASU_EE","ASU_HM","SUP_HM","clinic"]
+    "UserType": ["ASU","ASU_E","ASU_language_institute","ASU_FA","ASU_EE","ASU_HM","SUP_HM"]
   },
 
   "Templates": {
@@ -89,7 +89,7 @@
     "config": {
       "group": "support", 
       "langs": ["th","en"],
-      "default_lang": "th",
+      "default_lang": "en",
       "sheet_label": "ห้องพยาบาล",
       "display_title": {
         "th": "ห้องพยาบาล",
