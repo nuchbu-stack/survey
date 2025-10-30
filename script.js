@@ -383,6 +383,19 @@ function renderProvider(data, cfg) {
   hideWrap(); setHeader("");
 }
 
+// ใส่ตัวช่วยเลือกภาษาเริ่มต้น (บนไฟล์หรือก่อน loadServices() ก็ได้)
+function pickInitialLang(langs, defaultLang) {
+  const params = new URLSearchParams(location.search);
+  const urlLang = (params.get("lang") || "").toLowerCase();
+  const stored  = (localStorage.getItem("lang") || "").toLowerCase();
+  const allow   = (x) => x && langs.includes(x);
+
+  if (allow(urlLang))   return urlLang;
+  if (allow(stored))    return stored;
+  if (allow(defaultLang)) return defaultLang;
+  return langs[0];
+}
+
 
 async function loadServices() {
   try {
@@ -414,28 +427,33 @@ async function loadServices() {
 
     // ภาษา per-unit (langs + default_lang + override จาก URL)
     const langs = Array.isArray(cfg.langs) && cfg.langs.length ? cfg.langs : ["th"];
-    window._UNIT_LANGS = langs.slice(); // <--- เพิ่มบรรทัดนี้
-    const defaultLang = (cfg.default_lang || "th").toLowerCase();
-    const storedLang  = localStorage.getItem("lang");
+    window._UNIT_LANGS = langs.slice();
 
-    function pickInitialLang() {
-      if (LANG_PARAM && langs.includes(LANG_PARAM)) return LANG_PARAM;
-      if (storedLang && langs.includes(storedLang)) return storedLang;
-      if (defaultLang && langs.includes(defaultLang)) return defaultLang;
-      if (langs.includes("th")) return "th";
-      return langs[0];
+    const defaultLang = (cfg.default_lang || "").toLowerCase();
+    const params = new URLSearchParams(location.search);
+    const LANG_PARAM = (params.get("lang") || "").toLowerCase();
+    const storedLang = (localStorage.getItem("lang") || "").toLowerCase();
+
+    function pickInitialLang(langsArr, def) {
+      const allow = (x) => x && langsArr.includes(x);
+      if (allow(LANG_PARAM))   return LANG_PARAM;     // URL ชนะ
+      if (allow(storedLang))   return storedLang;     // ค่าค้างเดิม (ถ้าอยู่ใน langs)
+      if (allow(def))          return def;            // ค่าจาก config.default_lang
+      return langsArr[0];                              // fallback ตัวแรกของหน่วย
     }
-    CURRENT_LANG = pickInitialLang();
+
+    // คำนวณภาษาเริ่มต้นใหม่ "ทุกครั้ง" ที่โหลดหน่วย และเขียนทับ localStorage
+    CURRENT_LANG = pickInitialLang(langs, defaultLang);
     localStorage.setItem("lang", CURRENT_LANG);
+    document.documentElement.setAttribute("lang", CURRENT_LANG);
 
     // ปุ่มสลับภาษา: ซ่อนถ้าไทยล้วน (และปิดปุ่ม EN ให้แน่ใจ)
     const langSwitch = document.querySelector(".lang-switch");
-    const thOnly = (Array.isArray(langs) && langs.length === 1 && langs[0] === "th");
+    const thOnly = (langs.length === 1 && langs[0] === "th");
 
     // ซ่อน/โชว์ทั้งคอนเทนเนอร์
-    if (langSwitch) {
-      langSwitch.classList.toggle("hidden", thOnly);
-    }
+    if (langSwitch) langSwitch.classList.toggle("hidden", thOnly);
+
 
     // ปิดปุ่ม EN ให้แน่ใจ (กันกรณี CSS/DOM อื่นมา override)
     const enBtn = document.querySelector('.lang-btn[data-lang="en"]');
