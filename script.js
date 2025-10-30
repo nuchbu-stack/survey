@@ -291,7 +291,14 @@ function renderProvider(data, cfg) {
     headerP.className = "provider-display";
     header.appendChild(headerP);
   }
-  const setHeader = (text) => { if (headerP) headerP.textContent = text || ""; };
+ 
+  const setHeader = (text) => {
+    if (!headerP) return;
+    const s = (text || "").trim();
+    headerP.textContent = s;
+    headerP.classList.toggle("hidden", s === "");
+  };
+
 
   // container สำหรับลิสต์ (สร้างอัตโนมัติ)
   let providerWrap = document.getElementById("providerWrap");
@@ -334,19 +341,23 @@ function renderProvider(data, cfg) {
   if (STAFF_PARAM && people.length) {
     const found = people.find(p => p.code === STAFF_PARAM);
     if (found) {
-      const { ui, toSave } = personUIandSaveLabels(found, CURRENT_LANG);
+      // เลือก label จาก display_th/en เท่านั้น — ไม่ fallback เป็น code
+      const th = (found.display_th || "").trim();
+      const en = (found.display_en || "").trim();
+      const label = (CURRENT_LANG === "en") ? (en || "") : (th || "");
 
       PROVIDER_MODE        = "url_person";
       PROVIDER_CODE        = (found.code || "").trim();
+      // ถ้าไม่อยากเก็บชื่อในชีตเมื่อไม่มี display_* ให้ใส่ "" ได้
+      PROVIDER_DISPLAY     = label; // ไม่มี display_* → จะเป็น "" 
       PROVIDER_SHEET_LABEL = (found.sheet_label || BASE_SHEET_LABEL).trim();
-      PROVIDER_DISPLAY     = toSave;    // บันทึกคงที่ (ไม่แปรตามภาษา)
 
-      // ถ้า “ต้องการซ่อนบน UI” ให้คอมเมนต์บรรทัดถัดไป:
-      setHeader(ui);                    // แสดงตามภาษา UI
       hideWrap();
+      setHeader(label);   // ไม่มี display_* → label = "" → <p> ถูกซ่อน
       return;
     }
   }
+
 
 
   // (3) ลิสต์ให้เลือก (ถ้ายังไม่ล็อกจาก URL และมีรายชื่อ)
@@ -362,7 +373,7 @@ function renderProvider(data, cfg) {
     if (allowAgg) {
       opts += `<option value="__AGG__" data-display="${aggText}" data-sheet="${BASE_SHEET_LABEL}">${aggText}</option>`;
     }
-    
+
     // ใช้ helper ใหม่เพื่อได้ข้อความที่ผู้ใช้เห็น (ui) และข้อความที่บันทึกลงชีต (toSave)
     opts += people.map(p => {
       const { ui, toSave } = personUIandSaveLabels(p, CURRENT_LANG);
