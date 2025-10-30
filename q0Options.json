@@ -49,6 +49,7 @@
     "config": {
       "_note": "langs ภาษาที่หน่วยรองรับ ['th'] หรือ ['th','en']",
       
+      "group": "faculty", 
       "langs": ["th"],
       "default_lang": "th",
       "sheet_label": "มนุษยศาสตร์ฯ",
@@ -86,6 +87,7 @@
 
   "clinic": {
     "config": {
+      "group": "support", 
       "langs": ["th","en"],
       "default_lang": "th",
       "sheet_label": "ห้องพยาบาล",
@@ -104,7 +106,7 @@
       { "th": "การอบรม/ให้ความรู้เกี่ยวกับสุขภาพ/วัคซีน", "en": "Train/Health  teaching/Vaccine" }
     ]
   },  
-  
+
 
   "OSS": [
     "ผ่อนผันทหาร",

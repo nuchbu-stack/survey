@@ -33,6 +33,7 @@ let PROVIDER_SHEET_LABEL = "";   // เช่น "การสร้างเจ
 let PROVIDER_MODE        = "aggregate"; // "aggregate" | "url_person" | "list_person"
 let PROVIDER_CODE        = "";   // เช่น "A39089"
 let PROVIDER_DISPLAY     = "";   // เช่น "A39089 สุภาพร กรองกรุด"
+let GROUP                = ""; // กลุ่มหน่วยงาน (faculty/support/...)
 
 /********************
  * i18n
@@ -407,6 +408,9 @@ async function loadServices() {
     // รองรับโครงเก่า (array options ตรงๆ)
     if (Array.isArray(conf)) conf = { config: { hasServices: true }, options: conf };
     const cfg = conf.config || {};
+    GROUP = (cfg.group || "") + "";
+    window._UNIT_GROUP = GROUP; // (optional) เผื่อดีบัก
+
 
     // ภาษา per-unit (langs + default_lang + override จาก URL)
     const langs = Array.isArray(cfg.langs) && cfg.langs.length ? cfg.langs : ["th"];
@@ -704,6 +708,7 @@ form.addEventListener("submit", async (e) => {
     providerMode:    PROVIDER_MODE,    // "aggregate" | "url_person" | "list_person"
     providerCode:    PROVIDER_CODE,    // เช่น A39089
     providerDisplay: PROVIDER_DISPLAY, // เช่น "A39089 สุภาพร กรองกรุด"
+    group: GROUP,
 
     qUser: finalQUser,
     q0: finalQ0,
