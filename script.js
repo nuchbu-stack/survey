@@ -265,6 +265,22 @@ function resolveOptions(data, conf) {
   return Array.isArray(base) ? base : [];
 }
 
+// ตัวช่วยเลือกข้อความ (วางเหนือ renderProvider)
+function personUIandSaveLabels(p, uiLang = "th") {
+  const code = (p.code || "").trim();
+  const th   = (p.display_th || "").trim();
+  const en   = (p.display_en || "").trim();
+
+  // ข้อความที่ "ผู้ใช้เห็น" (ตามภาษา UI; ถ้าไม่มีภาษานั้น ให้ fallback อีกภาษา; ถ้าไม่มีเลย ใช้ code)
+  const ui = (uiLang === "en") ? (en || th || code) : (th || en || code);
+
+  // ข้อความที่ "บันทึกลงชีต" (แนะนำคงที่เสมอ: ใช้เวอร์ชันภาษาไทยถ้ามี ไม่งั้นใช้ EN หรือ code)
+  const toSave = th || en || code;
+
+  return { ui, toSave };
+}
+
+
 // เพิ่มระบบ “ผู้ให้บริการ 3 โหมด” (aggregate / URL รายบุคคล / ลิสต์ให้เลือก)
 function renderProvider(data, cfg) {
   // <p> ใต้หัวฟอร์มไว้แสดงชื่อผู้ให้บริการ
@@ -318,21 +334,16 @@ function renderProvider(data, cfg) {
   if (STAFF_PARAM && people.length) {
     const found = people.find(p => p.code === STAFF_PARAM);
     if (found) {
+      const { ui, toSave } = personUIandSaveLabels(found, CURRENT_LANG);
+
       PROVIDER_MODE        = "url_person";
       PROVIDER_CODE        = (found.code || "").trim();
       PROVIDER_SHEET_LABEL = (found.sheet_label || BASE_SHEET_LABEL).trim();
+      PROVIDER_DISPLAY     = toSave;    // บันทึกคงที่ (ไม่แปรตามภาษา)
 
-      // สร้าง label ตามภาษา, ถ้าไม่มี display_* ทั้งคู่ → label = ""
-      const labelTh = (found.display_th || "").trim();
-      const labelEn = (found.display_en || "").trim();
-      const label   = (CURRENT_LANG === "en") ? (labelEn || labelTh) : (labelTh || labelEn);
-
-      // เก็บลงตัวแปรที่จะส่งไปหลังบ้านได้ตามเดิม (จะเป็น "" ก็ได้)
-      PROVIDER_DISPLAY = label;
-
-      // ซ่อน UI ถ้าไม่มี display_* (ไม่แสดงชื่อ/รหัสใด ๆ บนฟอร์ม)
+      // ถ้า “ต้องการซ่อนบน UI” ให้คอมเมนต์บรรทัดถัดไป:
+      setHeader(ui);                    // แสดงตามภาษา UI
       hideWrap();
-      setHeader(label || "");   // ไม่มี label → ไม่แสดงอะไรเลย
       return;
     }
   }
@@ -351,11 +362,15 @@ function renderProvider(data, cfg) {
     if (allowAgg) {
       opts += `<option value="__AGG__" data-display="${aggText}" data-sheet="${BASE_SHEET_LABEL}">${aggText}</option>`;
     }
-    opts += people.map(p =>
-      `<option value="${p.code}"
-               data-display="${(p.display_th||p.code).replace(/"/g,'&quot;')}"
-               data-sheet="${(p.sheet_label||BASE_SHEET_LABEL).replace(/"/g,'&quot;')}">${p.display_th||p.code}</option>`
-    ).join("");
+    
+    // ใช้ helper ใหม่เพื่อได้ข้อความที่ผู้ใช้เห็น (ui) และข้อความที่บันทึกลงชีต (toSave)
+    opts += people.map(p => {
+      const { ui, toSave } = personUIandSaveLabels(p, CURRENT_LANG);
+      const sheet = (p.sheet_label || BASE_SHEET_LABEL).replace(/"/g, '&quot;');
+      return `<option value="${p.code}"
+                data-display="${toSave.replace(/"/g,'&quot;')}"
+                data-sheet="${sheet}">${ui}</option>`;
+    }).join("");
     providerSelect.innerHTML = opts;
 
     if (pv.require_on_list && !allowAgg) providerSelect.setAttribute("required","required");
