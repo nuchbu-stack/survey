@@ -20,7 +20,7 @@ const JSON_URL = "https://nuchbu-stack.github.io/q0Options.json";
 
 // อ่านพารามิเตอร์ URL
 const params = new URLSearchParams(location.search);
-const DEPARTMENT  = params.get("unit") || "ASU_E";  // หน่วยงาน
+const DEPARTMENT  = params.get("unit") || "ASU_HM";  // หน่วยงาน
 const STAFF_PARAM = (params.get("staff") || "").trim(); // โหมดรายบุคคล
 const LANG_PARAM  = (params.get("lang") || "").toLowerCase();
 
