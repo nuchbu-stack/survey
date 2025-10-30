@@ -2,7 +2,7 @@
   "Features": {
     "_comment": "รายชื่อ <unitKey> ที่ต้องแสดงคำถาม 'ผู้รับบริการคือ' (QUser). ถ้าไม่อยู่ในลิสต์จะซ่อน QUser อัตโนมัติ.",
 
-    "UserType": ["ASU","ASU_E","ASU_language_institute","ASU_FA","ASU_EE","ASU_HM","SUP_HM","clinic"]
+    "UserType": ["ASU","ASU_E","ASU_LI2","ASU_FA","ASU_EE","ASU_HM","SUP_HM","clinic"]
   },
 
   "Templates": {
@@ -43,7 +43,25 @@
       "งานด้านงบประมาณ ค่าใช้จ่าย",
       "เรื่องอื่นๆ หรือประสานงานทั่วไป"
     ]
-  },  
+  }, 
+  
+  "ASU_LI2": {
+    "config": {
+      "group": "support", 
+      "langs": ["th"],
+      "default_lang": "th",
+      "sheet_label": "สถาบันภาษา_2",
+      "display_title": {
+        "th": "สถาบันภาษา",
+        "en": "Language Institute"
+      },
+      "providers": { "mode": "aggregate" }
+    },
+    "options": [   
+      "การอธิบายการใช้โปรแกรม Speexx",
+      "การอธิบายการสอบวัดระดับ"
+    ]
+  },
 
   "ASU_HM": {
     "config": {
@@ -67,10 +85,10 @@
         "require_on_list": true,
         "allow_aggregate_in_list": false,
         "people": [
-          { "code": "A39089", "display_th": "A39089 สุภาพร กรองกรุด"},
-          { "code": "C53014", "display_th": "C53014 กอบแก้ว มูลมณี", "sheet_label": "มนุษยศาสตร์ฯ_กอบแก้ว" },
-          { "code": "A67025", "display_th": "A67025 ปวีณา พันธุ์ทอง", "sheet_label": "มนุษยศาสตร์ฯ_ปวีณา" },
-          { "code": "A56006", "display_th": "A56006 ชนิดา สุทธิวงศ์", "sheet_label": "มนุษยศาสตร์ฯ_ชนิดา" }
+          { "code": "A39089", "display_th": "A39089 สุภาพร กรองกรุด" },
+          { "code": "C53014", "display_th": "C53014 กอบแก้ว มูลมณี" },
+          { "code": "A67025", "display_th": "A67025 ปวีณา พันธุ์ทอง" },
+          { "code": "A56006", "display_th": "A56006 ชนิดา สุทธิวงศ์" }
         ]
       }
     },
@@ -106,7 +124,6 @@
       { "th": "การอบรม/ให้ความรู้เกี่ยวกับสุขภาพ/วัคซีน", "en": "Train/Health  teaching/Vaccine" }
     ]
   },  
-
 
   "OSS": [
     "ผ่อนผันทหาร",
@@ -144,10 +161,7 @@
     "เรื่องร้องเรียน",
     "อื่นๆ"
   ],
-  "ASU_language_institute": [
-    "การอธิบายการใช้โปรแกรม Speexx",
-    "การอธิบายการสอบวัดระดับ"
-  ],
+
   "ASU_FA": [
     "อำนวยความสะดวกทั่วไป",
     "ติดต่อสอบถามข้อมูลของคณะ",
