@@ -67,7 +67,7 @@
         "require_on_list": true,
         "allow_aggregate_in_list": false,
         "people": [
-          { "code": "A39089", "display_th": "A39089 สุภาพร กรองกรุด", "sheet_label": "มนุษยศาสตร์ฯ_สุภาพร" },
+          { "code": "A39089", "display_th": "A39089 สุภาพร กรองกรุด"},
           { "code": "C53014", "display_th": "C53014 กอบแก้ว มูลมณี", "sheet_label": "มนุษยศาสตร์ฯ_กอบแก้ว" },
           { "code": "A67025", "display_th": "A67025 ปวีณา พันธุ์ทอง", "sheet_label": "มนุษยศาสตร์ฯ_ปวีณา" },
           { "code": "A56006", "display_th": "A56006 ชนิดา สุทธิวงศ์", "sheet_label": "มนุษยศาสตร์ฯ_ชนิดา" }
