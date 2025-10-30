@@ -122,12 +122,38 @@
     "use": "COMMON_STUDENT_SERVICES"
   },  
 
+  "ASU_CA": {
+    "config": {
+      "group": "faculty", 
+      "langs": ["th"],
+      "default_lang": "th",
+      "sheet_label": "นิเทศศาสตร์",
+      "display_title": {
+        "th": "คณะนิเทศศาสตร์",
+        "en": "School of Communication Arts"
+      },
+      "providers": {
+        "mode": "auto",
+        "show_provider_in_ui": "none", 
+        "label": { "th": "ผู้ให้บริการ", "en": "Service provider" },
+        "aggregate_label": { "th": "ประเมินรวมทั้งหน่วยงาน", "en": "Evaluate the unit" },
+        "require_on_list": true,
+        "allow_aggregate_in_list": false,
+        "people": [
+          { "code": "ca_1" },
+          { "code": "ca_2" }
+        ]
+      }
+    },
+    "use": "COMMON_STUDENT_SERVICES"
+  }, 
+
   "ASU_HM": {
     "config": {
       "_note": "langs ภาษาที่หน่วยรองรับ ['th'] หรือ ['th','en']",
       
       "group": "faculty", 
-      "langs": ["th","en"],
+      "langs": ["th"],
       "default_lang": "th",
       "sheet_label": "มนุษยศาสตร์ฯ",
       "display_title": {
