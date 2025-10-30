@@ -906,7 +906,9 @@ function applyLang(lang) {
   updateErrorTexts();
 }
 
+
 document.addEventListener("DOMContentLoaded", () => {
+  // ตั้งปุ่มสลับภาษา
   document.querySelectorAll(".lang-btn").forEach(btn => {
     btn.addEventListener("click", () => {
       const targetLang = btn.dataset.lang;
@@ -926,17 +928,14 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-
-  applyLang(CURRENT_LANG);
-
+  // ไม่ต้องเรียก applyLang ที่นี่ ให้ loadServices เป็นคนคำนวณภาษาและเรียก applyLang เอง
   loadServices().catch(console.error);
 
-  // ✅ Event delegation ให้ปุ่ม "ทำแบบสอบถามอีกครั้ง" (againBtn)
-  // ทำงานได้แม้ DOM ถูก re-render จากการสลับภาษา
+  // ปุ่ม "ทำแบบสอบถามอีกครั้ง"
   document.addEventListener("click", (e) => {
     const btn = e.target.closest("#againBtn");
     if (!btn) return;
     backToForm();
   });
-
 });
+
