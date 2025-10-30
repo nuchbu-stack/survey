@@ -115,7 +115,7 @@
         "allow_aggregate_in_list": false,
         "people": [
           { "code": "ba_1" },
-          { "code": "ba_2", "display_th": "C53014 กอบแก้ว มูลมณี" }
+          { "code": "ba_2" }
         ]
       }
     },
@@ -166,7 +166,7 @@
     "config": {
       "group": "support", 
       "langs": ["th","en"],
-      "default_lang": "th",
+      "default_lang": "en",
       "sheet_label": "ห้องพยาบาล",
       "display_title": {
         "th": "ห้องพยาบาล",
