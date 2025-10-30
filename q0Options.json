@@ -342,6 +342,39 @@
     "use": "COMMON_STUDENT_SERVICES"
   },
 
+  "ASU_ARC": {
+    "config": {
+      "group": "faculty", 
+      "langs": ["th"],
+      "default_lang": "th",
+      "sheet_label": "สถาปัตยกรรมศาสตร์",
+      "display_title": {
+        "th": "คณะสถาปัตยกรรมศาสตร์",
+        "en": "School of Architecture"
+      },
+      "providers": {
+        "mode": "auto",
+        "show_provider_in_ui": "none", 
+        "label": { "th": "ผู้ให้บริการ", "en": "Service provider" },
+        "aggregate_label": { "th": "ประเมินรวมทั้งหน่วยงาน", "en": "Evaluate the unit" },
+        "require_on_list": true,
+        "allow_aggregate_in_list": false,
+        "people": [
+          { "code": "arc_1" },
+          { "code": "arc_2" }
+        ]
+      }
+    },
+    "use": "COMMON_STUDENT_SERVICES",
+    "extend": {
+      "remove": [  
+        { "th": "อื่นๆ", "en": "Other(s)"}
+      ], 
+      "add": ["ภาระงาน การสนับสนุนงานด้านคุณภาพหลักสูตร AUN-QA EdPEx",
+              "อื่นๆ"]
+    }
+  },
+
   "clinic": {
     "config": {
       "group": "support", 
