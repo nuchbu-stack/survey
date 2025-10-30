@@ -3,7 +3,7 @@
     "_comment": "รายชื่อ <unitKey> ที่ต้องแสดงคำถาม 'ผู้รับบริการคือ' (QUser). ถ้าไม่อยู่ในลิสต์จะซ่อน QUser อัตโนมัติ.",
 
     "UserType": ["ASU_LI1","ASU_LI2","ASU_AC","ASU_BA","ASU_CA","ASU_HM","SUP_HM","ASU_EC","ASU_ITI",
-                 "ASU_FA","ASU_EE1","ASU_EE2","ASU_BUI","clinic"]
+                 "ASU_FA","ASU_EE1","ASU_EE2","ASU_BUI","ASU_ARC","clinic"]
   },
 
   "Templates": {
