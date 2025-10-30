@@ -2,7 +2,8 @@
   "Features": {
     "_comment": "รายชื่อ <unitKey> ที่ต้องแสดงคำถาม 'ผู้รับบริการคือ' (QUser). ถ้าไม่อยู่ในลิสต์จะซ่อน QUser อัตโนมัติ.",
 
-    "UserType": ["ASU_LI1","ASU_LI2","ASU_AC","ASU_BA","ASU_CA","ASU_FA","ASU_EE","ASU_HM","SUP_HM","clinic"]
+    "UserType": ["ASU_LI1","ASU_LI2","ASU_AC","ASU_BA","ASU_CA","ASU_HM","SUP_HM","ASU_EC","ASU_ITI",
+                 "ASU_FA","ASU_EE","clinic"]
   },
 
   "Templates": {
@@ -225,6 +226,35 @@
     ]
   },  
 
+  "ASU_EC": {
+    "config": {
+      "group": "faculty", 
+      "langs": ["th"],
+      "default_lang": "th",
+      "sheet_label": "เศรษฐศาสตร์ฯ",
+      "display_title": {
+        "th": "คณะเศรษฐศาสตร์และการลงทุน",
+        "en": "School of Economics and Investment"
+      },
+      "providers": { "mode": "aggregate" }
+    },
+    "use": "COMMON_STUDENT_SERVICES"
+  },   
+
+  "ASU_ITI": {
+    "config": {
+      "group": "faculty", 
+      "langs": ["th"],
+      "default_lang": "th",
+      "sheet_label": "เทคโนโลยีฯ",
+      "display_title": {
+        "th": "คณะเทคโนโลยีสารสนเทศและนวัตกรรม",
+        "en": "School of Information Technology and Innovation"
+      },
+      "providers": { "mode": "aggregate" }
+    },
+    "use": "COMMON_STUDENT_SERVICES"
+  }, 
 
   "clinic": {
     "config": {
