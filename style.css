@@ -487,4 +487,6 @@ select:focus {
   border-color: #1565c0;
 }
 
+.lang-switch.hidden { display: none !important; }
+
 #thankTitle { white-space: pre-line; }

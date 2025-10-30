@@ -410,6 +410,7 @@ async function loadServices() {
 
     // ภาษา per-unit (langs + default_lang + override จาก URL)
     const langs = Array.isArray(cfg.langs) && cfg.langs.length ? cfg.langs : ["th"];
+    window._UNIT_LANGS = langs.slice(); // <--- เพิ่มบรรทัดนี้
     const defaultLang = (cfg.default_lang || "th").toLowerCase();
     const storedLang  = localStorage.getItem("lang");
 
@@ -423,10 +424,28 @@ async function loadServices() {
     CURRENT_LANG = pickInitialLang();
     localStorage.setItem("lang", CURRENT_LANG);
 
-    // ปุ่มสลับภาษา: ซ่อนถ้าไทยล้วน
+    // ปุ่มสลับภาษา: ซ่อนถ้าไทยล้วน (และปิดปุ่ม EN ให้แน่ใจ)
     const langSwitch = document.querySelector(".lang-switch");
-    if (langs.length === 1 && langs[0] === "th") langSwitch?.classList.add("hidden");
-    else langSwitch?.classList.remove("hidden");
+    const thOnly = (Array.isArray(langs) && langs.length === 1 && langs[0] === "th");
+
+    // ซ่อน/โชว์ทั้งคอนเทนเนอร์
+    if (langSwitch) {
+      langSwitch.classList.toggle("hidden", thOnly);
+    }
+
+    // ปิดปุ่ม EN ให้แน่ใจ (กันกรณี CSS/DOM อื่นมา override)
+    const enBtn = document.querySelector('.lang-btn[data-lang="en"]');
+    if (enBtn) {
+      if (thOnly) {
+        enBtn.setAttribute("hidden", "hidden");
+        enBtn.setAttribute("aria-hidden", "true");
+        enBtn.tabIndex = -1;
+      } else {
+        enBtn.removeAttribute("hidden");
+        enBtn.removeAttribute("aria-hidden");
+        enBtn.tabIndex = 0;
+      }
+    }
 
     // ถ้ายังไม่มี switchLang ให้สร้าง (ล็อกไม่ให้เลือกภาษาที่หน่วยไม่รองรับ)
     if (typeof window.switchLang === "function") {
@@ -860,14 +879,23 @@ function applyLang(lang) {
 document.addEventListener("DOMContentLoaded", () => {
   document.querySelectorAll(".lang-btn").forEach(btn => {
     btn.addEventListener("click", () => {
+      const targetLang = btn.dataset.lang;
+      // กันเคสหน่วยรองรับไทยอย่างเดียว
+      if (typeof window._UNIT_LANGS === "object"
+          && window._UNIT_LANGS.length === 1
+          && window._UNIT_LANGS[0] === "th"
+          && targetLang !== "th") {
+        return; // ignore
+      }
+
       if (typeof window.switchLang === "function") {
-        window.switchLang(btn.dataset.lang);
+        window.switchLang(targetLang);
       } else {
-        // fallback (รอบแรกก่อน loadServices ตั้ง switchLang)
-        applyLang(btn.dataset.lang);
+        applyLang(targetLang);
       }
     });
   });
+
 
   applyLang(CURRENT_LANG);
 
