@@ -5,7 +5,7 @@
     "UserType": ["ASU_LI1","ASU_LI2","ASU_AC","ASU_BA","ASU_CA","ASU_LA","ASU_HM","SUP_HM","ASU_EC",
                  "ASU_ITI","ASU_FA","ASU_EE1","ASU_EE2","ASU_BUI","ASU_ARC","ASU_SEM","ASU_DC",
                  "ASU_BUCI","ASU_grad","GE",
-                 "clinic"]
+                 "clinic","records_office"]
   },
 
   "Templates": {
@@ -576,15 +576,30 @@
         "th": "สำนักทะเบียน",
         "en": "Office of the Registrar"
       },
-      "providers": { "mode": "aggregate" }
+      "providers": {
+        "mode": "auto",
+        "show_provider_in_ui": "none", 
+        "label": { "th": "ผู้ให้บริการ", "en": "Service provider" },
+        "aggregate_label": { "th": "ประเมินรวมทั้งหน่วยงาน", "en": "Evaluate the unit" },
+        "require_on_list": true,
+        "allow_aggregate_in_list": false,
+        "people": [
+          { "code": "record" },
+          { "code": "A39089", "display_th": "A39089 สุภาพร กรองกรุด" },
+          { "code": "C53014", "display_th": "C53014 กอบแก้ว มูลมณี" },
+          { "code": "A67025", "display_th": "A67025 ปวีณา พันธุ์ทอง" },
+          { "code": "A56006", "display_th": "A56006 ชนิดา สุทธิวงศ์", "display_en": "A56006 Chanida Sutthiwong" }
+        ]
+      }
     },
     "options": [   
-      "ด้านขอหลักฐานการศึกษา",
-      "ด้านเกี่ยวกับการลงทะเบียน",
-      "ด้านบริการงานทะเบียนทั่วไป",
-      "อื่นๆ"
+      { "th": "ด้านขอหลักฐานการศึกษา", "en": "" },
+      { "th": "ด้านเกี่ยวกับการลงทะเบียน", "en": "" },
+      { "th": "ด้านบริการงานทะเบียนทั่วไป", "en": "ด้านบริการงานทะเบียนทั่วไป" },
+      { "th": "อื่นๆ", "en": "Other(s)" }
     ]
   },  
+ 
 
   "scholarship": {
     "config": {
