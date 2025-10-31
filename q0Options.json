@@ -569,7 +569,7 @@
   "records_office": {
     "config": {
       "group": "support", 
-      "langs": ["th"],
+      "langs": ["th","en"],
       "default_lang": "th",
       "sheet_label": "สำนักทะเบียน",
       "display_title": {
@@ -584,11 +584,11 @@
         "require_on_list": true,
         "allow_aggregate_in_list": false,
         "people": [
-          { "code": "record" },
-          { "code": "A39089", "display_th": "A39089 สุภาพร กรองกรุด" },
-          { "code": "C53014", "display_th": "C53014 กอบแก้ว มูลมณี" },
-          { "code": "A67025", "display_th": "A67025 ปวีณา พันธุ์ทอง" },
-          { "code": "A56006", "display_th": "A56006 ชนิดา สุทธิวงศ์", "display_en": "A56006 Chanida Sutthiwong" }
+          { "code": "rd" },
+          { "code": "A33097", "display_th": "A33097 อ.สมหมาย ค้าข้าว", "display_en": "A33097 Sommaiy Khakhaow" },
+          { "code": "A33100", "display_th": "A33100 อ.สร้อยทอง เอกพฤกษาอำไพ", "display_en": "A33100 Sroythong Akpruksaumpai" },
+          { "code": "A66055", "display_th": "A66055 อ.นัทธ์กัญภ์ ปราบทุกข์", "display_en": "A66055 Nathkan Prabthuk" },
+          { "code": "A66063", "display_th": "A66063 อ.พฤกษ์ พฤษปัญจะ", "display_en": "A66063 Pruek Pruesapanja" }
         ]
       }
     },
