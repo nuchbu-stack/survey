@@ -390,8 +390,8 @@
         "require_on_list": true,
         "allow_aggregate_in_list": false,
         "people": [
-          { "code": "arc_1" },
-          { "code": "arc_2" }
+          { "code": "C58002", "display_th": "C58002 กัญญา ศรีใจยา" },
+          { "code": "A67075", "display_th": "A67075 เยาวลักษณ์ อู๊ดเอม" }
         ]
       }
     },
