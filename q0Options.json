@@ -117,8 +117,10 @@
         "require_on_list": true,
         "allow_aggregate_in_list": false,
         "people": [
-          { "code": "ba_1" },
-          { "code": "ba_2" }
+          { "code": "A38129", "display_th": "A38129 อ.วงษ์ทอง วิมลภักดิ์" },
+          { "code": "A52095", "display_th": "A52095 อ.มณีรัตน์ จันทร์กระจ่าง" },
+          { "code": "A56123", "display_th": "A56123 อ.เปรมกมล เชวงชินวงศ์" },
+          { "code": "A57161", "display_th": "A57161 อ.พรสวรรค์ อิ้ววังโส" }
         ]
       }
     },
