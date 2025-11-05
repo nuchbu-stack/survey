@@ -50,7 +50,7 @@
 
   "ASU_LI1": {
     "config": {
-      "group": "support", 
+      "group": "faculty", 
       "langs": ["th"],
       "default_lang": "th",
       "sheet_label": "สถาบันภาษา_1",
@@ -65,7 +65,7 @@
 
   "ASU_LI2": {
     "config": {
-      "group": "support", 
+      "group": "faculty", 
       "langs": ["th"],
       "default_lang": "th",
       "sheet_label": "สถาบันภาษา_2",
