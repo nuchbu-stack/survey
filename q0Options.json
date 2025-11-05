@@ -171,8 +171,8 @@
         "require_on_list": true,
         "allow_aggregate_in_list": false,
         "people": [
-          { "code": "la_1" },
-          { "code": "la_2" }
+          { "code": "A58021", "display_th": "A58021 ลิลรดา รักวงษ์ฤทธิ์" },
+          { "code": "A66105", "display_th": "A66105 กรรณิการ์ บุญราช" }
         ]
       }
     },
