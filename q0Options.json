@@ -296,7 +296,18 @@
         "th": "คณะศิลปกรรมศาสตร์",
         "en": "School of Fine and Applied Arts"
       },
-      "providers": { "mode": "aggregate" }
+      "providers": {
+        "mode": "auto",
+        "show_provider_in_ui": "none", 
+        "label": { "th": "ผู้ให้บริการ", "en": "Service provider" },
+        "aggregate_label": { "th": "ประเมินรวมทั้งหน่วยงาน", "en": "Evaluate the unit" },
+        "require_on_list": true,
+        "allow_aggregate_in_list": false,
+        "people": [
+          { "code": "A59069", "display_th": "A59069 ณัฐภัสสรฐ์ น้ำทิพย์" },
+          { "code": "C40016", "display_th": "C40016 อุไรวรรณ เนินผัน" }
+        ]
+      }
     },
     "options": [   
       "อำนวยความสะดวกทั่วไป",
