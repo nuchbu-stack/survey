@@ -3,8 +3,8 @@
     "_comment": "รายชื่อ <unitKey> ที่ต้องแสดงคำถาม 'ผู้รับบริการคือ' (QUser). ถ้าไม่อยู่ในลิสต์จะซ่อน QUser อัตโนมัติ.",
 
     "UserType": ["ASU_LI1","ASU_LI2","ASU_AC","ASU_BA","ASU_CA","ASU_LA","ASU_HM","SUP_HM","ASU_EC",
-                 "ASU_ITI","ASU_FA","ASU_EE1","ASU_EE2","ASU_BUI","ASU_ARC","ASU_SEM","ASU_DC",
-                 "ASU_BUCI","ASU_grad","GE",
+                 "ASU_ITI","ASU_FA","SUP_FA_Wood","SUP_FA_Com","SUP_FA_fashion","ASU_FA_Photo","ASU_EE1","ASU_EE2","ASU_BUI",
+                 "ASU_ARC","ASU_SEM","ASU_DC","ASU_BUCI","ASU_grad","GE",
                  "clinic","records_office"]
   },
 
@@ -323,6 +323,153 @@
     ]
   },
 
+  "SUP_FA_Wood": {
+    "config": {
+      "group": "faculty", 
+      "langs": ["th"],
+      "default_lang": "th",
+      "sheet_label": "ศิลปกรรมศาสตร์",
+      "display_title": {
+        "th": "คณะศิลปกรรมศาสตร์",
+        "en": "School of Fine and Applied Arts"
+      },
+      "providers": {
+        "mode": "auto",
+        "show_provider_in_ui": "none", 
+        "label": { "th": "ผู้ให้บริการ", "en": "Service provider" },
+        "aggregate_label": { "th": "ประเมินรวมทั้งหน่วยงาน", "en": "Evaluate the unit" },
+        "require_on_list": true,
+        "allow_aggregate_in_list": false,
+        "people": [
+          { "code": "C43009", "display_th": "C43009 ธนภัทร เสาะแสวง" },
+          { "code": "C67003", "display_th": "C67003 เอกวัฒน์ เพ็งอินทร์" }
+        ]
+      }
+    },
+    "options": [   
+      "อำนวยความสะดวกทั่วไป",
+      "ยืม คืน เบิกอุปกรณ์การเรียน",
+      "การบริการและดูแลความเรียบร้อย ห้องจักร และห้องเก็บอุปกรณ์",
+      "การบริการและดูแล ห้องปฏิบัติการงานไม้",
+      "การบริการและดูแล เครื่องพิมพ์ 3 มิติ  ( FAB LAB)",
+      "การตรวจสภาพและแจ้งซ่อม ตรวจเช็คการเติมน้ำมันจักร มอเตอร์ เข็มและอุปกรณ์อื่นๆ",
+      "การประสานงานซ่อมบำรุงจักรกับแผนกจัดซื้อ  ติดตามให้มีการซ่อมบำรุงและตรวจรับงานซ่อม",
+      "งานหอศิลป์",
+      "รายงานทรัพย์สินห้องจักรและห้องเก็บอุปกรณ์",
+      "งาน OPENHOUSE/ FAB PROJECT",
+      "งานอื่นๆ"
+    ]
+  },  
+
+  "SUP_FA_Com": {
+    "config": {
+      "group": "faculty", 
+      "langs": ["th"],
+      "default_lang": "th",
+      "sheet_label": "ศิลปกรรมศาสตร์",
+      "display_title": {
+        "th": "คณะศิลปกรรมศาสตร์",
+        "en": "School of Fine and Applied Arts"
+      },
+      "providers": {
+        "mode": "auto",
+        "show_provider_in_ui": "none", 
+        "label": { "th": "ผู้ให้บริการ", "en": "Service provider" },
+        "aggregate_label": { "th": "ประเมินรวมทั้งหน่วยงาน", "en": "Evaluate the unit" },
+        "require_on_list": true,
+        "allow_aggregate_in_list": false,
+        "people": [
+          { "code": "A67112", "display_th": "A67112 เกรียงศักดิ์ มิตรชอบ" }
+        ]
+      }
+    },
+    "options": [   
+      "อำนวยความสะดวกทั่วไป",
+      "ยืม คืน เบิกอุปกรณ์การเรียน",
+      "การบริการและดูแลความเรียบร้อย ห้องจักร และห้องเก็บอุปกรณ์",
+      "การบริการและดูแล ห้องปฏิบัติการคอมพิวเตอร์",
+      "การบริการและดูแล การพิมพ์งานของนักศึกษา",
+      "การตรวจสภาพและแจ้งซ่อม ตรวจเช็คคอมพิวเตอร์และอุปกรณ์อื่นๆ",
+      "การประสานงานซ่อมบำรุงจักรกับแผนกจัดซื้อ  ติดตามให้มีการซ่อมบำรุงและตรวจรับงานซ่อม",
+      "งานประชาสัมพันธ์ภาควิชาและคณะ",
+      "รายงานทรัพย์สินห้องคอมพิวเตอร์และห้องเก็บอุปกรณ์",
+      "งาน OPENHOUSE/ FAB PROJECT",
+      "งานอื่นๆ"
+    ]
+  },  
+
+  "SUP_FA_Photo": {
+    "config": {
+      "group": "faculty", 
+      "langs": ["th"],
+      "default_lang": "th",
+      "sheet_label": "ศิลปกรรมศาสตร์",
+      "display_title": {
+        "th": "คณะศิลปกรรมศาสตร์",
+        "en": "School of Fine and Applied Arts"
+      },
+      "providers": {
+        "mode": "auto",
+        "show_provider_in_ui": "none", 
+        "label": { "th": "ผู้ให้บริการ", "en": "Service provider" },
+        "aggregate_label": { "th": "ประเมินรวมทั้งหน่วยงาน", "en": "Evaluate the unit" },
+        "require_on_list": true,
+        "allow_aggregate_in_list": false,
+        "people": [
+          { "code": "C68002", "display_th": "C68002 ณัฐกิตติ์ มหาณรงค์ ณ ราชสีมา" }
+        ]
+      }
+    },
+    "options": [   
+      "อำนวยความสะดวกทั่วไป",
+      "ยืม คืน เบิกอุปกรณ์การเรียน",
+      "การบริการและดูแลความเรียบร้อย ห้องปฏิบัติการภาพถ่าย และห้องเก็บอุปกรณ์",
+      "การบริการและดูแล ห้องปฏิบัติการภาพถ่าย",
+      "การบริการและดูแลการถอดฟิลม์และการล้างอัดภาพ ของนักศึกษาและอาจารย์",
+      "การตรวจสภาพและแจ้งซ่อม ตรวจเช็คกล้องถ่ายภาพและอุปกรณ์อื่นๆ",
+      "การประสานงานซ่อมบำรุงจักรกับแผนกจัดซื้อ  ติดตามให้มีการซ่อมบำรุงและตรวจรับงานซ่อม",
+      "งานประชาสัมพันธ์ภาควิชาและคณะ",
+      "รายงานทรัพย์สินห้องปฏิบัติการภาพถ่ายและห้องเก็บอุปกรณ์",
+      "งาน OPENHOUSE/ FAB PROJECT",
+      "งานอื่นๆ"
+    ]
+  },  
+
+  "SUP_FA_fashion": {
+    "config": {
+      "group": "faculty", 
+      "langs": ["th"],
+      "default_lang": "th",
+      "sheet_label": "ศิลปกรรมศาสตร์",
+      "display_title": {
+        "th": "คณะศิลปกรรมศาสตร์",
+        "en": "School of Fine and Applied Arts"
+      },
+      "providers": {
+        "mode": "auto",
+        "show_provider_in_ui": "none", 
+        "label": { "th": "ผู้ให้บริการ", "en": "Service provider" },
+        "aggregate_label": { "th": "ประเมินรวมทั้งหน่วยงาน", "en": "Evaluate the unit" },
+        "require_on_list": true,
+        "allow_aggregate_in_list": false,
+        "people": [
+          { "code": "C68001", "display_th": "C68001 พานิชย์ ใจเฉื่อย" }
+        ]
+      }
+    },
+    "options": [   
+      "อำนวยความสะดวกทั่วไป",
+      "ยืม คืน เบิกอุปกรณ์การเรียน",
+      "การบริการและดูแลความเรียบร้อย ห้องปฏิบัติการแฟชั่นและห้องเก็บอุปกรณ์",
+      "การบริการและดูแล ห้องปฏิบัติการแฟชั่น",
+      "การตรวจสภาพและแจ้งซ่อม ตรวจเช็คกล้องถ่ายภาพและอุปกรณ์อื่นๆ",
+      "การประสานงานซ่อมบำรุงจักรกับแผนกจัดซื้อ  ติดตามให้มีการซ่อมบำรุงและตรวจรับงานซ่อม",
+      "รายงานทรัพย์สินห้องปฏิบัติการแฟชั่นและห้องเก็บอุปกรณ์",
+      "งาน OPENHOUSE/ FAB PROJECT",
+      "งานอื่นๆ"
+    ]
+  },    
+
     "ASU_EE1": {
     "config": {
       "group": "faculty", 
@@ -357,7 +504,7 @@
     ]
   },
 
-    "ASU_BUI": {
+  "ASU_BUI": {
     "config": {
       "group": "faculty", 
       "langs": ["th","en"],
