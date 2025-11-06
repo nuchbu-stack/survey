@@ -753,9 +753,9 @@
       }
     },
     "options": [   
-      { "th": "ด้านขอหลักฐานการศึกษา", "en": "" },
-      { "th": "ด้านเกี่ยวกับการลงทะเบียน", "en": "" },
-      { "th": "ด้านบริการงานทะเบียนทั่วไป", "en": "ด้านบริการงานทะเบียนทั่วไป" },
+      { "th": "ด้านขอหลักฐานการศึกษา", "en": "Academic Record Requests and Verification" },
+      { "th": "ด้านเกี่ยวกับการลงทะเบียน", "en": "Academic Enrollment and Course Registration" },
+      { "th": "ด้านบริการงานทะเบียนทั่วไป", "en": "General Registrar Services" },
       { "th": "อื่นๆ", "en": "Other(s)" }
     ]
   },  
