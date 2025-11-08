@@ -642,7 +642,7 @@
   "ASU_grad": {
     "config": {
       "group": "faculty", 
-      "langs": ["th"],
+      "langs": ["th","en"],
       "default_lang": "th",
       "sheet_label": "บัณฑิตวิทยาลัย",
       "display_title": {
@@ -651,13 +651,13 @@
       },
       "providers": { "mode": "aggregate" }
     },
-    "options": [   
-      "การเรียนการสอน /  วิทยานิพนธ์ / การค้นคว้าอิสระ",
-      "การลงทะเบียน / งานทะเบียน / ขอเอกสาร",
-      "ข้อมูลหลักสูตร / การรับสมัคร",
-      "การประสานงานกับหน่วยงานอื่น ๆ",
-      "เรื่องร้องเรียน",
-      "อื่น ๆ"
+    "options": [
+      { "th": "การเรียนการสอน /  วิทยานิพนธ์ / การค้นคว้าอิสระ", "en": "Teaching & Learning / Thesis / Independent Study" },
+      { "th": "การลงทะเบียน / งานทะเบียน / ขอเอกสาร", "en": "Registration / Academic Records / Document Request" },
+      { "th": "ข้อมูลหลักสูตร / การรับสมัคร", "en": "Program Information / Admission" },
+      { "th": "การประสานงานกับหน่วยงานอื่น ๆ", "en": "Coordination with Other Departments" },
+      { "th": "เรื่องร้องเรียน", "en": "Complaints / Issues Report" },
+      { "th": "อื่นๆ", "en": "Other(s)"}
     ]
   },
 
