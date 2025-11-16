@@ -457,6 +457,36 @@ function pickInitialLang(langs, defaultLang) {
   return langs[0];
 }
 
+// เพิ่มฟังก์ชันตั้งค่าภาษาตามคอนฟิกหน่วย (วางไว้เหนือ loadServices())
+function initLangForDept(cfg) {
+  // อ่านค่าที่มี
+  const urlLang = new URLSearchParams(location.search).get("lang");
+  const langs = (Array.isArray(cfg?.langs) && cfg.langs.length) ? cfg.langs : ["th","en"];
+  const defLang = cfg?.default_lang || "th";
+
+  // 1) ถ้า URL บังคับ และอยู่ในชุดที่อนุญาต → ใช้อันนั้น
+  if (urlLang && langs.includes(urlLang)) {
+    CURRENT_LANG = urlLang;
+  } else {
+    // 2) เคารพ localStorage ถ้าอยู่ในชุดที่อนุญาต
+    const saved = localStorage.getItem("lang");
+    if (saved && langs.includes(saved)) {
+      CURRENT_LANG = saved;
+    } else {
+      // 3) ไม่งั้นใช้ default_lang ถ้าอยู่ในชุดที่อนุญาต
+      CURRENT_LANG = langs.includes(defLang) ? defLang : langs[0];
+    }
+  }
+
+  // บันทึก/ประกาศ
+  localStorage.setItem("lang", CURRENT_LANG);
+  document.documentElement.lang = CURRENT_LANG;
+
+  // แสดง/ซ่อนปุ่มสลับภาษา
+  const switcher = document.querySelector(".lang-switch");
+  if (switcher) switcher.style.display = (langs.length > 1) ? "" : "none";
+}
+
 
 async function loadServices() {
   try {
@@ -474,7 +504,6 @@ async function loadServices() {
     // อ่าน config ของหน่วย
     let conf = data[DEPARTMENT];
     if (!conf) {
-      // กันพลาด: ไม่มีหน่วย → ซ่อน Q0/QUser
       q0Section?.classList.add("hidden");
       qUserSection?.classList.add("hidden");
       return;
@@ -483,10 +512,11 @@ async function loadServices() {
     if (Array.isArray(conf)) conf = { config: { hasServices: true }, options: conf };
     const cfg = conf.config || {};
     GROUP = (cfg.group || "") + "";
-    window._UNIT_GROUP = GROUP; // (optional) เผื่อดีบัก
+    window._UNIT_GROUP = GROUP;
 
-
-    // ภาษา per-unit (langs + default_lang + override จาก URL)
+    // -------------------------------
+    // 1) ภาษา per-unit (เลือกภาษาเริ่มต้น + ซ่อนปุ่มถ้าภาษาเดียว)
+    // -------------------------------
     const langs = Array.isArray(cfg.langs) && cfg.langs.length ? cfg.langs : ["th"];
     window._UNIT_LANGS = langs.slice();
 
@@ -497,10 +527,9 @@ async function loadServices() {
 
     function pickInitialLang(langsArr, def) {
       const allow = (x) => x && langsArr.includes(x);
-      // ลำดับที่ถูกต้อง:
-      // 1) URL ?lang=  2) default_lang ของหน่วย  3) stored localStorage  4) ตัวแรกของหน่วย
+      // ลำดับ: 1) URL → 2) default_lang ของหน่วย → 3) localStorage → 4) ตัวแรกของหน่วย
       if (allow(LANG_PARAM))  return LANG_PARAM;
-      if (allow(def))         return def;          // ให้ default_lang ชนะ stored
+      if (allow(def))         return def;                 // NEW (ให้ค่าจากคอนฟิกชนะ localStorage)
       if (allow(storedLang))  return storedLang;
       return langsArr[0];
     }
@@ -509,82 +538,71 @@ async function loadServices() {
     localStorage.setItem("lang", CURRENT_LANG);
     document.documentElement.setAttribute("lang", CURRENT_LANG);
 
-    // ปุ่มสลับภาษา: ซ่อนถ้าไทยล้วน และปิดปุ่ม EN
-    const langSwitch = document.querySelector(".lang-switch");
-    const thOnly = (langs.length === 1 && langs[0] === "th");
-    if (langSwitch) langSwitch.classList.toggle("hidden", thOnly);
+    // แสดง/ซ่อนปุ่มสลับภาษา
+    const switcher = document.querySelector(".lang-switch");
+    if (switcher) switcher.style.display = (langs.length > 1) ? "" : "none"; // NEW (แทน class hidden)
 
-    const enBtn = document.querySelector('.lang-btn[data-lang="en"]');
-    if (enBtn) {
-      if (thOnly) {
-        enBtn.setAttribute("hidden", "hidden");
-        enBtn.setAttribute("aria-hidden", "true");
-        enBtn.tabIndex = -1;
-      } else {
-        enBtn.removeAttribute("hidden");
-        enBtn.removeAttribute("aria-hidden");
-        enBtn.tabIndex = 0;
-      }
-    }
+    // อัปเดตสถานะปุ่ม active ให้ตรงภาษา
+    document.querySelectorAll(".lang-btn")  // NEW
+      .forEach(b => b.classList.toggle("active", b.dataset.lang === CURRENT_LANG));
 
-    // ถ้ายังไม่มี switchLang ให้สร้าง (ล็อกไม่ให้เลือกภาษาที่หน่วยไม่รองรับ)
-    if (typeof window.switchLang === "function") {
-      const _orig = window.switchLang;
-      window.switchLang = function(nextLang) {
-        if (!langs.includes(nextLang)) return;
-        localStorage.setItem("lang", nextLang);
-        CURRENT_LANG = nextLang;
-        _orig(nextLang);
-        rerenderDynamicParts(data, conf);
-      };
-    } else {
-      window.switchLang = function(nextLang) {
-        if (!langs.includes(nextLang)) return;
-        localStorage.setItem("lang", nextLang);
-        CURRENT_LANG = nextLang;
-        applyLang(CURRENT_LANG);
-        rerenderDynamicParts(data, conf);
-      };
-    }
+    // -------------------------------
+    // 2) สร้าง switchLang ที่ล็อกให้เลือกได้เฉพาะภาษาที่หน่วยรองรับ
+    //    และ "อัปเดตข้อความ error ที่โชว์อยู่" + "รีเรนเดอร์ Q0"
+    // -------------------------------
+    const rerenderQ0 = () => {                               // NEW: ฟังก์ชันย่อยสำหรับวาด Q0 ตามภาษา
+      const list = resolveOptions(data, conf) || [];
+      q0.innerHTML = `<option value="" disabled selected>${I18N[CURRENT_LANG].q0_placeholder}</option>`;
+      list.forEach(item => {
+        const { value, label } = buildQ0OptionObj(item, CURRENT_LANG);
+        if (!value || !label) return;
+        const opt = document.createElement("option");
+        opt.value = value;       // ✅ เก็บเป็นไทย
+        opt.textContent = label; // 👁️ แสดงตามภาษา
+        q0.appendChild(opt);
+      });
+      if (q0Other) q0Other.placeholder = I18N[CURRENT_LANG].q0_other_placeholder;
+    };
 
-    // ตั้งข้อความ UI จาก I18N ของคุณ
-    applyLang(CURRENT_LANG);
+    window.switchLang = function(nextLang) {                 // NEW (override เดิมให้รวมทุกอย่างไว้ที่นี่)
+      if (!langs.includes(nextLang)) return;
+      CURRENT_LANG = nextLang;
+      localStorage.setItem("lang", nextLang);
+      document.documentElement.setAttribute("lang", nextLang);
 
-    // เรื่องที่ 5: ชื่อหน่วย "ที่แสดงบนเว็บ" (display_title) → ถ้าไม่ตั้ง ใช้ I18N.titleSub → สุดท้ายใช้ sheet_label/DEPARTMENT กันว่าง
+      applyLang(CURRENT_LANG);   // เปลี่ยนหัวข้อ/ป้าย/ปุ่ม
+      updateErrorTexts();        // ✅ อัปเดตข้อความ error ที่กำลังโชว์อยู่ให้เป็นภาษาปัจจุบัน
+      rerenderQ0();              // ✅ รีเรนเดอร์ Q0 ให้ label ตรงภาษา (value ไทยยังคงเดิม)
+      // อัปเดต active ของปุ่มภาษา
+      document.querySelectorAll(".lang-btn")
+        .forEach(b => b.classList.toggle("active", b.dataset.lang === CURRENT_LANG));
+    };
+
+    // -------------------------------
+    // 3) ตั้งข้อความ UI รอบแรก + ชื่อหน่วยที่จะโชว์บนหัวฟอร์ม
+    // -------------------------------
+    applyLang(CURRENT_LANG);     // MOVE: ให้มาอยู่หลังเลือกภาษาแล้ว
+    updateErrorTexts();          // NEW: ให้ error ปัจจุบันสอดรับภาษา
     const webTitle =
       pickLabel(cfg.display_title, CURRENT_LANG)
       || I18N[CURRENT_LANG]?.titleSub
       || (cfg.sheet_label || DEPARTMENT);
     setWebUnitTitle(webTitle);
 
-    // ตั้งชื่อชีตฐานของหน่วยสำหรับบันทึก
     BASE_SHEET_LABEL = cfg.sheet_label || DEPARTMENT;
 
-    // Q0: แสดง/ซ่อน
+    // -------------------------------
+    // 4) Q0: แสดง/ซ่อน และเติมตัวเลือก
+    // -------------------------------
     const hasServices = (cfg.hasServices !== false);
     q0Section?.classList.toggle("hidden", !hasServices);
 
-    // ผู้ให้บริการ 3 โหมด
-    renderProvider(data, cfg);
+    renderProvider(data, cfg); // (เหมือนเดิม)
 
-    // เติมตัวเลือก Q0 จาก Templates/use/extend/options
     if (hasServices && q0) {
-      q0.innerHTML = `<option value="" disabled selected>${I18N[CURRENT_LANG].q0_placeholder}</option>`;
-      const list = resolveOptions(data, conf);
-      list.forEach(item => {
-        const { value, label } = buildQ0OptionObj(item, CURRENT_LANG);
-        if (!value || !label) return;
-        const opt = document.createElement("option");
-        opt.value = value;       // บันทึกเป็นไทย
-        opt.textContent = label; // แสดงตามภาษา
-        q0.appendChild(opt);
-      });
-
+      rerenderQ0();            // NEW: ใช้ฟังก์ชันรวมที่สร้างไว้
       q0.disabled = false;
       q0Section?.classList.remove("hidden");
-
-      // อัปเดต placeholder ช่อง "ระบุเรื่องฯ" ให้ตรงภาษา
-      if (q0Other) q0Other.placeholder = I18N[CURRENT_LANG].q0_other_placeholder;
     }
   } catch (err) {
     console.error("โหลด q0Options.json ไม่ได้", err);
@@ -595,6 +613,7 @@ async function loadServices() {
     q0Other.classList.add("hidden");
   }
 }
+
 
 // เพิ่ม rerenderDynamicParts() เรียกใช้ตอนสลับภาษา
 function rerenderDynamicParts(data, conf) {
@@ -854,17 +873,19 @@ form.addEventListener("submit", async (e) => {
  * Language switch
  ********************/
 function applyLang(lang) {
-  CURRENT_LANG = lang;
-  localStorage.setItem("lang", lang);
+  CURRENT_LANG = lang;                  // ใช้ค่า lang ที่ถูกเลือกมาแล้ว
   const t = I18N[lang];
 
-  // ▼ เปลี่ยนหัวข้อ
+  // ===== Header =====
   document.getElementById("title-main")
     ?.replaceChildren(document.createTextNode(t.titleMain));
+  document.getElementById("title-sub")
+    ?.replaceChildren(document.createTextNode(t.titleSub));
 
+  // ===== QUser =====
+  document.getElementById("qUserLabel")
+    ?.replaceChildren(document.createTextNode(t.qUser_label));
 
-  // QUser label & options (ต้องมี id ตามนี้ใน HTML)
-  document.getElementById("qUserLabel")?.replaceChildren(document.createTextNode(t.qUser_label));
   [
     ["qUser_student_text","qUser_student"],
     ["qUser_staff_text","qUser_staff"],
@@ -875,24 +896,23 @@ function applyLang(lang) {
     if (el) el.textContent = t[key];
   });
 
-  // Q0 label + placeholder
-  document.getElementById("q0Label")?.replaceChildren(document.createTextNode(t.q0_label));
-  const first = q0?.querySelector("option[disabled]");
-  if (first) first.textContent = t.q0_placeholder;
+  // ===== Q0 =====
+  document.getElementById("q0Label")
+    ?.replaceChildren(document.createTextNode(t.q0_label));
 
-  // Q0 placeholder (select)
   if (q0) {
     const first = q0.querySelector("option[disabled]");
     if (first) first.textContent = t.q0_placeholder;
   }
 
-  // Q0 other placeholder (input)
   if (q0Other) {
-    q0Other.placeholder = t.q0_other_placeholder;   // <-- ตั้งตามภาษาเดียว
+    q0Other.placeholder = t.q0_other_placeholder;
   }
 
+  // ===== Q1 =====
+  document.getElementById("q1Label")
+    ?.replaceChildren(document.createTextNode(t.q1_label));
 
-  // Q1 captions (ต้องมี .option-X span)
   [
     [".option-5 span", t.q1_5],
     [".option-4 span", t.q1_4],
@@ -903,20 +923,22 @@ function applyLang(lang) {
     const el = document.querySelector(sel);
     if (el) el.textContent = txt;
   });
-  document.getElementById("q1Label")?.replaceChildren(document.createTextNode(t.q1_label));
 
-  // Q2 texts
-  document.getElementById("q2Label")?.replaceChildren(document.createTextNode(t.q2_label));
+  // ===== Q2 =====
+  document.getElementById("q2Label")
+    ?.replaceChildren(document.createTextNode(t.q2_label));
+
   [
-    ["q2_opt_staff_text", t.q2_opt_staff],
-    ["q2_opt_delay_text", t.q2_opt_delay],
-    ["q2_opt_accuracy_text", t.q2_opt_accuracy],
-    ["q2_opt_facility_text", t.q2_opt_facility],
-    ["q2_opt_other_text", t.q2_opt_other],
+    ["q2_opt_staff_text",   t.q2_opt_staff],
+    ["q2_opt_delay_text",   t.q2_opt_delay],
+    ["q2_opt_accuracy_text",t.q2_opt_accuracy],
+    ["q2_opt_facility_text",t.q2_opt_facility],
+    ["q2_opt_other_text",   t.q2_opt_other],
   ].forEach(([id,txt]) => {
     const el = document.getElementById(id);
     if (el) el.textContent = txt;
   });
+
   const q2OtherEl = document.getElementById("q2Other");
   if (q2OtherEl) {
     q2OtherEl.placeholder = (lang === "th")
@@ -924,14 +946,17 @@ function applyLang(lang) {
       : I18N.en.q2_other_placeholder;
   }
 
-  // Q3
-  document.getElementById("q3Label")?.replaceChildren(document.createTextNode(t.q3_label));
-  const q3 = document.getElementById("q3"); if (q3) q3.placeholder = t.q3_placeholder;
+  // ===== Q3 =====
+  document.getElementById("q3Label")
+    ?.replaceChildren(document.createTextNode(t.q3_label));
+  const q3 = document.getElementById("q3");
+  if (q3) q3.placeholder = t.q3_placeholder;
 
+  // ===== ปุ่ม submit =====
   const submitBtn = document.getElementById("submitBtn");
-  if (submitBtn) submitBtn.textContent = t.submit;   // <<< บรรทัดนี้สำคัญ
+  if (submitBtn) submitBtn.textContent = t.submit;
 
-  // Thank You texts
+  // ===== Thank You =====
   const thankTitle = document.getElementById("thankTitle");
   if (thankTitle) thankTitle.textContent = t.thank_title;
 
@@ -943,50 +968,54 @@ function applyLang(lang) {
 
   const autoReturnNoteEl = document.getElementById("autoReturnNote");
   if (autoReturnNoteEl) {
-    autoReturnNoteEl.innerHTML = `${I18N[lang].thank_autoreturn} <span id="countdown">${countdownSeconds}</span> ${
-      lang === "th" ? "วินาที" : "seconds"
-    }`;
+    autoReturnNoteEl.innerHTML =
+      `${I18N[lang].thank_autoreturn} <span id="countdown">${countdownSeconds}</span> ${
+        lang === "th" ? "วินาที" : "seconds"
+      }`;
   }
 
-  // ปุ่มภาษา active
-  document.querySelectorAll(".lang-btn").forEach(b =>
-    b.classList.toggle("active", b.dataset.lang === lang)
-  );
+  // 🔹 ไม่ยุ่งกับการซ่อน/แสดงปุ่มภาษาใน applyLang แล้ว
+  // (ถ้าจะให้ปุ่ม active หรือไม่ active แนะนำให้ไปทำใน switchLang หรือ loadServices)
 
-  // อัปเดตข้อความ error ที่กำลังโชว์อยู่เท่านั้น (rerender รายการ/ชื่อหน่วยให้ switchLang จัดการ)
+  // อัปเดตข้อความ error ให้ตรงภาษา
   updateErrorTexts();
 }
 
-
 document.addEventListener("DOMContentLoaded", () => {
-  // ตั้งปุ่มสลับภาษา
+  // ===== ปุ่มสลับภาษา =====
   document.querySelectorAll(".lang-btn").forEach(btn => {
     btn.addEventListener("click", () => {
       const targetLang = btn.dataset.lang;
-      // กันเคสหน่วยรองรับไทยอย่างเดียว
-      if (typeof window._UNIT_LANGS === "object"
-          && window._UNIT_LANGS.length === 1
-          && window._UNIT_LANGS[0] === "th"
-          && targetLang !== "th") {
-        return; // ignore
+
+      // ถ้ามี _UNIT_LANGS (ตั้งจาก loadServices) ให้เช็คว่าหน่วยนี้รองรับภาษานั้นไหม
+      if (Array.isArray(window._UNIT_LANGS) && window._UNIT_LANGS.length) {
+        if (!window._UNIT_LANGS.includes(targetLang)) {
+          // หน่วยนี้ไม่รองรับภาษา targetLang → ไม่ต้องทำอะไร
+          return;
+        }
       }
 
+      // ถ้ามี switchLang (จาก loadServices) ให้ใช้ตัวนั้นเป็นหลัก
       if (typeof window.switchLang === "function") {
         window.switchLang(targetLang);
       } else {
+        // fallback กรณีหน่วยเก่า ๆ ที่ยังไม่มี switchLang
+        CURRENT_LANG = targetLang;
+        localStorage.setItem("lang", targetLang);
         applyLang(targetLang);
       }
     });
   });
 
-  // ไม่ต้องเรียก applyLang ที่นี่ ให้ loadServices เป็นคนคำนวณภาษาและเรียก applyLang เอง
-  loadServices().catch(console.error);
-
-  // ปุ่ม "ทำแบบสอบถามอีกครั้ง"
+  // ===== ปุ่ม "ทำแบบสอบถามอีกครั้ง" =====
   document.addEventListener("click", (e) => {
     const btn = e.target.closest("#againBtn");
     if (!btn) return;
     backToForm();
   });
+
+  // ✅ สำคัญมาก: เรียกโหลด config + Q0 + ภาษา ตามหน่วยงาน
+  loadServices();
 });
+
 
