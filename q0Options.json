@@ -5,7 +5,7 @@
     "UserType": ["ASU_LI1","ASU_LI2","ASU_AC","ASU_BA","ASU_CA","ASU_LA","ASU_HM","SUP_HM","ASU_EC",
                  "ASU_ITI","ASU_FA","SUP_FA_Wood","SUP_FA_Com","SUP_FA_fashion","SUP_FA_Photo","ASU_EE1","ASU_EE2","ASU_BUI",
                  "ASU_ARC","ASU_SEM","ASU_DC","ASU_BUCI","ASU_grad","GE",
-                 "clinic","records_office"]
+                 "clinic","records_office","CC"]
   },
 
   "Templates": {
@@ -791,7 +791,45 @@
       "การให้บริการงานทุนการศึกษาของมหาวิทยาลัย",
       "ประเมินความพึงพอใจประจำภาคการศึกษา"
     ]
-  }
+  },
+
+  "CC": {
+    "config": {
+      "group": "support", 
+      "langs": ["th"],
+      "default_lang": "th",
+      "sheet_label": "คอนแทคเซ็นเตอร์",
+      "display_title": {
+        "th": "คอนแทคเซ็นเตอร์",
+        "en": "Contact Center"
+      },
+      "providers": {
+        "mode": "auto",
+        "show_provider_in_ui": "none", 
+        "label": { "th": "ผู้ให้บริการ", "en": "Service provider" },
+        "aggregate_label": { "th": "ประเมินรวมทั้งหน่วยงาน", "en": "Evaluate the unit" },
+        "require_on_list": true,
+        "allow_aggregate_in_list": false,
+        "people": [
+          { "code": "rd" },
+          { "code": "A64009", "display_th": "A64009 ปัณฑิตา อานุภาพเดชา", "display_en": "A64009 ปัณฑิตา อานุภาพเดชา" },
+          { "code": "A64010", "display_th": "A64010 นวลอนงค์ เวร์รี", "display_en": "A64010 นวลอนงค์ เวร์รี" },
+          { "code": "A65028", "display_th": "A65028 สุทธศินี สุทธิพันธุ์", "display_en": "A65028 สุทธศินี สุทธิพันธุ์" },
+          { "code": "A65096", "display_th": "A65096 กรรณิการ์ ธารธีริณวรโชติ", "display_en": "A65096 กรรณิการ์ ธารธีริณวรโชติ" },
+          { "code": "A68062", "display_th": "A68062 อรอุมา วาริยศ", "display_en": "A68062 อรอุมา วาริยศ" }
+        ]
+      }
+    },
+    "options": [   
+      { "th": "ข้อมูลสมัครเรียน", "en": "ข้อมูลสมัครเรียน" },
+      { "th": "ข้อมูลงานทะเบียน", "en": "ข้อมูลงานทะเบียน" },
+      { "th": "ข้อมูลลงทะเบียนเรียน", "en": "ข้อมูลลงทะเบียนเรียน" },
+      { "th": "ข้อมูลการเงิน", "en": "ข้อมูลการเงิน" },
+      { "th": "ข้อมูลทุนการศึกษา/กู้กองทุนฯ", "en": "ข้อมูลทุนการศึกษา/กู้กองทุนฯ" },
+      { "th": "ข้อมูลบริการและสวัสดิการนักศึกษา", "en": "ข้อมูลบริการและสวัสดิการนักศึกษา" },      
+      { "th": "อื่นๆ", "en": "Other(s)" }
+    ]
+  },  
 
 }
 
