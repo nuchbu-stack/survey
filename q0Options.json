@@ -871,7 +871,7 @@
     "config": {
       "group": "support", 
       "langs": ["en"],
-      "default_lang": "en",
+      "default_lang": "th",
       "sheet_label": "ศูนย์นานาชาติ",
       "display_title": {
         "th": "ศูนย์นานาชาติ",
