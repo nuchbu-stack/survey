@@ -870,7 +870,7 @@
   "InterCenter": {
     "config": {
       "group": "support", 
-      "langs": ["en"],
+      "langs": ["th"],
       "default_lang": "en",
       "sheet_label": "ศูนย์นานาชาติ",
       "display_title": {
