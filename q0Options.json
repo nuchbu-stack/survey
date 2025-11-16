@@ -5,7 +5,7 @@
     "UserType": ["ASU_LI1","ASU_LI2","ASU_AC","ASU_BA","ASU_CA","ASU_LA","ASU_HM","SUP_HM","ASU_EC",
                  "ASU_ITI","ASU_FA","SUP_FA_Wood","SUP_FA_Com","SUP_FA_fashion","SUP_FA_Photo","ASU_EE1","ASU_EE2","ASU_BUI",
                  "ASU_ARC","ASU_SEM","ASU_DC","ASU_BUCI","ASU_grad","GE",
-                 "clinic","records_office","CC"]
+                 "clinic","records_office","CC","Work-Integ"]
   },
 
   "Templates": {
@@ -811,7 +811,6 @@
         "require_on_list": true,
         "allow_aggregate_in_list": false,
         "people": [
-          { "code": "rd" },
           { "code": "A64009", "display_th": "A64009 ปัณฑิตา อานุภาพเดชา", "display_en": "A64009 ปัณฑิตา อานุภาพเดชา" },
           { "code": "A64010", "display_th": "A64010 นวลอนงค์ เวร์รี", "display_en": "A64010 นวลอนงค์ เวร์รี" },
           { "code": "A65028", "display_th": "A65028 สุทธศินี สุทธิพันธุ์", "display_en": "A65028 สุทธศินี สุทธิพันธุ์" },
@@ -829,7 +828,44 @@
       { "th": "ข้อมูลบริการและสวัสดิการนักศึกษา", "en": "ข้อมูลบริการและสวัสดิการนักศึกษา" },      
       { "th": "อื่นๆ", "en": "Other(s)" }
     ]
+  },
+
+  "Work-Integ": {
+    "config": {
+      "group": "support", 
+      "langs": ["th"],
+      "default_lang": "th",
+      "sheet_label": "เวิร์คอินเทค",
+      "display_title": {
+        "th": "เวิร์คอินเทค",
+        "en": "Work-Integ"
+      },
+      "providers": {
+        "mode": "auto",
+        "show_provider_in_ui": "none", 
+        "label": { "th": "ผู้ให้บริการ", "en": "Service provider" },
+        "aggregate_label": { "th": "ประเมินรวมทั้งหน่วยงาน", "en": "Evaluate the unit" },
+        "require_on_list": true,
+        "allow_aggregate_in_list": false,
+        "people": [
+          { "code": "A46032", "display_th": "A46032 เสาวณี มณีแสงสาคร", "display_en": "A46032 เสาวณี มณีแสงสาคร" },
+          { "code": "A36103", "display_th": "A36103  ผศ.กัณฐกร อู่อ้น", "display_en": "A36103  ผศ.กัณฐกร อู่อ้น" },
+          { "code": "A41038", "display_th": "A41038  วรพงศ์ พิรอด", "display_en": "A41038  วรพงศ์ พิรอด" },
+          { "code": "A45029", "display_th": "A45029 รณิดา รัตตากร", "display_en": "A45029 รณิดา รัตตากร" },
+          { "code": "A54117", "display_th": "A54117 ฐิติรัตน์ เกิดหาญ", "display_en": "A54117 ฐิติรัตน์ เกิดหาญ" },
+          { "code": "A68117", "display_th": "A68117 ปิยาพร ประชุมพวก", "display_en": "A68117 ปิยาพร ประชุมพวก" }
+        ]
+      }
+    },
+    "options": [   
+      { "th": "การเตรียมความพร้อมการสมัครงาน/ทำงาน", "en": "การเตรียมความพร้อมการสมัครงาน/ทำงาน" },
+      { "th": "การประสานงานโครงการสหกิจศึกษา", "en": "การประสานงานโครงการสหกิจศึกษา" },
+      { "th": "การส่งเสริมการทำงาน Part-time/Freelance", "en": "การส่งเสริมการทำงาน Part-time/Freelance" },
+      { "th": "การจัดการ Job Matching", "en": "การจัดการ Job Matching" },
+      { "th": "การประสานงานโครงการปัจฉิมนิเทศคณะ", "en": "การประสานงานโครงการปัจฉิมนิเทศคณะ" },
+      { "th": "การออกจดหมายขอความอนุเคราะห์/จดหมายส่งตัว (ฝึกงานสมัครใจ)", "en": "การออกจดหมายขอความอนุเคราะห์/จดหมายส่งตัว (ฝึกงานสมัครใจ)" }
+    ]
   }
-  
+
 }
 
