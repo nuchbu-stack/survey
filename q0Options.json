@@ -870,11 +870,11 @@
   "InterCenter": {
     "config": {
       "group": "support", 
-      "langs": ["en"],
-      "default_lang": "th",
+      "langs": ["th"],
+      "default_lang": "en",
       "sheet_label": "ศูนย์นานาชาติ",
       "display_title": {
-        "th": "ศูนย์นานาชาติ",
+        "th": "International Center",
         "en": "International Center"
       },
       "providers": {
