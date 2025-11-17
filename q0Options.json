@@ -5,7 +5,7 @@
     "UserType": ["ASU_LI1","ASU_LI2","ASU_AC","ASU_BA","ASU_CA","ASU_LA","ASU_HM","SUP_HM","ASU_EC",
                  "ASU_ITI","ASU_FA","SUP_FA_Wood","SUP_FA_Com","SUP_FA_fashion","SUP_FA_Photo","ASU_EE1","ASU_EE2","ASU_BUI",
                  "ASU_ARC","ASU_SEM","ASU_DC","ASU_BUCI","ASU_grad","GE",
-                 "clinic","records_office","CC","Work-Integ","InterCenter","Fin","Corp"]
+                 "clinic","records_office","CC","Work-Integ","InterCenter","Fin","CorpCom"]
   },
 
   "Templates": {
@@ -952,12 +952,12 @@
     ]  
   },
 
-  "Corp": {
+  "CorpCom": {
     "config": {
       "group": "support", 
       "langs": ["th"],
       "default_lang": "th",
-      "sheet_label": "สำนักงานอธิการบดีและสื่อสารองค์กร",
+      "sheet_label": "สื่อสารองค์กร",
       "display_title": {
         "th": "สำนักงานอธิการบดีและสื่อสารองค์กร",
         "en": "Office of the President and Corporate Communication"
