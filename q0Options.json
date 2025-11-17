@@ -907,6 +907,24 @@
       { "th": "Visa", "en": "Visa" },
       { "th": "Other(s)", "en": "Other(s)" }
     ]
+  },
+
+  "Museum": {
+    "config": {
+      "group": "support", 
+      "langs": ["th"],
+      "default_lang": "th",
+      "sheet_label": "ศูนย์บริหารศิลปวัฒนธรรม",
+      "display_title": {
+        "th": "ศูนย์บริหารศิลปวัฒนธรรม",
+        "en": "Arts and Culture Administration Center"
+      },
+      "providers": { "mode": "aggregate" }
+    },
+    "options": [   
+      { "th": "งานให้บริการเข้านิทรรศการภายในพิพิธภัณฑสถานฯ", "en": "งานให้บริการเข้านิทรรศการภายในพิพิธภัณฑสถานฯ" },
+      { "th": "งานบริการนำชมสำหรับผู้เยี่ยมชมสำหรับหมู่คณะ", "en": "งานบริการนำชมสำหรับผู้เยี่ยมชมสำหรับหมู่คณะ" }
+    ]
   }
 
 }
