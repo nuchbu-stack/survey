@@ -912,7 +912,7 @@
   "Museum": {
     "config": {
       "group": "support", 
-      "langs": ["th"],
+      "langs": ["th","en"],
       "default_lang": "th",
       "sheet_label": "ศูนย์บริหารศิลปวัฒนธรรม",
       "display_title": {
@@ -922,8 +922,8 @@
       "providers": { "mode": "aggregate" }
     },
     "options": [   
-      { "th": "งานให้บริการเข้านิทรรศการภายในพิพิธภัณฑสถานฯ", "en": "งานให้บริการเข้านิทรรศการภายในพิพิธภัณฑสถานฯ" },
-      { "th": "งานบริการนำชมสำหรับผู้เยี่ยมชมสำหรับหมู่คณะ", "en": "งานบริการนำชมสำหรับผู้เยี่ยมชมสำหรับหมู่คณะ" }
+      { "th": "งานให้บริการเข้านิทรรศการภายในพิพิธภัณฑสถานฯ", "en": "Service for visiting exhibitions within the Museum." },
+      { "th": "งานบริการนำชมสำหรับผู้เยี่ยมชมสำหรับหมู่คณะ", "en": "Guided tour service for group visitors." }
     ]
   },
 
