@@ -573,6 +573,14 @@ async function loadServices() {
       applyLang(CURRENT_LANG);   // เปลี่ยนหัวข้อ/ป้าย/ปุ่ม
       updateErrorTexts();        // ✅ อัปเดตข้อความ error ที่กำลังโชว์อยู่ให้เป็นภาษาปัจจุบัน
       rerenderQ0();              // ✅ รีเรนเดอร์ Q0 ให้ label ตรงภาษา (value ไทยยังคงเดิม)
+
+      // 🔹 NEW: อัปเดตชื่อหน่วยบนหัวฟอร์มตามภาษา
+      const webTitle =
+        pickLabel(cfg.display_title, CURRENT_LANG)
+        || I18N[CURRENT_LANG]?.titleSub
+        || (cfg.sheet_label || DEPARTMENT);
+      setWebUnitTitle(webTitle);
+
       // อัปเดต active ของปุ่มภาษา
       document.querySelectorAll(".lang-btn")
         .forEach(b => b.classList.toggle("active", b.dataset.lang === CURRENT_LANG));
@@ -879,8 +887,8 @@ function applyLang(lang) {
   // ===== Header =====
   document.getElementById("title-main")
     ?.replaceChildren(document.createTextNode(t.titleMain));
-  document.getElementById("title-sub")
-    ?.replaceChildren(document.createTextNode(t.titleSub));
+  // document.getElementById("title-sub")
+  //  ?.replaceChildren(document.createTextNode(t.titleSub));
 
   // ===== QUser =====
   document.getElementById("qUserLabel")
