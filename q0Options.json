@@ -5,7 +5,7 @@
     "UserType": ["ASU_LI1","ASU_LI2","ASU_AC","ASU_BA","ASU_CA","ASU_LA","ASU_HM","SUP_HM","ASU_EC",
                  "ASU_ITI","ASU_FA","SUP_FA_Wood","SUP_FA_Com","SUP_FA_fashion","SUP_FA_Photo","ASU_EE1","ASU_EE2","ASU_BUI",
                  "ASU_ARC","ASU_SEM","ASU_DC","ASU_BUCI","ASU_grad","GE",
-                 "clinic","records_office","CC","Work-Integ","InterCenter","Fin","CorpCom"]
+                 "clinic","records_office","CC","Work-Integ","InterCenter","Fin","CorpCom","QA"]
   },
 
   "Templates": {
@@ -967,7 +967,39 @@
     "options": [   
       { "th": "งานประชาสัมพันธ์", "en": "งงานประชาสัมพันธ์" }
     ]
-  }  
+  },
+
+"QA": {
+    "config": {
+      "group": "support", 
+      "langs": ["th"],
+      "default_lang": "th",
+      "sheet_label": "สำนักมาตรฐาน",
+      "display_title": {
+        "th": "สำนักมาตรฐานคุณภาพการศึกษา",
+        "en": "Education Quality and Standards Office"
+      },
+      "providers": {
+        "mode": "auto",
+        "show_provider_in_ui": "none", 
+        "label": { "th": "ผู้ให้บริการ", "en": "Service provider" },
+        "aggregate_label": { "th": "ประเมินรวมทั้งหน่วยงาน", "en": "Evaluate the unit" },
+        "require_on_list": true,
+        "allow_aggregate_in_list": false,
+        "people": [
+          { "code": "C39044", "display_th": "C39044 กฤตยากรณ์ โหยหวล", "display_en": "C39044 กฤตยากรณ์ โหยหวล" },
+          { "code": "C38018", "display_th": "C38018 พรสุดา สมบูรณ์", "display_en": "C38018 พรสุดา สมบูรณ์" }
+        ]
+      }
+    },
+    "options": [   
+      "การให้ข้อมูลหรือคำแนะนำทั่วไปเกี่ยวกับงานหรือบริการของสำนักฯ",
+      "การประสานงานด้านการจัดอบรม บรรยาย หรือประชุม",
+      "การตอบคำถาม/ข้อสงสัยทั้งทางโทรศัพท์ อีเมล หรือที่สำนักงาน",
+      "การประสานงานกับหน่วยงานอื่น ๆ ภายในมหาวิทยาลัย",
+      "อื่นๆ"
+    ]
+  }
 
 }
 
