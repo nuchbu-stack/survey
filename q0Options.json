@@ -499,7 +499,17 @@
         "th": "คณะวิศวกรรมศาสตร์",
         "en": "School of Engineering"
       },
-      "providers": { "mode": "aggregate" }
+      "providers": {
+        "mode": "auto",
+        "show_provider_in_ui": "none", 
+        "label": { "th": "ผู้ให้บริการ", "en": "Service provider" },
+        "aggregate_label": { "th": "ประเมินรวมทั้งหน่วยงาน", "en": "Evaluate the unit" },
+        "require_on_list": true,
+        "allow_aggregate_in_list": false,
+        "people": [
+          { "code": "ee_2" }
+        ]
+      }
     },
     "options": [   
       "การให้บริการยืม-คืนอุปกรณ์",
@@ -965,7 +975,7 @@
       "providers": { "mode": "aggregate" }
     },
     "options": [   
-      { "th": "งานประชาสัมพันธ์", "en": "งงานประชาสัมพันธ์" }
+      { "th": "งานประชาสัมพันธ์", "en": "งานประชาสัมพันธ์" }
     ]
   },
 
