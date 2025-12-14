@@ -975,7 +975,7 @@
   "CorpCom": {
     "config": {
       "group": "support", 
-      "langs": ["th"],
+      "langs": ["th","en"],
       "default_lang": "th",
       "sheet_label": "สื่อสารองค์กร",
       "display_title": {
@@ -985,7 +985,7 @@
       "providers": { "mode": "aggregate" }
     },
     "options": [   
-      { "th": "งานประชาสัมพันธ์", "en": "งานประชาสัมพันธ์" }
+      { "th": "งานประชาสัมพันธ์", "en": "PR Service" }
     ]
   },
 
