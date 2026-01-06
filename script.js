@@ -316,14 +316,13 @@ function renderProvider(data, cfg) {
     headerP.className = "provider-display";
     header.appendChild(headerP);
   }
- 
+
   const setHeader = (text) => {
     if (!headerP) return;
     const s = (text || "").trim();
     headerP.textContent = s;
     headerP.classList.toggle("hidden", s === "");
   };
-
 
   // container สำหรับลิสต์ (สร้างอัตโนมัติ)
   let providerWrap = document.getElementById("providerWrap");
@@ -339,7 +338,10 @@ function renderProvider(data, cfg) {
       const sel = document.createElement("select");
       sel.id = "providerSelect";
       providerWrap.append(label, sel);
-      const anchor = document.getElementById("q0Section") || document.getElementById("qUserSection") || document.querySelector("form");
+      const anchor =
+        document.getElementById("q0Section") ||
+        document.getElementById("qUserSection") ||
+        document.querySelector("form");
       anchor?.parentNode?.insertBefore(providerWrap, anchor);
       providerSelect = sel;
     }
@@ -347,11 +349,30 @@ function renderProvider(data, cfg) {
   const hideWrap = () => providerWrap?.classList.add("hidden");
   const showWrap = () => providerWrap?.classList.remove("hidden");
 
-  // reset state
+  // ✅ helper: เลือกข้อความตามภาษา UI (ถ้าไม่มีภาษานั้น fallback อีกภาษา/หรือ code)
+  function pickPersonUI(p) {
+    const code = (p?.code || "").trim();
+    const th = (p?.display_th || "").trim();
+    const en = (p?.display_en || "").trim();
+    if (CURRENT_LANG === "en") return en || th || code;
+    return th || en || code;
+  }
+
+  // ✅ helper: ข้อความสำหรับบันทึกลงชีต (คงที่: ไทยก่อน)
+  function pickPersonSave(p) {
+    const code = (p?.code || "").trim();
+    const th = (p?.display_th || "").trim();
+    const en = (p?.display_en || "").trim();
+    return th || en || code;
+  }
+
+  // reset state (คงเดิม)
   PROVIDER_MODE        = "aggregate";
   PROVIDER_CODE        = "";
-  PROVIDER_DISPLAY     = "";
+  PROVIDER_DISPLAY     = "";     // ✅ เก็บค่าเพื่อบันทึกลงชีต (ไทย)
   PROVIDER_SHEET_LABEL = "";
+  // (optional) เพิ่มตัวแปรสำหรับ UI โดยไม่ไปชนที่อื่น
+  window.PROVIDER_DISPLAY_UI = "";
   setHeader("");
 
   const pv = cfg.providers || { mode: "aggregate" };
@@ -359,35 +380,36 @@ function renderProvider(data, cfg) {
   const people = Array.isArray(pv.people) ? pv.people : [];
 
   // โหมด 1: รวมทั้งหน่วย
-  if (mode === "aggregate") { hideWrap(); setHeader(""); return; }
+  if (mode === "aggregate") {
+    hideWrap();
+    setHeader("");
+    return;
+  }
 
   // โหมด auto: URL → ลิสต์ → รวม
   // (2) URL รายบุคคล
   if (STAFF_PARAM && people.length) {
     const found = people.find(p => p.code === STAFF_PARAM);
     if (found) {
-      // เลือก label จาก display_th/en เท่านั้น — ไม่ fallback เป็น code
-      const th = (found.display_th || "").trim();
-      const en = (found.display_en || "").trim();
-      const label = (CURRENT_LANG === "en") ? (en || "") : (th || "");
+      const uiLabel = pickPersonUI(found);       // 👁️ ตามภาษา
+      const saveLabel = pickPersonSave(found);   // ✅ ไทยคงที่
 
       PROVIDER_MODE        = "url_person";
       PROVIDER_CODE        = (found.code || "").trim();
-      // ถ้าไม่อยากเก็บชื่อในชีตเมื่อไม่มี display_* ให้ใส่ "" ได้
-      PROVIDER_DISPLAY     = label; // ไม่มี display_* → จะเป็น "" 
+      PROVIDER_DISPLAY     = saveLabel; // ✅ ส่งลงชีตเป็นไทย
+      window.PROVIDER_DISPLAY_UI = uiLabel; // 👁️ เผื่อใช้งานภายหลัง
       PROVIDER_SHEET_LABEL = (found.sheet_label || BASE_SHEET_LABEL).trim();
 
       hideWrap();
-      setHeader(label);   // ไม่มี display_* → label = "" → <p> ถูกซ่อน
+      setHeader(uiLabel); // 👁️ แสดงบนหน้าเป็นภาษาที่เลือก
       return;
     }
   }
 
-
-
   // (3) ลิสต์ให้เลือก (ถ้ายังไม่ล็อกจาก URL และมีรายชื่อ)
   if (people.length) {
     ensureWrap();
+
     const labelEl  = document.getElementById("providerLabel");
     if (labelEl) labelEl.textContent = pickLabel(pv.label, CURRENT_LANG) || "ผู้ให้บริการ";
 
@@ -395,18 +417,27 @@ function renderProvider(data, cfg) {
     const aggText  = pickLabel(pv.aggregate_label, CURRENT_LANG) || "ประเมินรวมทั้งหน่วยงาน";
 
     let opts = `<option value="">— ${pickLabel(pv.label, CURRENT_LANG) || "ผู้ให้บริการ"} —</option>`;
+
     if (allowAgg) {
-      opts += `<option value="__AGG__" data-display="${aggText}" data-sheet="${BASE_SHEET_LABEL}">${aggText}</option>`;
+      // สำหรับ aggregate: show = aggText, save ก็ใช้ aggText (ไม่มี th/en แยก)
+      const aggSave = pickLabel(pv.aggregate_label, "th") || aggText;
+      opts += `<option value="__AGG__"
+                  data-ui="${aggText.replace(/"/g,'&quot;')}"
+                  data-save="${aggSave.replace(/"/g,'&quot;')}"
+                  data-sheet="${BASE_SHEET_LABEL}">${aggText}</option>`;
     }
 
-    // ใช้ helper ใหม่เพื่อได้ข้อความที่ผู้ใช้เห็น (ui) และข้อความที่บันทึกลงชีต (toSave)
     opts += people.map(p => {
-      const { ui, toSave } = personUIandSaveLabels(p, CURRENT_LANG);
+      const ui = pickPersonUI(p);         // 👁️ ตามภาษา
+      const save = pickPersonSave(p);     // ✅ ไทยคงที่
       const sheet = (p.sheet_label || BASE_SHEET_LABEL).replace(/"/g, '&quot;');
-      return `<option value="${p.code}"
-                data-display="${toSave.replace(/"/g,'&quot;')}"
+
+      return `<option value="${(p.code || "").replace(/"/g,'&quot;')}"
+                data-ui="${ui.replace(/"/g,'&quot;')}"
+                data-save="${save.replace(/"/g,'&quot;')}"
                 data-sheet="${sheet}">${ui}</option>`;
     }).join("");
+
     providerSelect.innerHTML = opts;
 
     if (pv.require_on_list && !allowAgg) providerSelect.setAttribute("required","required");
@@ -415,22 +446,32 @@ function renderProvider(data, cfg) {
     providerSelect.onchange = () => {
       const v = providerSelect.value;
       const opt = providerSelect.selectedOptions[0];
+
       if (v === "__AGG__") {
         PROVIDER_MODE        = "aggregate";
         PROVIDER_CODE        = "";
-        PROVIDER_DISPLAY     = "";
+        PROVIDER_DISPLAY     = opt?.dataset?.save || ""; // ✅ save
+        window.PROVIDER_DISPLAY_UI = opt?.dataset?.ui || ""; // 👁️ ui
         PROVIDER_SHEET_LABEL = BASE_SHEET_LABEL;
-        setHeader("");
+        setHeader(""); // aggregate ปกติไม่ต้องโชว์ชื่อคน
       } else if (v) {
         PROVIDER_MODE        = "list_person";
         PROVIDER_CODE        = v;
-        PROVIDER_DISPLAY     = opt?.dataset?.display || v;
+
+        // ✅ save ไปชีตเป็นไทย
+        PROVIDER_DISPLAY     = opt?.dataset?.save || v;
+
+        // 👁️ โชว์ตามภาษา
+        window.PROVIDER_DISPLAY_UI = opt?.dataset?.ui || opt?.textContent || v;
+
         PROVIDER_SHEET_LABEL = opt?.dataset?.sheet || BASE_SHEET_LABEL;
-        setHeader(PROVIDER_DISPLAY);
+
+        setHeader(window.PROVIDER_DISPLAY_UI);
       } else {
         PROVIDER_MODE        = "aggregate";
         PROVIDER_CODE        = "";
         PROVIDER_DISPLAY     = "";
+        window.PROVIDER_DISPLAY_UI = "";
         PROVIDER_SHEET_LABEL = "";
         setHeader("");
       }
@@ -441,8 +482,10 @@ function renderProvider(data, cfg) {
   }
 
   // ไม่มีรายชื่อเลย → รวม
-  hideWrap(); setHeader("");
+  hideWrap();
+  setHeader("");
 }
+
 
 // ใส่ตัวช่วยเลือกภาษาเริ่มต้น (บนไฟล์หรือก่อน loadServices() ก็ได้)
 function pickInitialLang(langs, defaultLang) {
