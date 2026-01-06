@@ -624,6 +624,8 @@ async function loadServices() {
         || (cfg.sheet_label || DEPARTMENT);
       setWebUnitTitle(webTitle);
 
+      renderProvider(data, cfg); // ✅ เพิ่ม: รีเรนเดอร์ผู้ให้บริการตามภาษาปัจจุบัน
+
       // อัปเดต active ของปุ่มภาษา
       document.querySelectorAll(".lang-btn")
         .forEach(b => b.classList.toggle("active", b.dataset.lang === CURRENT_LANG));
