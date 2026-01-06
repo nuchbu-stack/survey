@@ -816,7 +816,7 @@
   "CC": {
     "config": {
       "group": "support", 
-      "langs": ["th"],
+      "langs": ["th","en"],
       "default_lang": "th",
       "sheet_label": "คอนแทคเซ็นเตอร์",
       "display_title": {
@@ -831,21 +831,21 @@
         "require_on_list": true,
         "allow_aggregate_in_list": false,
         "people": [
-          { "code": "A64009", "display_th": "A64009 ปัณฑิตา อานุภาพเดชา", "display_en": "A64009 ปัณฑิตา อานุภาพเดชา" },
-          { "code": "A64010", "display_th": "A64010 นวลอนงค์ เวร์รี", "display_en": "A64010 นวลอนงค์ เวร์รี" },
-          { "code": "A65028", "display_th": "A65028 สุทธศินี สุทธิพันธุ์", "display_en": "A65028 สุทธศินี สุทธิพันธุ์" },
-          { "code": "A65096", "display_th": "A65096 กรรณิการ์ ธารธีริณวรโชติ", "display_en": "A65096 กรรณิการ์ ธารธีริณวรโชติ" },
-          { "code": "A68062", "display_th": "A68062 อรอุมา วาริยศ", "display_en": "A68062 อรอุมา วาริยศ" }
+          { "code": "A64009", "display_th": "A64009 ปัณฑิตา อานุภาพเดชา", "display_en": "A64009 Pantita Anupabdaycha" },
+          { "code": "A64010", "display_th": "A64010 นวลอนงค์ เวร์รี", "display_en": "A64010 Nuananong Verry" },
+          { "code": "A65028", "display_th": "A65028 สุทธศินี สุทธิพันธุ์", "display_en": "A65028 Suttasinee Suttiphun" },
+          { "code": "A65096", "display_th": "A65096 กรรณิการ์ ธารธีริณวรโชติ", "display_en": "A65096 Kannika Tarntheerinworachot" },
+          { "code": "A68062", "display_th": "A68062 อรอุมา วาริยศ", "display_en": "A68062 Onuma Wariyot" }
         ]
       }
     },
     "options": [   
-      { "th": "ข้อมูลสมัครเรียน", "en": "ข้อมูลสมัครเรียน" },
-      { "th": "ข้อมูลงานทะเบียน", "en": "ข้อมูลงานทะเบียน" },
-      { "th": "ข้อมูลลงทะเบียนเรียน", "en": "ข้อมูลลงทะเบียนเรียน" },
-      { "th": "ข้อมูลการเงิน", "en": "ข้อมูลการเงิน" },
-      { "th": "ข้อมูลทุนการศึกษา/กู้กองทุนฯ", "en": "ข้อมูลทุนการศึกษา/กู้กองทุนฯ" },
-      { "th": "ข้อมูลบริการและสวัสดิการนักศึกษา", "en": "ข้อมูลบริการและสวัสดิการนักศึกษา" },      
+      { "th": "ข้อมูลสมัครเรียน", "en": "Enrollment Information" },
+      { "th": "ข้อมูลงานทะเบียน", "en": "Registrar Information" },
+      { "th": "ข้อมูลลงทะเบียนเรียน", "en": "Course Registration Information" },
+      { "th": "ข้อมูลการเงิน", "en": "Finance Information" },
+      { "th": "ข้อมูลทุนการศึกษา/กู้กองทุนฯ", "en": "Scholarship/ Student Loan Information" },
+      { "th": "ข้อมูลบริการและสวัสดิการนักศึกษา", "en": "Student Services and Welfare Information" },      
       { "th": "อื่นๆ", "en": "Other(s)" }
     ]
   },
