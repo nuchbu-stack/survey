@@ -832,10 +832,10 @@
         "allow_aggregate_in_list": false,
         "people": [
           { "code": "A64009"},
-          { "code": "A64010", "display_th": "A64010 นวลอนงค์ เวร์รี", "display_en": "A64010 Nuananong Verry" },
-          { "code": "A65028", "display_th": "A65028 สุทธศินี สุทธิพันธุ์", "display_en": "A65028 Suttasinee Suttiphun" },
-          { "code": "A65096", "display_th": "A65096 กรรณิการ์ ธารธีริณวรโชติ", "display_en": "A65096 Kannika Tarntheerinworachot" },
-          { "code": "A68062", "display_th": "A68062 อรอุมา วาริยศ", "display_en": "A68062 Onuma Wariyot" }
+          { "code": "A64010"},
+          { "code": "A65028"},
+          { "code": "A65096"},
+          { "code": "A68062"}
         ]
       }
     },
