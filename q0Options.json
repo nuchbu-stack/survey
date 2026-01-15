@@ -635,8 +635,9 @@
         "require_on_list": true,
         "allow_aggregate_in_list": false,
         "people": [
-          { "code": "dc_1" },
-          { "code": "dc_2" }
+          { "code": "A38125", "display_th": "A38125 ศิริพรอุมา คัมภิรารักษ์", "display_en": "A38125 ศิริพรอุมา คัมภิรารักษ์" },
+          { "code": "A59095", "display_th": "A59095 เสาวลักษณ์ เขียวเหลือง", "display_en": "A59095 เสาวลักษณ์ เขียวเหลือง" },
+          { "code": "C45024", "display_th": "C45024 วันเพ็ญ จันทร์แจ่มใส", "display_en": "C45024 วันเพ็ญ จันทร์แจ่มใส" }
         ]
       }
     },
