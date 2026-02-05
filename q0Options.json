@@ -5,7 +5,8 @@
     "UserType": ["ASU_LI1","ASU_LI2","ASU_AC","ASU_BA","ASU_CA","ASU_LA","ASU_HM","SUP_HM","ASU_EC",
                  "ASU_ITI","ASU_FA","SUP_FA_Wood","SUP_FA_Com","SUP_FA_fashion","SUP_FA_Photo","ASU_EE1","ASU_EE2","ASU_BUI",
                  "ASU_ARC","ASU_SEM","ASU_DC","ASU_BUCI","ASU_grad","GE",
-                 "clinic","records_office","CC","Work-Integ","InterCenter","Fin","CorpCom","QA"]
+                 "clinic","records_office","CC","Work-Integ","InterCenter","Fin","CorpCom","QA",
+                 "STUDEV"]
   },
 
   "Templates": {
@@ -1017,6 +1018,46 @@
       "การประสานงานด้านการจัดอบรม บรรยาย หรือประชุม",
       "การตอบคำถาม/ข้อสงสัยทั้งทางโทรศัพท์ อีเมล หรือที่สำนักงาน",
       "การประสานงานกับหน่วยงานอื่น ๆ ภายในมหาวิทยาลัย",
+      "อื่นๆ"
+    ]
+  },
+
+"STUDEV": {
+    "config": {
+      "group": "support", 
+      "langs": ["th"],
+      "default_lang": "th",
+      "sheet_label": "ศูนย์พัฒนานักศึกษาแบบองค์รวม",
+      "display_title": {
+        "th": "ศูนย์พัฒนานักศึกษาแบบองค์รวม",
+        "en": "Center for Holistic Student Development"
+      },
+      "providers": {
+        "mode": "auto",
+        "show_provider_in_ui": "none", 
+        "label": { "th": "ผู้ให้บริการ", "en": "Service provider" },
+        "aggregate_label": { "th": "ประเมินรวมทั้งหน่วยงาน", "en": "Evaluate the unit" },
+        "require_on_list": true,
+        "allow_aggregate_in_list": false,
+        "people": [
+          { "code": "A36090", "display_th": "A36090  รัฐพงศ์ สง่าแสง", "display_en": "A36090  รัฐพงศ์ สง่าแสง" },
+          { "code": "A37130", "display_th": "A37130  มณฑกาญจน์ ลดาภิวัฒน์", "display_en": "A37130  มณฑกาญจน์ ลดาภิวัฒน์" },
+          { "code": "A39051", "display_th": "A39051  อนุชา ปิยะวาณิชย์สกุล", "display_en": "A39051  อนุชา ปิยะวาณิชย์สกุล" },
+          { "code": "A43046", "display_th": "A43046  ประชา สมนาค", "display_en": "A43046  ประชา สมนาค" },
+          { "code": "A46015", "display_th": "A46015  คุณากร สุทธิโสตถิ์", "display_en": "A46015  คุณากร สุทธิโสตถิ์" },
+          { "code": "A52078", "display_th": "A52078  สราวุฒิ สำเนียงดี", "display_en": "A52078  สราวุฒิ สำเนียงดี" },
+          { "code": "A60083", "display_th": "A60083  ณภัทร นิธิชนากานต์", "display_en": "A60083  ณภัทร นิธิชนากานต์" },
+          { "code": "A66084", "display_th": "A66084  วรายุทธ เสือสวย", "display_en": "A66084  วรายุทธ เสือสวย" },
+          { "code": "A68105", "display_th": "A68105  อภิสิทธิ์ นาคทิพย์", "display_en": "A68105  อภิสิทธิ์ นาคทิพย์" },
+          { "code": "A68116", "display_th": "A68116  ประดิพัทธ์ วนัสพรชนิตว์", "display_en": "A68116  ประดิพัทธ์ วนัสพรชนิตว์" }
+        ]
+      }
+    },
+    "options": [   
+      "ขอจัดโครงการ/กิจกรรม",
+      "ขอใช้สถานที่",
+      "เบิก-ยืมอุปกรณ์",
+      "บริการนักศึกษาทุน",
       "อื่นๆ"
     ]
   }
