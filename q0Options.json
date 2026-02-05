@@ -1064,6 +1064,7 @@
 
 "STADIUM": {
     "config": {
+      "hasServices": false,
       "group": "support", 
       "langs": ["th"],
       "default_lang": "th",
@@ -1083,7 +1084,10 @@
           { "code": "Football", "display_th": "สนามฟุตบอล", "display_en": "Football Field" }
         ]
       }
-    }
+    },
+    "options": [   
+
+    ]
   },
 
 "Purchase": {
