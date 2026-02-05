@@ -1066,7 +1066,7 @@
     "config": {
       "hasServices": false,
       "group": "support", 
-      "langs": ["th"],
+      "langs": ["th","en"],
       "default_lang": "th",
       "sheet_label": "บริการสนามกีฬาและอุปกรณ์",
       "display_title": {
@@ -1104,7 +1104,7 @@
     "config": {
       "hasServices": false,
       "group": "support", 
-      "langs": ["th"],
+      "langs": ["th","en"],
       "default_lang": "th",
       "sheet_label": "บริการสนามกีฬาและอุปกรณ์",
       "display_title": {
@@ -1119,11 +1119,13 @@
         "require_on_list": true,
         "allow_aggregate_in_list": false,
         "people": [
-          { "code": "Football", "display_th": "สนามฟุตบอล", "display_en": "Football Field" },
-          { "code": "Football", "display_th": "สนามฟุตบอล", "display_en": "Football Field" },
-          { "code": "Football", "display_th": "สนามฟุตบอล", "display_en": "Football Field" },
-          { "code": "Football", "display_th": "สนามฟุตบอล", "display_en": "Football Field" },
-          { "code": "Football", "display_th": "สนามฟุตบอล", "display_en": "Football Field" }
+          { "code": "Basketball_E", "display_th": "ลูกบาสเกตบอล", "display_en": "Basketball" },
+          { "code": "Futsal_E", "display_th": "ลูกฟุตซอล", "display_en": "Futsal Ball" },
+          { "code": "Volleyball_E", "display_th": "ลูกวอลเลย์บอล", "display_en": "Volleyball" },
+          { "code": "Football_E", "display_th": "สนามฟุตบอล", "display_en": "Football" },
+          { "code": "SepakTakraw_E", "display_th": "ลูกตะกร้อ", "display_en": "Sepak Takraw Ball" },
+          { "code": "Petanque_E", "display_th": "ลูกเปตอง", "display_en": "Petanque Balls" },
+          { "code": "TableTennis_E", "display_th": "ไม้และลูกเทเบิลเทนนิส", "display_en": "Table Tennis Rackets and Balls" }          
         ]
       }
     },
