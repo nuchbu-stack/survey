@@ -6,7 +6,7 @@
                  "ASU_ITI","ASU_FA","SUP_FA_Wood","SUP_FA_Com","SUP_FA_fashion","SUP_FA_Photo","ASU_EE1","ASU_EE2","ASU_BUI",
                  "ASU_ARC","ASU_SEM","ASU_DC","ASU_BUCI","ASU_grad","GE",
                  "clinic","records_office","CC","Work-Integ","InterCenter","Fin","CorpCom","QA",
-                 "STUDEV","Supply","Purchase","STADIUM"]
+                 "STUDEV","Supply","Purchase","SportsF","SportsE"]
   },
 
   "Templates": {
@@ -1062,7 +1062,7 @@
     ]
   },
 
-"STADIUM": {
+"SportsF": {
     "config": {
       "hasServices": false,
       "group": "support", 
@@ -1070,8 +1070,8 @@
       "default_lang": "th",
       "sheet_label": "บริการสนามกีฬาและอุปกรณ์",
       "display_title": {
-        "th": "ศูนย์พัฒนานักศึกษาแบบองค์รวม",
-        "en": "Center for Holistic Student Development"
+        "th": "สนามกีฬา",
+        "en": "Sports Facilities"
       },
       "providers": {
         "mode": "auto",
@@ -1081,7 +1081,17 @@
         "require_on_list": true,
         "allow_aggregate_in_list": false,
         "people": [
-          { "code": "Football", "display_th": "สนามฟุตบอล", "display_en": "Football Field" }
+          { "code": "Basketball_F", "display_th": "สนามบาสเกตบอล", "display_en": "Basketball Court" },
+          { "code": "Futsal_F", "display_th": "สนามฟุตซอล", "display_en": "Futsal Court" },
+          { "code": "Volleyball_F", "display_th": "สนามวอลเลย์บอล", "display_en": "Volleyball Court" },
+          { "code": "Football_F", "display_th": "สนามฟุตบอล", "display_en": "Football Field" },
+          { "code": "Rugby_F", "display_th": "สนามรักบี้ฟุตบอล", "display_en": "Rugby Field" },
+          { "code": "Badminton_F", "display_th": "สนามแบดมินตัน", "display_en": "Badminton Court" },
+          { "code": "Tennis_F", "display_th": "สนามเทนนิส", "display_en": "Tennis Court" },
+          { "code": "TableTennis_F", "display_th": "สนามเทเบิลเทนนิส", "display_en": "Table Tennis Room" },
+          { "code": "SepakTakraw_F", "display_th": "สนามตะกร้อ", "display_en": "Sepak Takraw Court" },
+          { "code": "Petanque_F", "display_th": "สนามเปตอง", "display_en": "Petanque Court" },
+          { "code": "Fitness_F", "display_th": "ห้องฟิตเนส", "display_en": "Fitness Room" }          
         ]
       }
     },
@@ -1089,6 +1099,38 @@
 
     ]
   },
+
+"SportsE": {
+    "config": {
+      "hasServices": false,
+      "group": "support", 
+      "langs": ["th"],
+      "default_lang": "th",
+      "sheet_label": "บริการสนามกีฬาและอุปกรณ์",
+      "display_title": {
+        "th": "อุปกรณ์กีฬา",
+        "en": "Sports Equipment"
+      },
+      "providers": {
+        "mode": "auto",
+        "show_provider_in_ui": "none", 
+        "label": { "th": "ผู้ให้บริการ", "en": "Service provider" },
+        "aggregate_label": { "th": "ประเมินรวมทั้งหน่วยงาน", "en": "Evaluate the unit" },
+        "require_on_list": true,
+        "allow_aggregate_in_list": false,
+        "people": [
+          { "code": "Football", "display_th": "สนามฟุตบอล", "display_en": "Football Field" },
+          { "code": "Football", "display_th": "สนามฟุตบอล", "display_en": "Football Field" },
+          { "code": "Football", "display_th": "สนามฟุตบอล", "display_en": "Football Field" },
+          { "code": "Football", "display_th": "สนามฟุตบอล", "display_en": "Football Field" },
+          { "code": "Football", "display_th": "สนามฟุตบอล", "display_en": "Football Field" }
+        ]
+      }
+    },
+    "options": [   
+
+    ]
+  },  
 
 "Purchase": {
     "config": {
