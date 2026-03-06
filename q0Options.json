@@ -1081,7 +1081,7 @@
         "require_on_list": true,
         "allow_aggregate_in_list": false,
         "people": [
-          { "code": "Basketball_F_1", "display_th": "สนามบาสเกตบอ 1", "display_en": "Basketball Court 1" },
+          { "code": "Basketball_F_1", "display_th": "สนามบาสเกตบอล 1", "display_en": "Basketball Court 1" },
           { "code": "Basketball_F_2", "display_th": "สนามบาสเกตบอล 2", "display_en": "Basketball Court 2" },
           { "code": "Basketball_F_3", "display_th": "สนามบาสเกตบอล 3", "display_en": "Basketball Court 3" },
           { "code": "Futsal_F_1", "display_th": "สนามฟุตซอล 1", "display_en": "Futsal Court 1" },
