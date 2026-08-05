@@ -22,7 +22,12 @@
       <h2 id="title-sub"></h2>
       <p></p>
     </header>
-   
+
+    <!-- ข้อความปิดปรับปรุงระบบ (โชว์แทนฟอร์มทั้งหมดเมื่อ System.enabled = false หรือ config.enabled ของหน่วยนั้น = false) -->
+    <div class="question hidden" id="maintenanceNotice">
+      <p id="maintenanceMessage" style="text-align:center; font-weight:600;"></p>
+    </div>
+
     <!-- ฟอร์ม -->
     <form id="surveyForm">
 
@@ -56,6 +61,30 @@
 
     </div>
 
+    <!-- Student Info (รหัสนักศึกษา / หลักสูตร) -->
+    <!-- โชว์เฉพาะเมื่อเลือก "นักศึกษา" ด้านบน และหน่วยงานตั้งค่า studentInfo.mode ไว้ไม่ใช่ "off" -->
+    <div class="question hidden" id="studentInfoSection">
+      <label class="label" id="studentInfoLabel">รหัสนักศึกษา</label>
+
+      <!-- mode: id -->
+      <input type="text" id="studentIdInput" class="hidden" inputmode="numeric" placeholder="กรอกรหัสนักศึกษา" />
+
+      <!-- mode: program (เลือกหลักสูตรตรง ๆ ไม่แยกคณะ) -->
+      <select id="studentProgramSelect" class="hidden">
+        <option value="" disabled selected>— เลือก / Select —</option>
+      </select>
+
+      <!-- mode: faculty_program (เลือกคณะก่อน แล้วค่อยเลือกหลักสูตรที่กรองตามคณะ) -->
+      <select id="studentFacultySelect" class="hidden">
+        <option value="" disabled selected>— เลือกคณะ / Select faculty —</option>
+      </select>
+      <select id="studentFacultyProgramSelect" class="hidden">
+        <option value="" disabled selected>— เลือกหลักสูตร / Select program —</option>
+      </select>
+
+      <div id="studentInfoError" class="error hidden">กรุณากรอกรหัสนักศึกษา</div>
+    </div>
+
 
       <!-- Q0 -->
       <div class="question" id="q0Section">
@@ -66,7 +95,7 @@
         <input type="text" id="q0Other" class="hidden" placeholder="โปรดระบุเรื่องที่รับบริการ" />
         <div id="q0Error" class="error hidden">กรุณาเลือกเรื่องที่รับบริการ</div>
       </div>
-      
+
       <!-- Q1 -->
       <div class="question">
         <label class="label" id="q1Label">ระดับความพึงพอใจของท่าน</label>

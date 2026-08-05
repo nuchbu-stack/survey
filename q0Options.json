@@ -6,7 +6,34 @@
                  "ASU_ITI","ASU_FA","SUP_FA_Wood","SUP_FA_Com","SUP_FA_fashion","SUP_FA_Photo","ASU_EE1","ASU_EE2","ASU_BUI",
                  "ASU_ARC","ASU_SEM","ASU_DC","ASU_BUCI","ASU_grad","GE",
                  "clinic","records_office","CC","Work-Integ","InterCenter","Fin","CorpCom","QA",
-                 "STUDEV","Supply","Purchase","SportsF","SportsE"]
+                 "STUDEV","Supply","Purchase","SportsF","SportsE"],
+
+    "_comment_studentInfo": "ใหม่: ฟิลด์ 'รหัสนักศึกษา / หลักสูตร' ที่จะโชว์ต่อเมื่อ (1) หน่วยนั้นอยู่ใน UserType ด้านบน และ (2) ผู้ตอบเลือก 'นักศึกษา'. ตั้งค่าที่ config.studentInfo ของแต่ละหน่วยงานด้านล่าง (ไม่ใช่ list ตรงนี้ เพราะแต่ละหน่วยต้องเลือก mode ต่างกันได้). ถ้าหน่วยไหนไม่ใส่ config.studentInfo เลย จะใช้ค่าจาก Defaults.studentInfo แทน (ตอนนี้คือ mode:'id' ให้ทุกหน่วยกรอกรหัสนักศึกษา) — ถ้าหน่วยไหนอยากได้โหมดอื่น หรือไม่อยากมีฟิลด์นี้เลย ให้ใส่ config.studentInfo ของหน่วยนั้นทับ (เช่น mode:'off') เท่านั้นพอ ไม่ต้องแก้ทุกหน่วย.",
+    "_studentInfo_modes": {
+      "id":      "ให้กรอกรหัสนักศึกษาเป็นข้อความ ตรวจสอบเบื้องต้นด้วย regex (idPattern) — ยังไม่ได้ตรวจกับฐานข้อมูลนักศึกษาจริง รอแหล่งข้อมูลยืนยันจากสำนักทะเบียนก่อน",
+      "program": "ให้เลือกหลักสูตร/สาขาที่เรียนจาก dropdown ตาม config.studentInfo.programs ของหน่วยนั้น (ลิสต์ตายตัวในไฟล์นี้ เหมาะกับหน่วยที่รับเฉพาะนักศึกษาคณะเดียว)",
+      "faculty_program": "ให้เลือก 'คณะที่สังกัด' ก่อน แล้วกรองหลักสูตรตามคณะที่เลือก โดยลิสต์คณะ/หลักสูตรอ่านสดจากแท็บ Programs ในชีท (ผ่าน doGet?action=programs) เหมาะกับหน่วยที่ให้บริการนักศึกษาข้ามคณะ",
+      "off":     "ไม่แสดงฟิลด์นี้ (ค่าเริ่มต้นถ้าไม่ระบุ และไม่มี Defaults.studentInfo)"
+    }
+  },
+
+  "System": {
+    "_comment": "สวิตช์เปิด/ปิดฟอร์มทั้งระบบ (เผื่อปิดตอนอัปเดตเว็บ หรือปิดตอนสรุปผลประจำภาค). enabled:false = ทุกหน่วยงานเห็นข้อความปิดปรับปรุงแทนฟอร์ม ไม่ต้องเปลี่ยน URL หรือ redeploy ใดๆ แค่แก้ค่านี้แล้ว refresh หน้าเว็บ",
+    "enabled": true,
+    "message": {
+      "th": "ขณะนี้ระบบปิดปรับปรุงชั่วคราว ขออภัยในความไม่สะดวก กรุณากลับมาทำแบบประเมินใหม่ภายหลัง",
+      "en": "The system is temporarily closed for maintenance. We apologize for the inconvenience — please check back later."
+    }
+  },
+
+  "Defaults": {
+    "_comment": "ค่า default ที่ใช้กับทุกหน่วยงานที่ไม่ได้ตั้งค่า config.studentInfo ของตัวเองไว้ (ลดงานแก้ JSON ทีละหน่วย). ถ้าหน่วยไหนต้องการโหมดอื่น หรือไม่ต้องการฟิลด์นี้เลย ให้ใส่ config.studentInfo ของหน่วยนั้นทับค่านี้ได้เสมอ (เช่น {\"mode\":\"off\"} หรือ {\"mode\":\"program\", ...}).",
+    "studentInfo": {
+      "mode": "id",
+      "label": { "th": "รหัสนักศึกษา", "en": "Student ID" },
+      "idPattern": "^[0-9]{10}$",
+      "idPatternHint": { "th": "กรอกรหัสนักศึกษา (ตัวเลข 10 หลัก)", "en": "Enter student ID (10 digits)" }
+    }
   },
 
   "Templates": {
@@ -47,11 +74,11 @@
       "งานด้านงบประมาณ ค่าใช้จ่าย",
       "เรื่องอื่นๆ หรือประสานงานทั่วไป"
     ]
-  }, 
+  },
 
   "ASU_LI1": {
     "config": {
-      "group": "faculty", 
+      "group": "faculty",
       "langs": ["th"],
       "default_lang": "th",
       "sheet_label": "สถาบันภาษา_1",
@@ -59,14 +86,24 @@
         "th": "สถาบันภาษา",
         "en": "Language Institute"
       },
-      "providers": { "mode": "aggregate" }
+      "providers": {
+        "mode": "auto",
+        "show_provider_in_ui": "none",
+        "label": { "th": "ผู้ให้บริการ", "en": "Service provider" },
+        "aggregate_label": { "th": "ประเมินรวมทั้งหน่วยงาน", "en": "Evaluate the unit" },
+        "require_on_list": true,
+        "allow_aggregate_in_list": false,
+        "people": [
+          { "code": "LI_1", "display_th": "สถาบันภาษา 1", "display_en": "Language Institute 1"  }
+        ]
+      }
     },
     "use": "COMMON_STUDENT_SERVICES"
   },
 
   "ASU_LI2": {
     "config": {
-      "group": "faculty", 
+      "group": "faculty",
       "langs": ["th"],
       "default_lang": "th",
       "sheet_label": "สถาบันภาษา_2",
@@ -74,9 +111,19 @@
         "th": "สถาบันภาษา",
         "en": "Language Institute"
       },
-      "providers": { "mode": "aggregate" }
+      "providers": {
+        "mode": "auto",
+        "show_provider_in_ui": "none",
+        "label": { "th": "ผู้ให้บริการ", "en": "Service provider" },
+        "aggregate_label": { "th": "ประเมินรวมทั้งหน่วยงาน", "en": "Evaluate the unit" },
+        "require_on_list": true,
+        "allow_aggregate_in_list": false,
+        "people": [
+          { "code": "LI_2", "display_th": "สถาบันภาษา 2", "display_en": "Language Institute 2"  }
+        ]
+      }
     },
-    "options": [   
+    "options": [
       "การอธิบายการใช้โปรแกรม Speexx",
       "การอธิบายการสอบวัดระดับ"
     ]
@@ -84,7 +131,7 @@
 
   "ASU_AC": {
     "config": {
-      "group": "faculty", 
+      "group": "faculty",
       "langs": ["th"],
       "default_lang": "th",
       "sheet_label": "บัญชี",
@@ -95,11 +142,11 @@
       "providers": { "mode": "aggregate" }
     },
     "use": "COMMON_STUDENT_SERVICES"
-  },  
+  },
 
   "ASU_BA": {
     "config": {
-      "group": "faculty", 
+      "group": "faculty",
       "langs": ["th"],
       "default_lang": "th",
       "sheet_label": "บริหารธุรกิจ",
@@ -112,7 +159,7 @@
         "_notes": "require_on_list: true = ถ้ามีลิสต์ต้องเลือก; allow_aggregate_in_list: true = แสดงตัวเลือก 'ประเมินรวมทั้งหน่วยงาน' รวมในลิสต์ด้วย",
 
         "mode": "auto",
-        "show_provider_in_ui": "none", 
+        "show_provider_in_ui": "none",
         "label": { "th": "ผู้ให้บริการ", "en": "Service provider" },
         "aggregate_label": { "th": "ประเมินรวมทั้งหน่วยงาน", "en": "Evaluate the unit" },
         "require_on_list": true,
@@ -123,14 +170,21 @@
           { "code": "A56123", "display_th": "A56123 อ.เปรมกมล เชวงชินวงศ์" },
           { "code": "A57161", "display_th": "A57161 อ.พรสวรรค์ อิ้ววังโส" }
         ]
+      },
+      "studentInfo": {
+        "_comment": "ตัวอย่าง mode:'id' — ให้กรอกรหัสนักศึกษาเป็นข้อความ",
+        "mode": "id",
+        "label": { "th": "รหัสนักศึกษา", "en": "Student ID" },
+        "idPattern": "^[0-9]{10}$",
+        "idPatternHint": { "th": "กรอกเฉพาะตัวเลข 10 หลัก", "en": "Digits only, 10 characters" }
       }
     },
     "use": "COMMON_STUDENT_SERVICES"
-  },  
+  },
 
   "ASU_CA": {
     "config": {
-      "group": "faculty", 
+      "group": "faculty",
       "langs": ["th"],
       "default_lang": "th",
       "sheet_label": "นิเทศศาสตร์",
@@ -140,7 +194,7 @@
       },
       "providers": {
         "mode": "auto",
-        "show_provider_in_ui": "none", 
+        "show_provider_in_ui": "none",
         "label": { "th": "ผู้ให้บริการ", "en": "Service provider" },
         "aggregate_label": { "th": "ประเมินรวมทั้งหน่วยงาน", "en": "Evaluate the unit" },
         "require_on_list": true,
@@ -152,11 +206,11 @@
       }
     },
     "use": "COMMON_STUDENT_SERVICES"
-  }, 
+  },
 
   "ASU_LA": {
     "config": {
-      "group": "faculty", 
+      "group": "faculty",
       "langs": ["th"],
       "default_lang": "th",
       "sheet_label": "นิติศาสตร์",
@@ -166,7 +220,7 @@
       },
       "providers": {
         "mode": "auto",
-        "show_provider_in_ui": "none", 
+        "show_provider_in_ui": "none",
         "label": { "th": "ผู้ให้บริการ", "en": "Service provider" },
         "aggregate_label": { "th": "ประเมินรวมทั้งหน่วยงาน", "en": "Evaluate the unit" },
         "require_on_list": true,
@@ -178,13 +232,13 @@
       }
     },
     "use": "COMMON_STUDENT_SERVICES"
-  }, 
+  },
 
   "ASU_HM": {
     "config": {
       "_note": "langs ภาษาที่หน่วยรองรับ ['th'] หรือ ['th','en']",
-      
-      "group": "faculty", 
+
+      "group": "faculty",
       "langs": ["th"],
       "default_lang": "th",
       "sheet_label": "มนุษยศาสตร์ฯ",
@@ -207,11 +261,16 @@
           { "code": "A67025", "display_th": "A67025 ปวีณา พันธุ์ทอง" },
           { "code": "A56006", "display_th": "A56006 ชนิดา สุทธิวงศ์", "display_en": "A56006 Chanida Sutthiwong" }
         ]
+      },
+      "studentInfo": {
+        "_comment": "mode:'faculty_program' — หน่วยนี้ให้บริการนักศึกษาข้ามคณะ จึงให้เลือก 'คณะที่สังกัด' ก่อน แล้วกรองหลักสูตรตามคณะ ลิสต์คณะ/หลักสูตรอ่านสดจากแท็บ Programs ในชีท (ผ่าน Apps Script doGet?action=programs) ไม่ได้ตายตัวในไฟล์นี้ — แก้/เพิ่ม/ลดหลักสูตรได้จากแท็บ Programs โดยตรง",
+        "mode": "faculty_program",
+        "label": { "th": "คณะที่นักศึกษาสังกัด", "en": "Student's Faculty" }
       }
     },
     "_note": "extend { 'use': 'ชื่อแม่แบบ', 'add': [...], 'remove': ['ข้อความไทยที่จะตัด'] }",
 
-    "options": [   
+    "options": [
       "งานบริการนักศึกษา (งานทะเบียน/ ตารางเรียน /ข้อมูลวิชา/ ข้อมูลอาจารย์)",
       "งานข่าวสาร ข้อมูลต่างๆ (หลักสูตร/คณะ/กิจกรรม)",
       "งานด้านสิ่งสนับสนุนการเรียน (จองห้องเรียน/ ยืมอุปกรณ์/ เครื่องแบบ)",
@@ -223,8 +282,8 @@
   "SUP_HM": {
     "config": {
       "_note": "langs ภาษาที่หน่วยรองรับ ['th'] หรือ ['th','en']",
-      
-      "group": "faculty", 
+
+      "group": "faculty",
       "langs": ["th"],
       "default_lang": "th",
       "sheet_label": "มนุษยศาสตร์ฯ",
@@ -246,7 +305,7 @@
         ]
       }
     },
-    "options": [   
+    "options": [
       "งานห้องปฏิบัติการ (เยี่ยมชม/TA)",
       "งานด้านซ่อมบำรุง",
       "งานด้านจัดซื้อ",
@@ -255,11 +314,11 @@
       "งานโครงการต่างๆ",
       "เรื่องอื่นๆ หรือประสานงานทั่วไป"
     ]
-  },  
+  },
 
   "ASU_EC": {
     "config": {
-      "group": "faculty", 
+      "group": "faculty",
       "langs": ["th"],
       "default_lang": "th",
       "sheet_label": "เศรษฐศาสตร์ฯ",
@@ -270,11 +329,11 @@
       "providers": { "mode": "aggregate" }
     },
     "use": "COMMON_STUDENT_SERVICES"
-  },   
+  },
 
   "ASU_ITI": {
     "config": {
-      "group": "faculty", 
+      "group": "faculty",
       "langs": ["th"],
       "default_lang": "th",
       "sheet_label": "เทคโนโลยีฯ",
@@ -285,11 +344,11 @@
       "providers": { "mode": "aggregate" }
     },
     "use": "COMMON_STUDENT_SERVICES"
-  }, 
+  },
 
   "ASU_FA": {
     "config": {
-      "group": "faculty", 
+      "group": "faculty",
       "langs": ["th"],
       "default_lang": "th",
       "sheet_label": "ศิลปกรรมศาสตร์",
@@ -299,7 +358,7 @@
       },
       "providers": {
         "mode": "auto",
-        "show_provider_in_ui": "none", 
+        "show_provider_in_ui": "none",
         "label": { "th": "ผู้ให้บริการ", "en": "Service provider" },
         "aggregate_label": { "th": "ประเมินรวมทั้งหน่วยงาน", "en": "Evaluate the unit" },
         "require_on_list": true,
@@ -310,7 +369,7 @@
         ]
       }
     },
-    "options": [   
+    "options": [
       "อำนวยความสะดวกทั่วไป",
       "ติดต่อสอบถามข้อมูลของคณะ",
       "การจัดทำเอกสาร ขอออกจดหมาย และเมมโม รายงานการประชุม",
@@ -326,7 +385,7 @@
 
   "SUP_FA_Wood": {
     "config": {
-      "group": "faculty", 
+      "group": "faculty",
       "langs": ["th"],
       "default_lang": "th",
       "sheet_label": "ศิลปกรรมศาสตร์",
@@ -336,7 +395,7 @@
       },
       "providers": {
         "mode": "auto",
-        "show_provider_in_ui": "none", 
+        "show_provider_in_ui": "none",
         "label": { "th": "ผู้ให้บริการ", "en": "Service provider" },
         "aggregate_label": { "th": "ประเมินรวมทั้งหน่วยงาน", "en": "Evaluate the unit" },
         "require_on_list": true,
@@ -347,13 +406,13 @@
         ]
       }
     },
-    "options": [   
+    "options": [
       "อำนวยความสะดวกทั่วไป",
       "ยืม คืน เบิกอุปกรณ์การเรียน",
       "การบริการและดูแลความเรียบร้อย ห้องจักร และห้องเก็บอุปกรณ์",
       "การบริการและดูแล ห้องปฏิบัติการงานไม้",
       "การบริการและดูแลห้องพิมพ์และทอผ้า",
-      "การบริการและดูแลห้องปฎิบัติการวาดเส้น",            
+      "การบริการและดูแลห้องปฎิบัติการวาดเส้น",
       "การบริการและดูแล เครื่องพิมพ์ 3 มิติ  ( FAB LAB)",
       "การตรวจสภาพและแจ้งซ่อม ตรวจเช็คการเติมน้ำมันจักร มอเตอร์ เข็มและอุปกรณ์อื่นๆ",
       "การประสานงานซ่อมบำรุงจักรกับแผนกจัดซื้อ  ติดตามให้มีการซ่อมบำรุงและตรวจรับงานซ่อม",
@@ -362,11 +421,11 @@
       "งาน OPENHOUSE/ FAB PROJECT",
       "งานอื่นๆ"
     ]
-  },  
+  },
 
   "SUP_FA_Com": {
     "config": {
-      "group": "faculty", 
+      "group": "faculty",
       "langs": ["th"],
       "default_lang": "th",
       "sheet_label": "ศิลปกรรมศาสตร์",
@@ -376,7 +435,7 @@
       },
       "providers": {
         "mode": "auto",
-        "show_provider_in_ui": "none", 
+        "show_provider_in_ui": "none",
         "label": { "th": "ผู้ให้บริการ", "en": "Service provider" },
         "aggregate_label": { "th": "ประเมินรวมทั้งหน่วยงาน", "en": "Evaluate the unit" },
         "require_on_list": true,
@@ -386,7 +445,7 @@
         ]
       }
     },
-    "options": [   
+    "options": [
       "อำนวยความสะดวกทั่วไป",
       "ยืม คืน เบิกอุปกรณ์การเรียน",
       "การบริการและดูแลความเรียบร้อย ห้องจักร และห้องเก็บอุปกรณ์",
@@ -399,11 +458,11 @@
       "งาน OPENHOUSE/ FAB PROJECT",
       "งานอื่นๆ"
     ]
-  },  
+  },
 
   "SUP_FA_Photo": {
     "config": {
-      "group": "faculty", 
+      "group": "faculty",
       "langs": ["th"],
       "default_lang": "th",
       "sheet_label": "ศิลปกรรมศาสตร์",
@@ -413,7 +472,7 @@
       },
       "providers": {
         "mode": "auto",
-        "show_provider_in_ui": "none", 
+        "show_provider_in_ui": "none",
         "label": { "th": "ผู้ให้บริการ", "en": "Service provider" },
         "aggregate_label": { "th": "ประเมินรวมทั้งหน่วยงาน", "en": "Evaluate the unit" },
         "require_on_list": true,
@@ -423,7 +482,7 @@
         ]
       }
     },
-    "options": [   
+    "options": [
       "อำนวยความสะดวกทั่วไป",
       "ยืม คืน เบิกอุปกรณ์การเรียน",
       "การบริการและดูแลความเรียบร้อย ห้องปฏิบัติการภาพถ่าย และห้องเก็บอุปกรณ์",
@@ -436,11 +495,11 @@
       "งาน OPENHOUSE/ FAB PROJECT",
       "งานอื่นๆ"
     ]
-  },  
+  },
 
   "SUP_FA_fashion": {
     "config": {
-      "group": "faculty", 
+      "group": "faculty",
       "langs": ["th"],
       "default_lang": "th",
       "sheet_label": "ศิลปกรรมศาสตร์",
@@ -450,7 +509,7 @@
       },
       "providers": {
         "mode": "auto",
-        "show_provider_in_ui": "none", 
+        "show_provider_in_ui": "none",
         "label": { "th": "ผู้ให้บริการ", "en": "Service provider" },
         "aggregate_label": { "th": "ประเมินรวมทั้งหน่วยงาน", "en": "Evaluate the unit" },
         "require_on_list": true,
@@ -460,24 +519,24 @@
         ]
       }
     },
-    "options": [   
+    "options": [
       "อำนวยความสะดวกทั่วไป",
       "ยืม คืน เบิกอุปกรณ์การเรียน",
       "การบริการและดูแลความเรียบร้อย ห้องปฏิบัติการแฟชั่นและห้องเก็บอุปกรณ์",
       "การบริการและดูแล ห้องปฏิบัติการแฟชั่น",
       "การบริการและดูแลห้องทอผ้า",
-      "การบริการและดูแล  FAB LAB",      
+      "การบริการและดูแล  FAB LAB",
       "การตรวจสภาพและแจ้งซ่อม ตรวจเช็คกล้องถ่ายภาพและอุปกรณ์อื่นๆ",
       "การประสานงานซ่อมบำรุงจักรกับแผนกจัดซื้อ  ติดตามให้มีการซ่อมบำรุงและตรวจรับงานซ่อม",
       "รายงานทรัพย์สินห้องปฏิบัติการแฟชั่นและห้องเก็บอุปกรณ์",
       "งาน OPENHOUSE/ FAB PROJECT",
       "งานอื่นๆ"
     ]
-  },    
+  },
 
-    "ASU_EE1": {
+  "ASU_EE1": {
     "config": {
-      "group": "faculty", 
+      "group": "faculty",
       "langs": ["th"],
       "default_lang": "th",
       "sheet_label": "วิศวกรรมศาสตร์",
@@ -487,13 +546,13 @@
       },
       "providers": {
         "mode": "auto",
-        "show_provider_in_ui": "none", 
+        "show_provider_in_ui": "none",
         "label": { "th": "ผู้ให้บริการ", "en": "Service provider" },
         "aggregate_label": { "th": "ประเมินรวมทั้งหน่วยงาน", "en": "Evaluate the unit" },
         "require_on_list": true,
         "allow_aggregate_in_list": false,
         "people": [
-          { "code": "ee_1" }
+          { "code": "ee_1", "display_th": "วิศวกรรมศาสตร์ 1" }
         ]
       }
     },
@@ -502,7 +561,7 @@
 
   "ASU_EE2": {
     "config": {
-      "group": "faculty", 
+      "group": "faculty",
       "langs": ["th"],
       "default_lang": "th",
       "sheet_label": "วิศวกรรมศาสตร์",
@@ -512,17 +571,17 @@
       },
       "providers": {
         "mode": "auto",
-        "show_provider_in_ui": "none", 
+        "show_provider_in_ui": "none",
         "label": { "th": "ผู้ให้บริการ", "en": "Service provider" },
         "aggregate_label": { "th": "ประเมินรวมทั้งหน่วยงาน", "en": "Evaluate the unit" },
         "require_on_list": true,
         "allow_aggregate_in_list": false,
         "people": [
-          { "code": "ee_2" }
+          { "code": "ee_2", "display_th": "วิศวกรรมศาสตร์ 2" }
         ]
       }
     },
-    "options": [   
+    "options": [
       "การให้บริการยืม-คืนอุปกรณ์",
       "การให้คำปรึกษาและคำแนะนำในการใช้งานอุปกรณ์",
       "การให้การสนับสนุนที่เกี่ยวข้องกับวิชาแลปปฏิบัติการ"
@@ -531,7 +590,7 @@
 
   "ASU_BUI": {
     "config": {
-      "group": "faculty", 
+      "group": "faculty",
       "langs": ["th","en"],
       "default_lang": "en",
       "sheet_label": "วิทยาลัยนานาชาติ",
@@ -541,7 +600,7 @@
       },
       "providers": {
         "mode": "auto",
-        "show_provider_in_ui": "none", 
+        "show_provider_in_ui": "none",
         "label": { "th": "ผู้ให้บริการ", "en": "Service provider" },
         "aggregate_label": { "th": "ประเมินรวมทั้งหน่วยงาน", "en": "Evaluate the unit" },
         "require_on_list": true,
@@ -552,7 +611,7 @@
           { "code": "A69029", "display_th": "A69029 อาจารย์ปุญญพัฒน์ ระเบียบโอษฐ์", "display_en": "A69029 Punyaphat Rabieboat" },
           { "code": "A69030", "display_th": "A69030 อาจารย์ธิติยา ประเสริฐกุล", "display_en": "A69030 Thitiya Prasertkul" },
           { "code": "A69039", "display_th": "A69039 อาจารย์เตชินท์ เจริญลาภ", "display_en": "A69039 Techin Charoenlap" },
-          { "code": "A69045", "display_th": "A69045 อาจารย์จินดารัตน์ ลักษณะจินดา", "display_en": "A69045 Jindarat Laksanajinda" }        
+          { "code": "A69045", "display_th": "A69045 อาจารย์จินดารัตน์ ลักษณะจินดา", "display_en": "A69045 Jindarat Laksanajinda" }
         ]
       }
     },
@@ -561,7 +620,7 @@
 
   "ASU_ARC": {
     "config": {
-      "group": "faculty", 
+      "group": "faculty",
       "langs": ["th"],
       "default_lang": "th",
       "sheet_label": "สถาปัตยกรรมศาสตร์",
@@ -571,7 +630,7 @@
       },
       "providers": {
         "mode": "auto",
-        "show_provider_in_ui": "none", 
+        "show_provider_in_ui": "none",
         "label": { "th": "ผู้ให้บริการ", "en": "Service provider" },
         "aggregate_label": { "th": "ประเมินรวมทั้งหน่วยงาน", "en": "Evaluate the unit" },
         "require_on_list": true,
@@ -584,7 +643,7 @@
     },
     "use": "COMMON_STUDENT_SERVICES",
     "extend": {
-      "remove": [ "อื่นๆ" ], 
+      "remove": [ "อื่นๆ" ],
       "add": ["ภาระงาน การสนับสนุนงานด้านคุณภาพหลักสูตร AUN-QA EdPEx",
               "อื่นๆ"]
     }
@@ -592,7 +651,7 @@
 
   "ASU_SEM": {
     "config": {
-      "group": "faculty", 
+      "group": "faculty",
       "langs": ["th","en"],
       "default_lang": "th",
       "sheet_label": "การสร้างเจ้าของธุรกิจฯ",
@@ -602,7 +661,7 @@
       },
       "providers": {
         "mode": "auto",
-        "show_provider_in_ui": "none", 
+        "show_provider_in_ui": "none",
         "label": { "th": "ผู้ให้บริการ", "en": "Service provider" },
         "aggregate_label": { "th": "ประเมินรวมทั้งหน่วยงาน", "en": "Evaluate the unit" },
         "require_on_list": true,
@@ -618,7 +677,7 @@
 
   "ASU_DC": {
     "config": {
-      "group": "faculty", 
+      "group": "faculty",
       "langs": ["th"],
       "default_lang": "th",
       "sheet_label": "ดิจิทัลมีเดียฯ",
@@ -628,7 +687,7 @@
       },
       "providers": {
         "mode": "auto",
-        "show_provider_in_ui": "none", 
+        "show_provider_in_ui": "none",
         "label": { "th": "ผู้ให้บริการ", "en": "Service provider" },
         "aggregate_label": { "th": "ประเมินรวมทั้งหน่วยงาน", "en": "Evaluate the unit" },
         "require_on_list": true,
@@ -643,7 +702,7 @@
 
   "ASU_BUCI": {
     "config": {
-      "group": "faculty", 
+      "group": "faculty",
       "langs": ["th","en"],
       "default_lang": "th",
       "sheet_label": "วิทยาลัยนานาชาติจีน",
@@ -653,7 +712,7 @@
       },
       "providers": {
         "mode": "auto",
-        "show_provider_in_ui": "none", 
+        "show_provider_in_ui": "none",
         "label": { "th": "ผู้ให้บริการ", "en": "Service provider" },
         "aggregate_label": { "th": "ประเมินรวมทั้งหน่วยงาน", "en": "Evaluate the unit" },
         "require_on_list": true,
@@ -669,7 +728,7 @@
 
   "ASU_grad": {
     "config": {
-      "group": "faculty", 
+      "group": "faculty",
       "langs": ["th","en"],
       "default_lang": "th",
       "sheet_label": "บัณฑิตวิทยาลัย",
@@ -691,7 +750,7 @@
 
   "GE": {
     "config": {
-      "group": "support", 
+      "group": "support",
       "langs": ["th"],
       "default_lang": "th",
       "sheet_label": "GE",
@@ -706,7 +765,7 @@
 
   "clinic": {
     "config": {
-      "group": "support", 
+      "group": "support",
       "langs": ["th","en"],
       "default_lang": "th",
       "sheet_label": "ห้องพยาบาล",
@@ -716,7 +775,7 @@
       },
       "providers": { "mode": "aggregate" }
     },
-    "options": [   
+    "options": [
       { "th": "ตรวจรักษาโดยแพทย์", "en": "Consult a doctor" },
       { "th": "เบิกยาตามอาการ/เวชภัณฑ์", "en": "Receive  medication" },
       { "th": "ทำแผลและหัตการต่างๆ", "en": "Dressing  wound" },
@@ -724,11 +783,11 @@
       { "th": "วัดความดันโลหิต", "en": "Check blood pressure" },
       { "th": "การอบรม/ให้ความรู้เกี่ยวกับสุขภาพ/วัคซีน", "en": "Train/Health  teaching/Vaccine" }
     ]
-  },  
+  },
 
   "OSS": {
     "config": {
-      "group": "support", 
+      "group": "support",
       "langs": ["th"],
       "default_lang": "th",
       "sheet_label": "หน่วยบริการเบ็ดเสร็จ",
@@ -738,7 +797,7 @@
       },
       "providers": { "mode": "aggregate" }
     },
-    "options": [   
+    "options": [
       "ผ่อนผันทหาร",
       "Lost & Found (ของหาย)",
       "ลงทะเบียนไม้กั้น/เปลี่ยนข้อมูลทะเบียนยานพาหนะ",
@@ -756,7 +815,7 @@
 
   "records_office": {
     "config": {
-      "group": "support", 
+      "group": "support",
       "langs": ["th","en"],
       "default_lang": "th",
       "sheet_label": "สำนักทะเบียน",
@@ -766,7 +825,7 @@
       },
       "providers": {
         "mode": "auto",
-        "show_provider_in_ui": "none", 
+        "show_provider_in_ui": "none",
         "label": { "th": "ผู้ให้บริการ", "en": "Service provider" },
         "aggregate_label": { "th": "ประเมินรวมทั้งหน่วยงาน", "en": "Evaluate the unit" },
         "require_on_list": true,
@@ -780,18 +839,18 @@
         ]
       }
     },
-    "options": [   
+    "options": [
       { "th": "ด้านขอหลักฐานการศึกษา", "en": "Academic Record Requests and Verification" },
       { "th": "ด้านเกี่ยวกับการลงทะเบียน", "en": "Academic Enrollment and Course Registration" },
       { "th": "ด้านบริการงานทะเบียนทั่วไป", "en": "General Registrar Services" },
       { "th": "อื่นๆ", "en": "Other(s)" }
     ]
-  },  
- 
+  },
+
 
   "scholarship": {
     "config": {
-      "group": "support", 
+      "group": "support",
       "langs": ["th"],
       "default_lang": "th",
       "sheet_label": "แผนกทุนการศึกษา",
@@ -801,7 +860,7 @@
       },
       "providers": { "mode": "aggregate" }
     },
-    "options": [   
+    "options": [
       "การให้คำปรึกษาเกี่ยวกับการกู้ยืม กยศ.",
       "การประชาสัมพันธ์ข้อมูลการกู้ยืม กยศ.",
       "การให้บริการ การยื่นเอกสารการกู้ยืม กยศ.",
@@ -813,7 +872,7 @@
 
   "CC": {
     "config": {
-      "group": "support", 
+      "group": "support",
       "langs": ["th","en"],
       "default_lang": "th",
       "sheet_label": "คอนแทคเซ็นเตอร์",
@@ -823,7 +882,7 @@
       },
       "providers": {
         "mode": "auto",
-        "show_provider_in_ui": "none", 
+        "show_provider_in_ui": "none",
         "label": { "th": "ผู้ให้บริการ", "en": "Service provider" },
         "aggregate_label": { "th": "ประเมินรวมทั้งหน่วยงาน", "en": "Evaluate the unit" },
         "require_on_list": true,
@@ -837,20 +896,20 @@
         ]
       }
     },
-    "options": [   
+    "options": [
       { "th": "ข้อมูลสมัครเรียน", "en": "Enrollment Information" },
       { "th": "ข้อมูลงานทะเบียน", "en": "Registrar Information" },
       { "th": "ข้อมูลลงทะเบียนเรียน", "en": "Course Registration Information" },
       { "th": "ข้อมูลการเงิน", "en": "Finance Information" },
       { "th": "ข้อมูลทุนการศึกษา/กู้กองทุนฯ", "en": "Scholarship/ Student Loan Information" },
-      { "th": "ข้อมูลบริการและสวัสดิการนักศึกษา", "en": "Student Services and Welfare Information" },      
+      { "th": "ข้อมูลบริการและสวัสดิการนักศึกษา", "en": "Student Services and Welfare Information" },
       { "th": "อื่นๆ", "en": "Other(s)" }
     ]
   },
 
   "Work-Integ": {
     "config": {
-      "group": "support", 
+      "group": "support",
       "langs": ["th"],
       "default_lang": "th",
       "sheet_label": "เวิร์คอินเทค",
@@ -860,7 +919,7 @@
       },
       "providers": {
         "mode": "auto",
-        "show_provider_in_ui": "none", 
+        "show_provider_in_ui": "none",
         "label": { "th": "ผู้ให้บริการ", "en": "Service provider" },
         "aggregate_label": { "th": "ประเมินรวมทั้งหน่วยงาน", "en": "Evaluate the unit" },
         "require_on_list": true,
@@ -876,7 +935,7 @@
         ]
       }
     },
-    "options": [   
+    "options": [
       { "th": "การเตรียมความพร้อมการสมัครงาน/ทำงาน", "en": "การเตรียมความพร้อมการสมัครงาน/ทำงาน" },
       { "th": "การประสานงานโครงการสหกิจศึกษา", "en": "การประสานงานโครงการสหกิจศึกษา" },
       { "th": "การส่งเสริมการทำงาน Part-time/Freelance", "en": "การส่งเสริมการทำงาน Part-time/Freelance" },
@@ -888,7 +947,7 @@
 
   "InterCenter": {
     "config": {
-      "group": "support", 
+      "group": "support",
       "langs": ["en"],
       "default_lang": "en",
       "sheet_label": "ศูนย์นานาชาติ",
@@ -898,7 +957,7 @@
       },
       "providers": {
         "mode": "auto",
-        "show_provider_in_ui": "none", 
+        "show_provider_in_ui": "none",
         "label": { "th": "ผู้ให้บริการ", "en": "Service provider" },
         "aggregate_label": { "th": "ประเมินรวมทั้งหน่วยงาน", "en": "Evaluate the unit" },
         "require_on_list": true,
@@ -915,7 +974,7 @@
         ]
       }
     },
-    "options": [   
+    "options": [
       { "th": "Accidental / Health Insurance", "en": "Accidental / Health Insurance" },
       { "th": "Activities", "en": "Activities" },
       { "th": "Advising / Counceling", "en": "Advising / Counceling" },
@@ -930,7 +989,7 @@
 
   "Museum": {
     "config": {
-      "group": "support", 
+      "group": "support",
       "langs": ["th","en"],
       "default_lang": "th",
       "sheet_label": "ศูนย์บริหารศิลปวัฒนธรรม",
@@ -940,7 +999,7 @@
       },
       "providers": { "mode": "aggregate" }
     },
-    "options": [   
+    "options": [
       { "th": "งานให้บริการเข้านิทรรศการภายในพิพิธภัณฑสถานฯ", "en": "Service for visiting exhibitions within the Museum." },
       { "th": "งานบริการนำชมสำหรับผู้เยี่ยมชมสำหรับหมู่คณะ", "en": "Guided tour service for group visitors." }
     ]
@@ -948,7 +1007,7 @@
 
   "Fin": {
     "config": {
-      "group": "support", 
+      "group": "support",
       "langs": ["th"],
       "default_lang": "th",
       "sheet_label": "ฝ่ายการคลัง",
@@ -958,7 +1017,7 @@
       },
       "providers": { "mode": "aggregate" }
     },
-    "options": [   
+    "options": [
       { "th": "ชำระเงิน ค่าลงทะเบียน/ค่าโครงการ/ค่าเอกสารต่าง ๆ (Cashier)", "en": "ชำระเงิน ค่าลงทะเบียน/ค่าโครงการ/ค่าเอกสารต่าง ๆ (Cashier)" },
       { "th": "ขอใบเสร็จรับเงินและเอกสารประกอบการเบิก (Cashier)", "en": "ขอใบเสร็จรับเงินและเอกสารประกอบการเบิก (Cashier)" },
       { "th": "ขอคืนเงินค่าประกันความเสียหาย/ ค่าลงทะเบียนเรียน", "en": "ขอคืนเงินค่าประกันความเสียหาย/ ค่าลงทะเบียนเรียน" },
@@ -968,12 +1027,12 @@
       { "th": "ติดต่อสอบถามเกี่ยวกับงบประมาณ", "en": "ติดต่อสอบถามเกี่ยวกับงบประมาณ" },
       { "th": "รับเอกสารหรือ หลักฐาน (เช่น ใบเสร็จ/ หนังสือรับรองภาษี/ หลักฐานอื่นๆ)", "en": "รับเอกสารหรือ หลักฐาน (เช่น ใบเสร็จ/ หนังสือรับรองภาษี/ หลักฐานอื่นๆ)" },
       { "th": "ติดต่อสอบถามข้อมูลต่าง ๆ", "en": "ติดต่อสอบถามข้อมูลต่าง ๆ" }
-    ]  
+    ]
   },
 
   "CorpCom": {
     "config": {
-      "group": "support", 
+      "group": "support",
       "langs": ["th","en"],
       "default_lang": "th",
       "sheet_label": "สื่อสารองค์กร",
@@ -983,14 +1042,14 @@
       },
       "providers": { "mode": "aggregate" }
     },
-    "options": [   
+    "options": [
       { "th": "งานประชาสัมพันธ์", "en": "PR Service" }
     ]
   },
 
 "QA": {
     "config": {
-      "group": "support", 
+      "group": "support",
       "langs": ["th"],
       "default_lang": "th",
       "sheet_label": "สำนักมาตรฐาน",
@@ -1000,7 +1059,7 @@
       },
       "providers": {
         "mode": "auto",
-        "show_provider_in_ui": "none", 
+        "show_provider_in_ui": "none",
         "label": { "th": "ผู้ให้บริการ", "en": "Service provider" },
         "aggregate_label": { "th": "ประเมินรวมทั้งหน่วยงาน", "en": "Evaluate the unit" },
         "require_on_list": true,
@@ -1011,7 +1070,7 @@
         ]
       }
     },
-    "options": [   
+    "options": [
       "การให้ข้อมูลหรือคำแนะนำทั่วไปเกี่ยวกับงานหรือบริการของสำนักฯ",
       "การประสานงานด้านการจัดอบรม บรรยาย หรือประชุม",
       "การตอบคำถาม/ข้อสงสัยทั้งทางโทรศัพท์ อีเมล หรือที่สำนักงาน",
@@ -1022,7 +1081,7 @@
 
 "STUDEV": {
     "config": {
-      "group": "support", 
+      "group": "support",
       "langs": ["th"],
       "default_lang": "th",
       "sheet_label": "แผนก พก และ ทล",
@@ -1032,7 +1091,7 @@
       },
       "providers": {
         "mode": "auto",
-        "show_provider_in_ui": "none", 
+        "show_provider_in_ui": "none",
         "label": { "th": "ผู้ให้บริการ", "en": "Service provider" },
         "aggregate_label": { "th": "ประเมินรวมทั้งหน่วยงาน", "en": "Evaluate the unit" },
         "require_on_list": true,
@@ -1051,7 +1110,7 @@
         ]
       }
     },
-    "options": [   
+    "options": [
       "ขอจัดโครงการ/กิจกรรม",
       "ขอใช้สถานที่",
       "เบิก-ยืมอุปกรณ์",
@@ -1063,7 +1122,7 @@
 "SportsF": {
     "config": {
       "hasServices": false,
-      "group": "support", 
+      "group": "support",
       "langs": ["th","en"],
       "default_lang": "th",
       "sheet_label": "บริการสนามกีฬาและอุปกรณ์",
@@ -1073,7 +1132,7 @@
       },
       "providers": {
         "mode": "auto",
-        "show_provider_in_ui": "none", 
+        "show_provider_in_ui": "none",
         "label": { "th": "ผู้ให้บริการ", "en": "Service provider" },
         "aggregate_label": { "th": "ประเมินรวมทั้งหน่วยงาน", "en": "Evaluate the unit" },
         "require_on_list": true,
@@ -1094,11 +1153,11 @@
           { "code": "TableTennis_F", "display_th": "สนามเทเบิลเทนนิส", "display_en": "Table Tennis Room" },
           { "code": "SepakTakraw_F", "display_th": "สนามตะกร้อ", "display_en": "Sepak Takraw Court" },
           { "code": "Petanque_F", "display_th": "สนามเปตอง", "display_en": "Petanque Court" },
-          { "code": "Fitness_F", "display_th": "ห้องฟิตเนส", "display_en": "Fitness Room" }          
+          { "code": "Fitness_F", "display_th": "ห้องฟิตเนส", "display_en": "Fitness Room" }
         ]
       }
     },
-    "options": [   
+    "options": [
 
     ]
   },
@@ -1106,7 +1165,7 @@
 "SportsE": {
     "config": {
       "hasServices": false,
-      "group": "support", 
+      "group": "support",
       "langs": ["th","en"],
       "default_lang": "th",
       "sheet_label": "บริการสนามกีฬาและอุปกรณ์",
@@ -1116,7 +1175,7 @@
       },
       "providers": {
         "mode": "auto",
-        "show_provider_in_ui": "none", 
+        "show_provider_in_ui": "none",
         "label": { "th": "ผู้ให้บริการ", "en": "Service provider" },
         "aggregate_label": { "th": "ประเมินรวมทั้งหน่วยงาน", "en": "Evaluate the unit" },
         "require_on_list": true,
@@ -1128,18 +1187,18 @@
           { "code": "Football_E", "display_th": "ลูกฟุตบอล", "display_en": "Football" },
           { "code": "SepakTakraw_E", "display_th": "ลูกตะกร้อ", "display_en": "Sepak Takraw Ball" },
           { "code": "Petanque_E", "display_th": "ลูกเปตอง", "display_en": "Petanque Balls" },
-          { "code": "TableTennis_E", "display_th": "ไม้และลูกเทเบิลเทนนิส", "display_en": "Table Tennis Rackets and Balls" }          
+          { "code": "TableTennis_E", "display_th": "ไม้และลูกเทเบิลเทนนิส", "display_en": "Table Tennis Rackets and Balls" }
         ]
       }
     },
-    "options": [   
+    "options": [
 
     ]
-  },  
+  },
 
 "Purchase": {
     "config": {
-      "group": "support", 
+      "group": "support",
       "langs": ["th"],
       "default_lang": "th",
       "sheet_label": "แผนกจัดซื้อ",
@@ -1149,7 +1208,7 @@
       },
       "providers": {
         "mode": "auto",
-        "show_provider_in_ui": "none", 
+        "show_provider_in_ui": "none",
         "label": { "th": "ผู้ให้บริการ", "en": "Service provider" },
         "aggregate_label": { "th": "ประเมินรวมทั้งหน่วยงาน", "en": "Evaluate the unit" },
         "require_on_list": true,
@@ -1171,7 +1230,7 @@
         ]
       }
     },
-    "options": [   
+    "options": [
       "สืบค้นราคาวัสดุ/อุปกรณ์(สำหรับทำงบประมาณ)",
       "จัดซื้อวัสดุ/อุปกรณ์ งานปรับปรุงก่อสร้าง",
       "จัดซื้อวัสดุ/อุปกรณ์ สำหรับการเรียนการสอน/ปฏิบัติงาน",
@@ -1182,7 +1241,7 @@
 
 "Supply": {
     "config": {
-      "group": "support", 
+      "group": "support",
       "langs": ["th"],
       "default_lang": "th",
       "sheet_label": "แผนกพัสดุ",
@@ -1192,7 +1251,7 @@
       },
       "providers": {
         "mode": "auto",
-        "show_provider_in_ui": "none", 
+        "show_provider_in_ui": "none",
         "label": { "th": "ผู้ให้บริการ", "en": "Service provider" },
         "aggregate_label": { "th": "ประเมินรวมทั้งหน่วยงาน", "en": "Evaluate the unit" },
         "require_on_list": true,
@@ -1213,14 +1272,13 @@
         ]
       }
     },
-    "options": [   
+    "options": [
       "งานบริการเบิกวัสดุสำรอง/น้ำมัน",
       "งานบริการเบิก/ยืม/คืนทรัพย์สินและกุญแจ",
       "งานบริการด้านการให้ข้อมูลวัสดุ และทรัพย์สิน",
       "ส่งสินค้า/วางบิล/งานซื้อขาย",
       "อื่นๆ"
     ]
-  }    
+  }
 
 }
-
