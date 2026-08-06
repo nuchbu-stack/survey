@@ -94,7 +94,7 @@
         "require_on_list": true,
         "allow_aggregate_in_list": false,
         "people": [
-          { "code": "LI_1", "display_th": "สถาบันภาษา 1", "display_en": "Language Institute 1"  }
+          { "code": "LI_1", "display_th": "การสอบถามเกี่ยวกับรายวิชา EN", "display_en": "Language Institute 1"  }
         ]
       }
     },
@@ -119,7 +119,7 @@
         "require_on_list": true,
         "allow_aggregate_in_list": false,
         "people": [
-          { "code": "LI_2", "display_th": "สถาบันภาษา 2", "display_en": "Language Institute 2"  }
+          { "code": "LI_2", "display_th": "การสอบถามเรื่องโปรแกรม Speexx และการบริการของห้องปฏิบัติการทางภาษา ", "display_en": "Language Institute 2"  }
         ]
       }
     },
