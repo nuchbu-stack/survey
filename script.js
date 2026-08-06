@@ -94,6 +94,7 @@ const I18N = {
     faculty_label: "คณะที่นักศึกษาสังกัด",
     faculty_placeholder: "-- กรุณาเลือกคณะ --",
     faculty_error: "กรุณาเลือกคณะและหลักสูตรที่เรียน",
+    loading_label: "กำลังโหลดรายชื่อคณะ...",
 
     q0_label: "เรื่องที่รับบริการ",
     q0_placeholder: "-- กรุณาเลือก --",
@@ -146,6 +147,7 @@ const I18N = {
     faculty_label: "Student's Faculty",
     faculty_placeholder: "-- Please select your faculty --",
     faculty_error: "Please select your faculty and program of study.",
+    loading_label: "Loading faculty list...",
 
     q0_label: "Service Category",
     q0_placeholder: "-- Please select --",
@@ -369,6 +371,13 @@ function renderStudentInfo(cfg) {
       // ดรอปดาวน์หลักสูตรยังไม่โชว์จนกว่าจะเลือกคณะก่อน (populateFacultyProgramOptions จะเป็นคนโชว์/ซ่อนเอง)
       studentFacultyProgramSelect.innerHTML = "";
       studentFacultyProgramSelect.classList.add("hidden");
+
+      // ถ้ายังไม่มีข้อมูลคณะ cache ไว้เลย (ครั้งแรกที่ยังโหลดไม่เสร็จ) ใส่ข้อความ "กำลังโหลด..." ไว้ก่อน
+      // กันไม่ให้ dropdown ดูว่างเปล่า/ค้าง — ถ้าเคยโหลดมาแล้ว (สลับภาษา/รีเรนเดอร์ซ้ำ) จะข้ามส่วนนี้ไปเลย
+      if (!PROGRAMS_CACHE.faculties || !PROGRAMS_CACHE.faculties.length) {
+        studentFacultySelect.innerHTML =
+          `<option value="" disabled selected>${I18N[CURRENT_LANG].loading_label}</option>`;
+      }
 
       fetchProgramsData().then(d => {
         PROGRAMS_CACHE = d;
@@ -779,6 +788,12 @@ async function loadServices() {
   // แล้วค่อยเปิดกลับตอนจบฟังก์ชันนี้ (ทั้งกรณีสำเร็จและ error)
   const submitBtnEl = document.getElementById("submitBtn");
   if (submitBtnEl) submitBtnEl.disabled = true;
+
+  // ยิงคำขอลิสต์คณะ/หลักสูตรไปตั้งแต่ต้นเลย (ไม่รอจนกว่าจะรู้ว่าหน่วยนี้ใช้โหมด faculty_program จริงมั้ย)
+  // เพราะ Apps Script (Web App) มัก cold start ช้า ยิ่งเริ่มคำขอเร็วเท่าไหร่ พอถึงตอนที่ต้องโชว์ dropdown
+  // คณะจริงๆ ก็ยิ่งมีโอกาสที่ผลจะกลับมาแล้วหรือใกล้เสร็จ ลดเวลาที่ผู้ตอบต้องรอ (ถ้าหน่วยนี้ไม่ได้ใช้โหมดนี้
+  // ก็แค่เสียคำขอไปเปล่าๆ ไม่กระทบอะไร เพราะ fetchProgramsData() cache ผลไว้ในตัวอยู่แล้ว)
+  fetchProgramsData();
 
   // ดึงค่า override รายหน่วยจากแท็บ UnitsConfig "แบบไม่บล็อกการโหลดหลัก" — ยิงคำขอไปพร้อมกัน
   // แต่ไม่ await ตรงนี้ เพราะ Apps Script (Web App) มักมี cold start ช้ากว่า static JSON บน GitHub Pages
