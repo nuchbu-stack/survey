@@ -775,20 +775,27 @@ function initLangForDept(cfg) {
 
 
 async function loadServices() {
+  // กันคนกดส่งฟอร์มได้ก่อนที่ข้อมูล (q0Options.json + config) จะโหลดเสร็จ — ปิดปุ่มส่งไว้ก่อน
+  // แล้วค่อยเปิดกลับตอนจบฟังก์ชันนี้ (ทั้งกรณีสำเร็จและ error)
+  const submitBtnEl = document.getElementById("submitBtn");
+  if (submitBtnEl) submitBtnEl.disabled = true;
+
+  // ดึงค่า override รายหน่วยจากแท็บ UnitsConfig "แบบไม่บล็อกการโหลดหลัก" — ยิงคำขอไปพร้อมกัน
+  // แต่ไม่ await ตรงนี้ เพราะ Apps Script (Web App) มักมี cold start ช้ากว่า static JSON บน GitHub Pages
+  // มาก (บางทีหลายวินาที) ถ้าไปรวมไว้ใน Promise.all แล้ว await พร้อมกัน ฟอร์มทั้งหน้าจะค้างรอ endpoint
+  // นี้อยู่เฉยๆ ทั้งที่ค่า override เป็นแค่ตัวเสริม ไม่ใช่ข้อมูลที่ต้องมีก่อนแสดงฟอร์มได้
+  const configPromise = fetch(CONFIG_URL).then(r => r.json()).catch(() => ({}));
+
   try {
     q0.disabled = true;
-    q0.innerHTML = `<option disabled selected>${I18N[CURRENT_LANG].q0_placeholder}</option>`;
+    // ⚠️ ต้องใส่ value="" ให้ตัวเลือก placeholder เสมอ ไม่งั้น browser จะเอาข้อความ label
+    // ("-- กรุณาเลือก --") มาเป็น q0.value แทน (เพราะ <option> ที่ไม่มี value attribute
+    // จะถือว่า value = ข้อความในตัวเอง) ทำให้ผ่านเช็ค required ตอน submit ทั้งที่ยังไม่ได้เลือกอะไรจริง
+    q0.innerHTML = `<option value="" disabled selected>${I18N[CURRENT_LANG].q0_placeholder}</option>`;
 
-    // โหลด q0Options.json (static, แก้ไม่บ่อย) พร้อมกับค่า override รายหน่วยจากแท็บ UnitsConfig
-    // (admin ตั้งค่าผ่าน Google Sheet แทนการแก้ JSON ตรงๆ) — ถ้า config fetch พังหรือยังไม่ได้ตั้งค่าไว้
-    // ก็ไม่กระทบฟอร์ม จะ fallback เป็น "ไม่มี override" เฉยๆ
-    const [res, cfgRes] = await Promise.all([
-      fetch(JSON_URL + "?v=" + Date.now()),
-      fetch(CONFIG_URL).catch(() => null)
-    ]);
+    // โหลด q0Options.json — ไฟล์นี้เท่านั้นที่จำเป็นก่อนแสดงฟอร์ม (static, อยู่บน GitHub Pages, โหลดเร็ว)
+    const res = await fetch(JSON_URL + "?v=" + Date.now());
     const data = await res.json();
-    const liveCfgData = cfgRes ? await cfgRes.json().catch(() => ({})) : {};
-    const unitOverride = (liveCfgData?.units && liveCfgData.units[DEPARTMENT]) || {};
 
     // ปิดทั้งระบบชั่วคราว (System.enabled = false) — เช็คก่อนอย่างอื่นทั้งหมด
     const sys = data?.System || {};
@@ -801,9 +808,8 @@ async function loadServices() {
     // ค่า default ของฟิลด์รหัสนักศึกษา/หลักสูตร (ใช้กับหน่วยที่ไม่ได้ตั้ง config.studentInfo เอง)
     DEFAULT_STUDENT_INFO = data?.Defaults?.studentInfo || null;
 
-    // QUser: เปิด/ปิดตาม Features.UserType (ถ้า UnitsConfig ตั้ง ShowUserType ไว้ ให้ใช้ค่านั้นแทน)
+    // QUser: เปิด/ปิดตาม Features.UserType (ค่า override จาก UnitsConfig จะมาทีหลังแบบ async ด้านล่าง)
     let hasUserType = !!data?.Features?.UserType?.includes(DEPARTMENT);
-    if (unitOverride.showUserType !== undefined) hasUserType = unitOverride.showUserType;
     qUserSection?.classList.toggle("hidden", !hasUserType);
     if (!hasUserType) document.getElementById("qUserError")?.classList.add("hidden");
 
@@ -818,11 +824,6 @@ async function loadServices() {
     // รองรับโครงเก่า (array options ตรงๆ)
     if (Array.isArray(conf)) conf = { config: { hasServices: true }, options: conf };
     const cfg = conf.config || {};
-
-    // ใส่ override จาก UnitsConfig ทับ (เฉพาะ field ที่ admin ตั้งค่าไว้จริง ไม่งั้นใช้ค่าจาก JSON เดิม)
-    if (unitOverride.enabled !== undefined) cfg.enabled = unitOverride.enabled;
-    if (unitOverride.studentInfo !== undefined) cfg.studentInfo = unitOverride.studentInfo;
-    if (unitOverride.maintenanceMessage !== undefined) cfg.maintenanceMessage = unitOverride.maintenanceMessage;
 
     // ปิดเฉพาะหน่วยงานนี้ (config.enabled = false) — เผื่อหน่วยเดียวอยากปิดตอนสรุปผล/พักฟอร์ม
     if (cfg.enabled === false) {
@@ -935,6 +936,27 @@ async function loadServices() {
       q0.disabled = false;
       q0Section?.classList.remove("hidden");
     }
+
+    // ค่า override จาก UnitsConfig (ยิงไปตั้งแต่ต้นฟังก์ชันแบบไม่บล็อก) มาถึงตอนไหนก็ค่อยเอามาใช้ตอนนั้น
+    // ฟอร์มแสดงผลจาก q0Options.json ไปก่อนแล้ว ถ้ามี override จริงค่อยปรับ UI ทับอีกที (มักไวมากจนไม่ทันสังเกต
+    // แต่ถ้า Apps Script cold start ช้า ก็จะไม่ไปทำให้ทั้งฟอร์มค้างรอ)
+    configPromise.then(liveCfgData => {
+      const unitOverride = (liveCfgData?.units && liveCfgData.units[DEPARTMENT]) || {};
+      if (!Object.keys(unitOverride).length) return; // ไม่มี override อะไรเลย ไม่ต้องทำอะไรต่อ
+
+      if (unitOverride.showUserType !== undefined) {
+        qUserSection?.classList.toggle("hidden", !unitOverride.showUserType);
+        if (!unitOverride.showUserType) document.getElementById("qUserError")?.classList.add("hidden");
+      }
+      if (unitOverride.enabled === false) {
+        showMaintenance(unitOverride.maintenanceMessage || cfg.maintenanceMessage || sys.message);
+        return;
+      }
+      if (unitOverride.studentInfo !== undefined) {
+        cfg.studentInfo = unitOverride.studentInfo;
+        renderStudentInfo(cfg);
+      }
+    });
   } catch (err) {
     console.error("โหลด q0Options.json ไม่ได้", err);
     q0Section?.classList.add("hidden");
@@ -942,6 +964,10 @@ async function loadServices() {
     q0.value = "--";
     q0Other.value = "";
     q0Other.classList.add("hidden");
+  } finally {
+    // เปิดปุ่มส่งกลับคืนเสมอไม่ว่าจะจบทางไหน (สำเร็จ/error/return กลางทางเช่นโหมดปิดปรับปรุง)
+    // ถ้าเป็นโหมดปิดปรับปรุงอยู่แล้วฟอร์มทั้งหมดจะถูกซ่อนอยู่ดี ปุ่มเปิดหรือปิดจึงไม่กระทบอะไร
+    if (submitBtnEl) submitBtnEl.disabled = false;
   }
 }
 
