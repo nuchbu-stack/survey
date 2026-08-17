@@ -200,8 +200,8 @@
         "require_on_list": true,
         "allow_aggregate_in_list": false,
         "people": [
-          { "code": "ca_1" },
-          { "code": "ca_2" }
+          { "code": "ca_1", "display_th": "คณะนิเทศศาสตร์"  },
+          { "code": "ca_2", "display_th": "ศูนย์ผลิตสื่อนิเทศศาสตร์"  }
         ]
       }
     },
