@@ -1023,10 +1023,10 @@
         "require_on_list": true,
         "allow_aggregate_in_list": false,
         "people": [
-          { "code": "การเงิน_1", "display_th": "การเงิน_1", "display_en": "การเงิน_1" },
-          { "code": "การเงิน_2", "display_th": "การเงิน_2", "display_en": "การเงิน_2" },
-          { "code": "การเงิน_3", "display_th": "การเงิน_3", "display_en": "การเงิน_3" },
-          { "code": "การเงิน_4", "display_th": "การเงิน_4", "display_en": "การเงิน_4" }
+          { "code": "Fin_1", "display_th": "การเงิน_1", "display_en": "การเงิน_1" },
+          { "code": "Fin_2", "display_th": "การเงิน_2", "display_en": "การเงิน_2" },
+          { "code": "Fin_3", "display_th": "การเงิน_3", "display_en": "การเงิน_3" },
+          { "code": "Fin_4", "display_th": "การเงิน_4", "display_en": "การเงิน_4" }
         ]
       }
     },
