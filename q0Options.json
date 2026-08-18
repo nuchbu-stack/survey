@@ -1008,7 +1008,7 @@
   "Fin": {
     "config": {
       "group": "support",
-      "langs": ["th"],
+      "langs": ["th","en"],
       "default_lang": "th",
       "sheet_label": "ฝ่ายการคลัง",
       "display_title": {
@@ -1023,18 +1023,18 @@
         "require_on_list": true,
         "allow_aggregate_in_list": false,
         "people": [
-          { "code": "Fin_1", "display_th": "การเงิน_1", "display_en": "การเงิน_1" },
-          { "code": "Fin_2", "display_th": "การเงิน_2", "display_en": "การเงิน_2" },
-          { "code": "Fin_3", "display_th": "การเงิน_3", "display_en": "การเงิน_3" },
-          { "code": "Fin_4", "display_th": "การเงิน_4", "display_en": "การเงิน_4" }
+          { "code": "Cashier_1", "display_th": "Cashier 1", "display_en": "Cashier 1" },
+          { "code": "Cashier_2", "display_th": "Cashier 2", "display_en": "Cashier 2" },
+          { "code": "Cashier_3", "display_th": "Cashier 3", "display_en": "Cashier 3" },
+          { "code": "Cashier_4", "display_th": "Cashier 4", "display_en": "Cashier 4" }
         ]
       }
     },
     "options": [
-      { "th": "ชำระเงิน ค่าลงทะเบียน/ค่าโครงการ/ค่าเอกสารต่าง ๆ (Cashier)", "en": "ชำระเงิน ค่าลงทะเบียน/ค่าโครงการ/ค่าเอกสารต่าง ๆ (Cashier)" },
-      { "th": "ขอใบเสร็จรับเงินและเอกสารประกอบการเบิกค่าเล่าเรียน (Cashier)", "en": "ขอใบเสร็จรับเงินและเอกสารประกอบการเบิกค่าเล่าเรียน (Cashier)" },
-      { "th": "ขอคืนเงินค่าประกันความเสียหาย/ ค่าลงทะเบียนเรียน", "en": "ขอคืนเงินค่าประกันความเสียหาย/ ค่าลงทะเบียนเรียน" },
-      { "th": "อื่นๆ", "en": "อื่นๆ" }
+      { "th": "ชำระเงิน", "en": "Payment" },
+      { "th": "ขอเอกสารประกอบการเบิกค่าเล่าเรียน", "en": "Request for Supporting Documents for Tuition Fee Reimbursement" },
+      { "th": "ขอคืนเงินต่าง ๆ", "en": "Refunds" },
+      { "th": "อื่นๆ", "en": "Other(s)" }
     ]
   },
 
