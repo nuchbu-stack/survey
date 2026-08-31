@@ -96,12 +96,12 @@ const I18N = {
     faculty_placeholder: "-- กรุณาเลือกคณะ --",
     faculty_error: "กรุณาเลือกคณะและหลักสูตรที่เรียน",
     loading_label: "กำลังโหลดรายชื่อคณะ...",
-    year_label: "ชั้นปี",
-    year_1: "ปี 1",
-    year_2: "ปี 2",
-    year_3: "ปี 3",
-    year_4: "ปี 4",
-    year_5: "ปี 5 / นอกรุ่น",
+    year_label: "ชั้นปี:",
+    year_1: "1",
+    year_2: "2",
+    year_3: "3",
+    year_4: "4",
+    year_5: "5 / นอกรุ่น",
 
     q0_label: "เรื่องที่รับบริการ",
     q0_placeholder: "-- กรุณาเลือก --",
@@ -155,12 +155,12 @@ const I18N = {
     faculty_placeholder: "-- Please select your faculty --",
     faculty_error: "Please select your faculty and program of study.",
     loading_label: "Loading faculty list...",
-    year_label: "Year",
-    year_1: "Year 1",
-    year_2: "Year 2",
-    year_3: "Year 3",
-    year_4: "Year 4",
-    year_5: "Year 5 / Other",
+    year_label: "Year:",
+    year_1: "1",
+    year_2: "2",
+    year_3: "3",
+    year_4: "4",
+    year_5: "5 / Other",
 
     q0_label: "Service Category",
     q0_placeholder: "-- Please select --",
@@ -337,8 +337,7 @@ function updateStudentInfoVisibility() {
 function updateStudentYearVisibility() {
   const sectionVisible = !!(studentInfoSection && !studentInfoSection.classList.contains("hidden"));
   const shouldShowYear = sectionVisible && SHOW_STUDENT_YEAR;
-  document.getElementById("studentYearLabel")?.classList.toggle("hidden", !shouldShowYear);
-  document.getElementById("studentYearGroup")?.classList.toggle("hidden", !shouldShowYear);
+  document.getElementById("studentYearRow")?.classList.toggle("hidden", !shouldShowYear);
 }
 
 function renderStudentInfo(cfg) {
