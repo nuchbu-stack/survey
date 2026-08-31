@@ -95,6 +95,12 @@ const I18N = {
     faculty_placeholder: "-- กรุณาเลือกคณะ --",
     faculty_error: "กรุณาเลือกคณะและหลักสูตรที่เรียน",
     loading_label: "กำลังโหลดรายชื่อคณะ...",
+    year_label: "ชั้นปีที่กำลังศึกษา (ถ้าทราบ)",
+    year_1: "ปี 1",
+    year_2: "ปี 2",
+    year_3: "ปี 3",
+    year_4: "ปี 4",
+    year_5: "ปี 5 / นอกรุ่น",
 
     q0_label: "เรื่องที่รับบริการ",
     q0_placeholder: "-- กรุณาเลือก --",
@@ -148,6 +154,12 @@ const I18N = {
     faculty_placeholder: "-- Please select your faculty --",
     faculty_error: "Please select your faculty and program of study.",
     loading_label: "Loading faculty list...",
+    year_label: "Year of study (if known)",
+    year_1: "Year 1",
+    year_2: "Year 2",
+    year_3: "Year 3",
+    year_4: "Year 4",
+    year_5: "Year 5 / Other",
 
     q0_label: "Service Category",
     q0_placeholder: "-- Please select --",
@@ -428,7 +440,9 @@ function populateFacultyProgramOptions(facultyValue, keepSelected) {
   matched.forEach(p => {
     const label = pickLabel(p.label, CURRENT_LANG) || p.value;
     if (!label) return;
-    opts += `<option value="${String(p.value).replace(/"/g, '&quot;')}">${label}</option>`;
+    // ใส่ ProgramCode เป็น "ชื่อเล่น" นำหน้าชื่อเต็ม เช่น "[MK] สาขาวิชาการตลาด" — ช่วยให้กวาดหาในลิสต์ยาวๆ ได้ไวขึ้น
+    const codePrefix = p.code ? `[${String(p.code).trim()}] ` : "";
+    opts += `<option value="${String(p.value).replace(/"/g, '&quot;')}">${codePrefix}${label}</option>`;
   });
 
   studentFacultyProgramSelect.innerHTML = opts;
@@ -1161,6 +1175,11 @@ form.addEventListener("submit", async (e) => {
     document.getElementById("studentInfoError")?.classList.add("hidden");
   }
 
+  // ชั้นปีที่กำลังศึกษา — ไม่บังคับเลือก (ผู้ตอบข้ามได้) แสดงคู่กับ studentInfoSection เสมอไม่ว่าโหมดไหน
+  const finalStudentYear = isStudentInfoVisible
+    ? (document.querySelector('input[name="studentYear"]:checked')?.value || "")
+    : "";
+
   // Q0
   let finalQ0 = "--";
   if (!q0Section.classList.contains("hidden")) {
@@ -1233,6 +1252,7 @@ form.addEventListener("submit", async (e) => {
     studentId:       finalStudentId,
     studentProgram:  finalStudentProgram,
     studentFaculty:  finalStudentFaculty,
+    studentYear:     finalStudentYear,
 
     q0: finalQ0,
     q1: q1Value,
@@ -1296,6 +1316,7 @@ form.addEventListener("submit", async (e) => {
   if (studentProgramSelect) studentProgramSelect.value = "";
   if (studentFacultySelect) studentFacultySelect.value = "";
   if (studentFacultyProgramSelect) studentFacultyProgramSelect.value = "";
+  document.querySelectorAll('input[name="studentYear"]').forEach(r => (r.checked = false));
   document.getElementById("studentInfoError")?.classList.add("hidden");
   updateStudentInfoVisibility(); // จะซ่อนกลับเพราะไม่มี qUser ถูกเลือกแล้ว
 
@@ -1327,6 +1348,21 @@ function applyLang(lang) {
     ["qUser_staff_text","qUser_staff"],
     ["qUser_parent_text","qUser_parent"],
     ["qUser_external_text","qUser_external"],
+  ].forEach(([id,key])=>{
+    const el = document.getElementById(id);
+    if (el) el.textContent = t[key];
+  });
+
+  // ===== ชั้นปีที่กำลังศึกษา =====
+  document.getElementById("studentYearLabel")
+    ?.replaceChildren(document.createTextNode(t.year_label));
+
+  [
+    ["studentYear_1_text","year_1"],
+    ["studentYear_2_text","year_2"],
+    ["studentYear_3_text","year_3"],
+    ["studentYear_4_text","year_4"],
+    ["studentYear_5_text","year_5"],
   ].forEach(([id,key])=>{
     const el = document.getElementById(id);
     if (el) el.textContent = t[key];
