@@ -49,7 +49,8 @@ let GROUP                = ""; // กลุ่มหน่วยงาน (facul
 // ตัวแปรเกี่ยวกับฟิลด์ "รหัสนักศึกษา / หลักสูตร" (ตั้งค่าต่อหน่วยงานผ่าน config.studentInfo)
 let STUDENT_INFO_MODE = "off";  // "id" | "program" | "off"
 let STUDENT_INFO_CFG  = null;   // config.studentInfo ดิบของหน่วยงานนั้น
-let SHOW_STUDENT_YEAR = true;   // ตั้งค่าปิด/เปิดฟิลด์ "ชั้นปี" ต่อหน่วยงานได้ผ่านชีท UnitsConfig คอลัมน์ ShowStudentYear (ว่าง/ไม่ตั้งค่า = แสดง)
+let SHOW_STUDENT_YEAR = true;   // ค่าที่ใช้จริง ณ ขณะนี้ (คำนวณจากโหมด หรือถูก override จากชีท UnitsConfig)
+let STUDENT_YEAR_OVERRIDE = undefined; // ค่าที่ admin ตั้งไว้ในชีท UnitsConfig คอลัมน์ ShowStudentYear (undefined = ไม่ได้ตั้ง ใช้ค่า default ตามโหมดแทน)
 let DEFAULT_STUDENT_INFO = null; // data.Defaults.studentInfo — ใช้เมื่อหน่วยงานไม่ได้ตั้งค่า config.studentInfo ของตัวเองไว้
 let PROGRAMS_DATA_PROMISE = null; // cache: fetch แค่ครั้งเดียวต่อการโหลดหน้า แม้จะสลับภาษา/เรียก renderStudentInfo หลายรอบ
 let PROGRAMS_CACHE = { faculties: [], programs: [] }; // ผลลัพธ์ล่าสุดจาก fetchProgramsData() ใช้กรองหลักสูตรตามคณะที่เลือก
@@ -102,6 +103,7 @@ const I18N = {
     year_3: "3",
     year_4: "4",
     year_5: "5 / นอกรุ่น",
+    year_error: "กรุณาเลือกชั้นปี",
 
     q0_label: "เรื่องที่รับบริการ",
     q0_placeholder: "-- กรุณาเลือก --",
@@ -161,6 +163,7 @@ const I18N = {
     year_3: "3",
     year_4: "4",
     year_5: "5 / Other",
+    year_error: "Please select your year of study.",
 
     q0_label: "Service Category",
     q0_placeholder: "-- Please select --",
@@ -308,6 +311,7 @@ function updateErrorTexts() {
   setErrorText("studentInfoError",
     STUDENT_INFO_MODE === "faculty_program" ? "faculty_error" :
     STUDENT_INFO_MODE === "program" ? "program_error" : "studentId_error");
+  setErrorText("studentYearError", "year_error");
 }
 
 /********************
@@ -346,6 +350,12 @@ function renderStudentInfo(cfg) {
   const si = (cfg && cfg.studentInfo !== undefined) ? cfg.studentInfo : DEFAULT_STUDENT_INFO;
   STUDENT_INFO_MODE = si && si.mode ? String(si.mode).toLowerCase() : "off";
   STUDENT_INFO_CFG = si;
+
+  // ชั้นปี: ค่า default ผูกกับโหมด — โหมด id ดึงชั้นปี/คณะ/สาขาย้อนหลังจากรหัสนักศึกษาได้ทีหลัง จึงไม่ต้องถามซ้ำ
+  // ส่วนโหมด faculty_program/program ไม่มีรหัสนักศึกษาให้ตามข้อมูลย้อนหลัง จึงต้องถามชั้นปีตรงๆ (และบังคับเลือก)
+  // ถ้า admin ตั้งค่า ShowStudentYear ไว้ในชีท UnitsConfig เอง (TRUE/FALSE) ค่านั้นชนะค่า default นี้เสมอ
+  const defaultShowYear = (STUDENT_INFO_MODE === "faculty_program" || STUDENT_INFO_MODE === "program");
+  SHOW_STUDENT_YEAR = (typeof STUDENT_YEAR_OVERRIDE === "boolean") ? STUDENT_YEAR_OVERRIDE : defaultShowYear;
 
   const labelEl = document.getElementById("studentInfoLabel");
   studentIdInput?.classList.add("hidden");
@@ -997,7 +1007,8 @@ async function loadServices() {
         renderStudentInfo(cfg);
       }
       if (unitOverride.showStudentYear !== undefined) {
-        SHOW_STUDENT_YEAR = unitOverride.showStudentYear;
+        STUDENT_YEAR_OVERRIDE = unitOverride.showStudentYear; // จำไว้ กันโดนค่า default ตามโหมดทับตอน re-render ครั้งถัดไป (เช่นสลับภาษา)
+        SHOW_STUDENT_YEAR = STUDENT_YEAR_OVERRIDE;
         updateStudentYearVisibility();
       }
     });
@@ -1190,10 +1201,23 @@ form.addEventListener("submit", async (e) => {
     document.getElementById("studentInfoError")?.classList.add("hidden");
   }
 
-  // ชั้นปีที่กำลังศึกษา — ไม่บังคับเลือก (ผู้ตอบข้ามได้) แสดงคู่กับ studentInfoSection เสมอไม่ว่าโหมดไหน
-  const finalStudentYear = isStudentInfoVisible
-    ? (document.querySelector('input[name="studentYear"]:checked')?.value || "")
-    : "";
+  // ชั้นปีที่กำลังศึกษา — บังคับเลือกเฉพาะตอนที่ฟิลด์นี้แสดงอยู่จริง (SHOW_STUDENT_YEAR: default ผูกกับโหมด
+  // faculty_program/program เพราะไม่มีรหัสนักศึกษาให้ตามข้อมูลย้อนหลังทีหลัง, โหมด id ไม่บังคับเพราะดึงย้อนหลังได้)
+  let finalStudentYear = "";
+  const isStudentYearVisible = isStudentInfoVisible && SHOW_STUDENT_YEAR;
+  if (isStudentYearVisible) {
+    const yearChecked = document.querySelector('input[name="studentYear"]:checked');
+    if (!yearChecked) {
+      setErrorText("studentYearError", "year_error");
+      document.getElementById("studentYearError")?.classList.remove("hidden");
+      valid = false;
+    } else {
+      finalStudentYear = yearChecked.value;
+      document.getElementById("studentYearError")?.classList.add("hidden");
+    }
+  } else {
+    document.getElementById("studentYearError")?.classList.add("hidden");
+  }
 
   // Q0
   let finalQ0 = "--";
@@ -1332,6 +1356,7 @@ form.addEventListener("submit", async (e) => {
   if (studentFacultySelect) studentFacultySelect.value = "";
   if (studentFacultyProgramSelect) studentFacultyProgramSelect.value = "";
   document.querySelectorAll('input[name="studentYear"]').forEach(r => (r.checked = false));
+  document.getElementById("studentYearError")?.classList.add("hidden");
   document.getElementById("studentInfoError")?.classList.add("hidden");
   updateStudentInfoVisibility(); // จะซ่อนกลับเพราะไม่มี qUser ถูกเลือกแล้ว
 
