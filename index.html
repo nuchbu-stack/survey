@@ -201,6 +201,8 @@
     </div>
   </div>
 
-  <script src="script.js"></script>
+  <!-- กันเบราว์เซอร์/GitHub Pages CDN แคช script.js เก่าค้างไว้ (ต่างจาก q0Options.json ที่มี ?v=... กันแคชอยู่แล้วในโค้ด)
+       ทำให้ทุกครั้งที่แก้ไข deploy ใหม่ ผู้ใช้จะได้โค้ดล่าสุดเสมอโดยไม่ต้องกด Ctrl+Shift+R เอง -->
+  <script>document.write('<scr' + 'ipt src="script.js?v=' + Date.now() + '"></scr' + 'ipt>');</script>
 </body>
 </html>
