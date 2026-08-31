@@ -49,6 +49,7 @@ let GROUP                = ""; // กลุ่มหน่วยงาน (facul
 // ตัวแปรเกี่ยวกับฟิลด์ "รหัสนักศึกษา / หลักสูตร" (ตั้งค่าต่อหน่วยงานผ่าน config.studentInfo)
 let STUDENT_INFO_MODE = "off";  // "id" | "program" | "off"
 let STUDENT_INFO_CFG  = null;   // config.studentInfo ดิบของหน่วยงานนั้น
+let SHOW_STUDENT_YEAR = true;   // ตั้งค่าปิด/เปิดฟิลด์ "ชั้นปี" ต่อหน่วยงานได้ผ่านชีท UnitsConfig คอลัมน์ ShowStudentYear (ว่าง/ไม่ตั้งค่า = แสดง)
 let DEFAULT_STUDENT_INFO = null; // data.Defaults.studentInfo — ใช้เมื่อหน่วยงานไม่ได้ตั้งค่า config.studentInfo ของตัวเองไว้
 let PROGRAMS_DATA_PROMISE = null; // cache: fetch แค่ครั้งเดียวต่อการโหลดหน้า แม้จะสลับภาษา/เรียก renderStudentInfo หลายรอบ
 let PROGRAMS_CACHE = { faculties: [], programs: [] }; // ผลลัพธ์ล่าสุดจาก fetchProgramsData() ใช้กรองหลักสูตรตามคณะที่เลือก
@@ -95,7 +96,7 @@ const I18N = {
     faculty_placeholder: "-- กรุณาเลือกคณะ --",
     faculty_error: "กรุณาเลือกคณะและหลักสูตรที่เรียน",
     loading_label: "กำลังโหลดรายชื่อคณะ...",
-    year_label: "ชั้นปีที่กำลังศึกษา (ถ้าทราบ)",
+    year_label: "ชั้นปี",
     year_1: "ปี 1",
     year_2: "ปี 2",
     year_3: "ปี 3",
@@ -154,7 +155,7 @@ const I18N = {
     faculty_placeholder: "-- Please select your faculty --",
     faculty_error: "Please select your faculty and program of study.",
     loading_label: "Loading faculty list...",
-    year_label: "Year of study (if known)",
+    year_label: "Year",
     year_1: "Year 1",
     year_2: "Year 2",
     year_3: "Year 3",
@@ -327,6 +328,17 @@ function updateStudentInfoVisibility() {
   if (!shouldShow) {
     document.getElementById("studentInfoError")?.classList.add("hidden");
   }
+  updateStudentYearVisibility();
+}
+
+// เปิด/ปิดเฉพาะบล็อก "ชั้นปี" ตาม SHOW_STUDENT_YEAR (ตั้งค่าได้ต่อหน่วยงานผ่านชีท UnitsConfig)
+// ทำงานแยกจาก updateStudentInfoVisibility() เพราะ studentInfoSection อาจโชว์อยู่ (มีโหมด id/program/faculty_program)
+// แต่หน่วยนั้นไม่อยากถามชั้นปีก็ได้ — ถ้า studentInfoSection ทั้งก้อนถูกซ่อนอยู่แล้ว (ไม่ใช่นักศึกษา/mode off) ก็ไม่ต้องโชว์อยู่ดี
+function updateStudentYearVisibility() {
+  const sectionVisible = !!(studentInfoSection && !studentInfoSection.classList.contains("hidden"));
+  const shouldShowYear = sectionVisible && SHOW_STUDENT_YEAR;
+  document.getElementById("studentYearLabel")?.classList.toggle("hidden", !shouldShowYear);
+  document.getElementById("studentYearGroup")?.classList.toggle("hidden", !shouldShowYear);
 }
 
 function renderStudentInfo(cfg) {
@@ -984,6 +996,10 @@ async function loadServices() {
       if (unitOverride.studentInfo !== undefined) {
         cfg.studentInfo = unitOverride.studentInfo;
         renderStudentInfo(cfg);
+      }
+      if (unitOverride.showStudentYear !== undefined) {
+        SHOW_STUDENT_YEAR = unitOverride.showStudentYear;
+        updateStudentYearVisibility();
       }
     });
   } catch (err) {

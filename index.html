@@ -84,25 +84,25 @@
 
       <!-- ชั้นปีที่กำลังศึกษา (ไม่บังคับเลือก) — แสดงคู่กับฟิลด์ข้อมูลนักศึกษาเสมอ ไม่ว่าหน่วยนั้นจะใช้โหมดไหน (id/program/faculty_program)
            เพราะซ้อนอยู่ใน studentInfoSection เดียวกัน จึงโชว์/ซ่อนตาม updateStudentInfoVisibility() อัตโนมัติ ไม่ต้องเขียน JS เพิ่ม -->
-      <label class="label" id="studentYearLabel" style="margin-top:12px;">ชั้นปีที่กำลังศึกษา (ถ้าทราบ)</label>
-      <div id="studentYearGroup" class="radio-group">
-        <label class="choice-card" for="studentYear_1">
+      <label class="label" id="studentYearLabel" style="margin-top:12px;">ชั้นปี</label>
+      <div id="studentYearGroup" class="radio-group" style="display:flex; flex-wrap:nowrap; flex-direction:row; align-items:center; gap:14px; overflow-x:auto;">
+        <label class="choice-card" for="studentYear_1" style="white-space:nowrap;">
           <input type="radio" id="studentYear_1" name="studentYear" value="ปี 1" />
           <span id="studentYear_1_text">ปี 1</span>
         </label>
-        <label class="choice-card" for="studentYear_2">
+        <label class="choice-card" for="studentYear_2" style="white-space:nowrap;">
           <input type="radio" id="studentYear_2" name="studentYear" value="ปี 2" />
           <span id="studentYear_2_text">ปี 2</span>
         </label>
-        <label class="choice-card" for="studentYear_3">
+        <label class="choice-card" for="studentYear_3" style="white-space:nowrap;">
           <input type="radio" id="studentYear_3" name="studentYear" value="ปี 3" />
           <span id="studentYear_3_text">ปี 3</span>
         </label>
-        <label class="choice-card" for="studentYear_4">
+        <label class="choice-card" for="studentYear_4" style="white-space:nowrap;">
           <input type="radio" id="studentYear_4" name="studentYear" value="ปี 4" />
           <span id="studentYear_4_text">ปี 4</span>
         </label>
-        <label class="choice-card" for="studentYear_5">
+        <label class="choice-card" for="studentYear_5" style="white-space:nowrap;">
           <input type="radio" id="studentYear_5" name="studentYear" value="ปี 5 / นอกรุ่น" />
           <span id="studentYear_5_text">ปี 5 / นอกรุ่น</span>
         </label>
