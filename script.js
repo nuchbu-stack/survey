@@ -341,7 +341,10 @@ function updateStudentInfoVisibility() {
 function updateStudentYearVisibility() {
   const sectionVisible = !!(studentInfoSection && !studentInfoSection.classList.contains("hidden"));
   const shouldShowYear = sectionVisible && SHOW_STUDENT_YEAR;
-  document.getElementById("studentYearRow")?.classList.toggle("hidden", !shouldShowYear);
+  // ตั้ง display ตรงๆ แทนการ toggle class "hidden" เพราะ #studentYearRow มี inline style="display:flex"
+  // อยู่แล้ว (ไว้จัด layout บรรทัดเดียว) ซึ่ง specificity สูงกว่า class .hidden ทำให้ class เพียวๆ เอาไม่อยู่
+  const row = document.getElementById("studentYearRow");
+  if (row) row.style.display = shouldShowYear ? "flex" : "none";
 }
 
 function renderStudentInfo(cfg) {
