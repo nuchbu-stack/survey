@@ -1,22 +1,56 @@
 {
   "Features": {
-    "_comment": "รายชื่อ <unitKey> ที่ต้องแสดงคำถาม 'ผู้รับบริการคือ' (QUser). ถ้าไม่อยู่ในลิสต์จะซ่อน QUser อัตโนมัติ.",
-
-    "UserType": ["ASU_LI1","ASU_LI2","ASU_AC","ASU_BA","ASU_CA","ASU_LA","ASU_HM","SUP_HM","ASU_EC",
-                 "ASU_ITI","ASU_FA","SUP_FA_Wood","SUP_FA_Com","SUP_FA_fashion","SUP_FA_Photo","ASU_EE1","ASU_EE2","ASU_BUI",
-                 "ASU_ARC","ASU_SEM","ASU_DC","ASU_BUCI","ASU_grad","GE",
-                 "clinic","records_office","CC","Work-Integ","InterCenter","Fin","CorpCom","QA",
-                 "STUDEV","Supply","Purchase","SportsF","SportsE"],
-
+    "_comment": "รายชื่อ <unitKey> ที่ต้องแสดงคำถาม 'ผู้รับบริการคือ' (QUser). ถ้าไม่อยู่ในลิสต์จะซ่อน QUser อัตโนมัติ. ใส่ครบทุกหน่วยงานแล้ว (แสดงทุกหน่วย) เพราะ list นี้เช็คจาก q0Options.json (static, โหลดเร็ว) โดยตรง ไม่ต้องรอ endpoint UnitsConfig ของ Apps Script ที่ cold start ช้า — ถ้าเดิมหน่วยไหนเคยเปิดผ่าน UnitsConfig sheet (ShowUserType=TRUE) ค่านั้นตอนนี้ซ้ำซ้อนแล้ว เอาออกจากชีทได้เลยหรือจะเก็บไว้เฉยๆ ก็ไม่กระทบ (ไม่มีผลอะไรเพิ่มเพราะเปิดจาก .json อยู่แล้ว)",
+    "UserType": [
+      "ASU_LI1",
+      "ASU_LI2",
+      "ASU_AC",
+      "ASU_BA",
+      "ASU_CA",
+      "ASU_LA",
+      "ASU_HM",
+      "SUP_HM",
+      "ASU_EC",
+      "ASU_ITI",
+      "ASU_FA",
+      "SUP_FA_Wood",
+      "SUP_FA_Com",
+      "SUP_FA_fashion",
+      "SUP_FA_Photo",
+      "ASU_EE1",
+      "ASU_EE2",
+      "ASU_BUI",
+      "ASU_ARC",
+      "ASU_SEM",
+      "ASU_DC",
+      "ASU_BUCI",
+      "ASU_grad",
+      "GE",
+      "clinic",
+      "OSS",
+      "records_office",
+      "scholarship",
+      "CC",
+      "Work-Integ",
+      "InterCenter",
+      "Museum",
+      "Fin",
+      "CorpCom",
+      "QA",
+      "STUDEV",
+      "SportsF",
+      "SportsE",
+      "Purchase",
+      "Supply"
+    ],
     "_comment_studentInfo": "ใหม่: ฟิลด์ 'รหัสนักศึกษา / หลักสูตร' ที่จะโชว์ต่อเมื่อ (1) หน่วยนั้นอยู่ใน UserType ด้านบน และ (2) ผู้ตอบเลือก 'นักศึกษา'. ตั้งค่าที่ config.studentInfo ของแต่ละหน่วยงานด้านล่าง (ไม่ใช่ list ตรงนี้ เพราะแต่ละหน่วยต้องเลือก mode ต่างกันได้). ถ้าหน่วยไหนไม่ใส่ config.studentInfo เลย จะใช้ค่าจาก Defaults.studentInfo แทน (ตอนนี้คือ mode:'id' ให้ทุกหน่วยกรอกรหัสนักศึกษา) — ถ้าหน่วยไหนอยากได้โหมดอื่น หรือไม่อยากมีฟิลด์นี้เลย ให้ใส่ config.studentInfo ของหน่วยนั้นทับ (เช่น mode:'off') เท่านั้นพอ ไม่ต้องแก้ทุกหน่วย.",
     "_studentInfo_modes": {
-      "id":      "ให้กรอกรหัสนักศึกษาเป็นข้อความ ตรวจสอบเบื้องต้นด้วย regex (idPattern) — ยังไม่ได้ตรวจกับฐานข้อมูลนักศึกษาจริง รอแหล่งข้อมูลยืนยันจากสำนักทะเบียนก่อน",
+      "id": "ให้กรอกรหัสนักศึกษาเป็นข้อความ ตรวจสอบเบื้องต้นด้วย regex (idPattern) — ยังไม่ได้ตรวจกับฐานข้อมูลนักศึกษาจริง รอแหล่งข้อมูลยืนยันจากสำนักทะเบียนก่อน",
       "program": "ให้เลือกหลักสูตร/สาขาที่เรียนจาก dropdown ตาม config.studentInfo.programs ของหน่วยนั้น (ลิสต์ตายตัวในไฟล์นี้ เหมาะกับหน่วยที่รับเฉพาะนักศึกษาคณะเดียว)",
       "faculty_program": "ให้เลือก 'คณะที่สังกัด' ก่อน แล้วกรองหลักสูตรตามคณะที่เลือก โดยลิสต์คณะ/หลักสูตรอ่านสดจากแท็บ Programs ในชีท (ผ่าน doGet?action=programs) เหมาะกับหน่วยที่ให้บริการนักศึกษาข้ามคณะ",
-      "off":     "ไม่แสดงฟิลด์นี้ (ค่าเริ่มต้นถ้าไม่ระบุ และไม่มี Defaults.studentInfo)"
+      "off": "ไม่แสดงฟิลด์นี้ (ค่าเริ่มต้นถ้าไม่ระบุ และไม่มี Defaults.studentInfo)"
     }
   },
-
   "System": {
     "_comment": "สวิตช์เปิด/ปิดฟอร์มทั้งระบบ (เผื่อปิดตอนอัปเดตเว็บ หรือปิดตอนสรุปผลประจำภาค). enabled:false = ทุกหน่วยงานเห็นข้อความปิดปรับปรุงแทนฟอร์ม ไม่ต้องเปลี่ยน URL หรือ redeploy ใดๆ แค่แก้ค่านี้แล้ว refresh หน้าเว็บ",
     "enabled": true,
@@ -25,21 +59,19 @@
       "en": "The system is temporarily closed for maintenance. We apologize for the inconvenience — please check back later."
     }
   },
-
   "Defaults": {
-    "_comment": "ค่า default ที่ใช้กับทุกหน่วยงานที่ไม่ได้ตั้งค่า config.studentInfo ของตัวเองไว้ (ลดงานแก้ JSON ทีละหน่วย). ถ้าหน่วยไหนต้องการโหมดอื่น หรือไม่ต้องการฟิลด์นี้เลย ให้ใส่ config.studentInfo ของหน่วยนั้นทับค่านี้ได้เสมอ (เช่น {\"mode\":\"off\"} หรือ {\"mode\":\"program\", ...}).",
+    "_comment": "ค่า default ที่ใช้กับทุกหน่วยงานที่ไม่ได้ตั้งค่า config.studentInfo ของตัวเองไว้ (ลดงานแก้ JSON ทีละหน่วย). ถ้าหน่วยไหนต้องการโหมดอื่น หรือไม่ต้องการฟิลด์นี้เลย ให้ใส่ config.studentInfo ของหน่วยนั้นทับค่านี้ได้เสมอ (เช่น {\"mode\":\"off\"} หรือ {\"mode\":\"program\", ...}). เปลี่ยนเป็น faculty_program ทุกหน่วยงานแล้ว (แทน API ศคพ สำหรับข้อมูลคณะ/สาขาไปเลย ไม่ต้องรอ Task #8) — ลิสต์คณะ/หลักสูตรอ่านสดจากแท็บ Programs",
     "studentInfo": {
-      "mode": "id",
-      "label": { "th": "รหัสนักศึกษา", "en": "Student ID" },
-      "idPattern": "^[0-9]{10}$",
-      "idPatternHint": { "th": "กรอกรหัสนักศึกษา (ตัวเลข 10 หลัก)", "en": "Enter student ID (10 digits)" }
+      "mode": "faculty_program",
+      "label": {
+        "th": "คณะที่นักศึกษาสังกัด",
+        "en": "Student's Faculty"
+      }
     }
   },
-
   "Templates": {
     "_comment": "แม่แบบตัวเลือก 'เรื่องที่รับบริการ (Q0)' ที่หน่วยอื่นสามารถอ้างอิงด้วย 'use' หรือ 'extend'.",
     "_notes": "ข้อแนะนำ: ใช้รูปแบบ { th, en } หากต้องการแสดงผลสองภาษา; ถ้าระบุเป็นสตริงธรรมดา ระบบจะแสดงเป็นไทยทั้งสองภาษา (แต่จะบันทึกเป็นไทยเสมออยู่แล้ว).",
-
     "COMMON_STUDENT_SERVICES": [
       {
         "th": "สอบถามเรื่องเรียน การลงทะเบียน กิจกรรม ขอเอกสารจากคณะ",
@@ -66,7 +98,6 @@
         "en": "Other(s)"
       }
     ],
-
     "COMMON_ADMIN_SERVICES": [
       "งานด้านซ่อมบำรุง",
       "งานด้านจัดซื้อ",
@@ -75,11 +106,12 @@
       "เรื่องอื่นๆ หรือประสานงานทั่วไป"
     ]
   },
-
   "ASU_LI1": {
     "config": {
       "group": "faculty",
-      "langs": ["th"],
+      "langs": [
+        "th"
+      ],
       "default_lang": "th",
       "sheet_label": "สถาบันภาษา_1",
       "display_title": {
@@ -89,22 +121,33 @@
       "providers": {
         "mode": "auto",
         "show_provider_in_ui": "none",
-        "label": { "th": "ผู้ให้บริการ", "en": "Service provider" },
-        "aggregate_label": { "th": "ประเมินรวมทั้งหน่วยงาน", "en": "Evaluate the unit" },
+        "label": {
+          "th": "ผู้ให้บริการ",
+          "en": "Service provider"
+        },
+        "aggregate_label": {
+          "th": "ประเมินรวมทั้งหน่วยงาน",
+          "en": "Evaluate the unit"
+        },
         "require_on_list": true,
         "allow_aggregate_in_list": false,
         "people": [
-          { "code": "LI_1", "display_th": "การสอบถามเกี่ยวกับรายวิชา EN", "display_en": "Language Institute 1"  }
+          {
+            "code": "LI_1",
+            "display_th": "การสอบถามเกี่ยวกับรายวิชา EN",
+            "display_en": "Language Institute 1"
+          }
         ]
       }
     },
     "use": "COMMON_STUDENT_SERVICES"
   },
-
   "ASU_LI2": {
     "config": {
       "group": "faculty",
-      "langs": ["th"],
+      "langs": [
+        "th"
+      ],
       "default_lang": "th",
       "sheet_label": "สถาบันภาษา_2",
       "display_title": {
@@ -114,12 +157,22 @@
       "providers": {
         "mode": "auto",
         "show_provider_in_ui": "none",
-        "label": { "th": "ผู้ให้บริการ", "en": "Service provider" },
-        "aggregate_label": { "th": "ประเมินรวมทั้งหน่วยงาน", "en": "Evaluate the unit" },
+        "label": {
+          "th": "ผู้ให้บริการ",
+          "en": "Service provider"
+        },
+        "aggregate_label": {
+          "th": "ประเมินรวมทั้งหน่วยงาน",
+          "en": "Evaluate the unit"
+        },
         "require_on_list": true,
         "allow_aggregate_in_list": false,
         "people": [
-          { "code": "LI_2", "display_th": "การสอบถามเรื่องโปรแกรม Speexx และการบริการของห้องปฏิบัติการทางภาษา ", "display_en": "Language Institute 2"  }
+          {
+            "code": "LI_2",
+            "display_th": "การสอบถามเรื่องโปรแกรม Speexx และการบริการของห้องปฏิบัติการทางภาษา ",
+            "display_en": "Language Institute 2"
+          }
         ]
       }
     },
@@ -128,26 +181,30 @@
       "การอธิบายการสอบวัดระดับ"
     ]
   },
-
   "ASU_AC": {
     "config": {
       "group": "faculty",
-      "langs": ["th"],
+      "langs": [
+        "th"
+      ],
       "default_lang": "th",
       "sheet_label": "บัญชี",
       "display_title": {
         "th": "คณะบัญชี",
         "en": "School of Accounting"
       },
-      "providers": { "mode": "aggregate" }
+      "providers": {
+        "mode": "aggregate"
+      }
     },
     "use": "COMMON_STUDENT_SERVICES"
   },
-
   "ASU_BA": {
     "config": {
       "group": "faculty",
-      "langs": ["th"],
+      "langs": [
+        "th"
+      ],
       "default_lang": "th",
       "sheet_label": "บริหารธุรกิจ",
       "display_title": {
@@ -157,35 +214,47 @@
       "providers": {
         "_comment": "โหมดผู้ให้บริการ: 'aggregate' = รวมหน่วย; 'auto' = URL รายบุคคล → ลิสต์ให้เลือก (ถ้ามี people) → รวมหน่วย",
         "_notes": "require_on_list: true = ถ้ามีลิสต์ต้องเลือก; allow_aggregate_in_list: true = แสดงตัวเลือก 'ประเมินรวมทั้งหน่วยงาน' รวมในลิสต์ด้วย",
-
         "mode": "auto",
         "show_provider_in_ui": "none",
-        "label": { "th": "ผู้ให้บริการ", "en": "Service provider" },
-        "aggregate_label": { "th": "ประเมินรวมทั้งหน่วยงาน", "en": "Evaluate the unit" },
+        "label": {
+          "th": "ผู้ให้บริการ",
+          "en": "Service provider"
+        },
+        "aggregate_label": {
+          "th": "ประเมินรวมทั้งหน่วยงาน",
+          "en": "Evaluate the unit"
+        },
         "require_on_list": true,
         "allow_aggregate_in_list": false,
         "people": [
-          { "code": "A38129", "display_th": "A38129 อ.วงษ์ทอง วิมลภักดิ์" },
-          { "code": "A52095", "display_th": "A52095 อ.มณีรัตน์ จันทร์กระจ่าง" },
-          { "code": "A56123", "display_th": "A56123 อ.เปรมกมล เชวงชินวงศ์" },
-          { "code": "A57161", "display_th": "A57161 อ.พรสวรรค์ อิ้ววังโส" }
+          {
+            "code": "A38129",
+            "display_th": "A38129 อ.วงษ์ทอง วิมลภักดิ์"
+          },
+          {
+            "code": "A52095",
+            "display_th": "A52095 อ.มณีรัตน์ จันทร์กระจ่าง"
+          },
+          {
+            "code": "A56123",
+            "display_th": "A56123 อ.เปรมกมล เชวงชินวงศ์"
+          },
+          {
+            "code": "A57161",
+            "display_th": "A57161 อ.พรสวรรค์ อิ้ววังโส"
+          }
         ]
       },
-      "studentInfo": {
-        "_comment": "ตัวอย่าง mode:'id' — ให้กรอกรหัสนักศึกษาเป็นข้อความ",
-        "mode": "id",
-        "label": { "th": "รหัสนักศึกษา", "en": "Student ID" },
-        "idPattern": "^[0-9]{10}$",
-        "idPatternHint": { "th": "กรอกเฉพาะตัวเลข 10 หลัก", "en": "Digits only, 10 characters" }
-      }
+      "_note_studentInfo": "เอา override mode:'id' เดิมออกแล้ว หน่วยนี้จึงใช้ faculty_program ตาม Defaults ด้านบนแทน — ถ้าอยากกลับไปใช้โหมดกรอกรหัสนักศึกษาแบบเดิม ใส่ studentInfo:{mode:'id',...} กลับมาแทนคีย์นี้ได้เลย"
     },
     "use": "COMMON_STUDENT_SERVICES"
   },
-
   "ASU_CA": {
     "config": {
       "group": "faculty",
-      "langs": ["th"],
+      "langs": [
+        "th"
+      ],
       "default_lang": "th",
       "sheet_label": "นิเทศศาสตร์",
       "display_title": {
@@ -195,23 +264,36 @@
       "providers": {
         "mode": "auto",
         "show_provider_in_ui": "none",
-        "label": { "th": "ผู้ให้บริการ", "en": "Service provider" },
-        "aggregate_label": { "th": "ประเมินรวมทั้งหน่วยงาน", "en": "Evaluate the unit" },
+        "label": {
+          "th": "ผู้ให้บริการ",
+          "en": "Service provider"
+        },
+        "aggregate_label": {
+          "th": "ประเมินรวมทั้งหน่วยงาน",
+          "en": "Evaluate the unit"
+        },
         "require_on_list": true,
         "allow_aggregate_in_list": false,
         "people": [
-          { "code": "ca_1", "display_th": "คณะนิเทศศาสตร์"  },
-          { "code": "ca_2", "display_th": "ศูนย์ผลิตสื่อนิเทศศาสตร์"  }
+          {
+            "code": "ca_1",
+            "display_th": "คณะนิเทศศาสตร์"
+          },
+          {
+            "code": "ca_2",
+            "display_th": "ศูนย์ผลิตสื่อนิเทศศาสตร์"
+          }
         ]
       }
     },
     "use": "COMMON_STUDENT_SERVICES"
   },
-
   "ASU_LA": {
     "config": {
       "group": "faculty",
-      "langs": ["th"],
+      "langs": [
+        "th"
+      ],
       "default_lang": "th",
       "sheet_label": "นิติศาสตร์",
       "display_title": {
@@ -221,25 +303,37 @@
       "providers": {
         "mode": "auto",
         "show_provider_in_ui": "none",
-        "label": { "th": "ผู้ให้บริการ", "en": "Service provider" },
-        "aggregate_label": { "th": "ประเมินรวมทั้งหน่วยงาน", "en": "Evaluate the unit" },
+        "label": {
+          "th": "ผู้ให้บริการ",
+          "en": "Service provider"
+        },
+        "aggregate_label": {
+          "th": "ประเมินรวมทั้งหน่วยงาน",
+          "en": "Evaluate the unit"
+        },
         "require_on_list": true,
         "allow_aggregate_in_list": false,
         "people": [
-          { "code": "A58021", "display_th": "A58021 ลิลรดา รักวงษ์ฤทธิ์" },
-          { "code": "A66105", "display_th": "A66105 กรรณิการ์ บุญราช" }
+          {
+            "code": "A58021",
+            "display_th": "A58021 ลิลรดา รักวงษ์ฤทธิ์"
+          },
+          {
+            "code": "A66105",
+            "display_th": "A66105 กรรณิการ์ บุญราช"
+          }
         ]
       }
     },
     "use": "COMMON_STUDENT_SERVICES"
   },
-
   "ASU_HM": {
     "config": {
       "_note": "langs ภาษาที่หน่วยรองรับ ['th'] หรือ ['th','en']",
-
       "group": "faculty",
-      "langs": ["th"],
+      "langs": [
+        "th"
+      ],
       "default_lang": "th",
       "sheet_label": "มนุษยศาสตร์ฯ",
       "display_title": {
@@ -249,27 +343,47 @@
       "providers": {
         "_comment": "โหมดผู้ให้บริการ: 'aggregate' = รวมหน่วย; 'auto' = URL รายบุคคล → ลิสต์ให้เลือก (ถ้ามี people) → รวมหน่วย",
         "_notes": "require_on_list: true = ถ้ามีลิสต์ต้องเลือก; allow_aggregate_in_list: true = แสดงตัวเลือก 'ประเมินรวมทั้งหน่วยงาน' รวมในลิสต์ด้วย",
-
         "mode": "auto",
-        "label": { "th": "ผู้ให้บริการ", "en": "Service provider" },
-        "aggregate_label": { "th": "ประเมินรวมทั้งหน่วยงาน", "en": "Evaluate the unit" },
+        "label": {
+          "th": "ผู้ให้บริการ",
+          "en": "Service provider"
+        },
+        "aggregate_label": {
+          "th": "ประเมินรวมทั้งหน่วยงาน",
+          "en": "Evaluate the unit"
+        },
         "require_on_list": true,
         "allow_aggregate_in_list": false,
         "people": [
-          { "code": "A39089", "display_th": "A39089 สุภาพร กรองกรุด" },
-          { "code": "C53014", "display_th": "C53014 กอบแก้ว มูลมณี" },
-          { "code": "A67025", "display_th": "A67025 ปวีณา พันธุ์ทอง" },
-          { "code": "A56006", "display_th": "A56006 ชนิดา สุทธิวงศ์", "display_en": "A56006 Chanida Sutthiwong" }
+          {
+            "code": "A39089",
+            "display_th": "A39089 สุภาพร กรองกรุด"
+          },
+          {
+            "code": "C53014",
+            "display_th": "C53014 กอบแก้ว มูลมณี"
+          },
+          {
+            "code": "A67025",
+            "display_th": "A67025 ปวีณา พันธุ์ทอง"
+          },
+          {
+            "code": "A56006",
+            "display_th": "A56006 ชนิดา สุทธิวงศ์",
+            "display_en": "A56006 Chanida Sutthiwong"
+          }
         ]
       },
       "studentInfo": {
         "_comment": "mode:'faculty_program' — หน่วยนี้ให้บริการนักศึกษาข้ามคณะ จึงให้เลือก 'คณะที่สังกัด' ก่อน แล้วกรองหลักสูตรตามคณะ ลิสต์คณะ/หลักสูตรอ่านสดจากแท็บ Programs ในชีท (ผ่าน Apps Script doGet?action=programs) ไม่ได้ตายตัวในไฟล์นี้ — แก้/เพิ่ม/ลดหลักสูตรได้จากแท็บ Programs โดยตรง",
         "mode": "faculty_program",
-        "label": { "th": "คณะที่นักศึกษาสังกัด", "en": "Student's Faculty" }
+        "label": {
+          "th": "คณะที่นักศึกษาสังกัด",
+          "en": "Student's Faculty"
+        }
       }
     },
     "_note": "extend { 'use': 'ชื่อแม่แบบ', 'add': [...], 'remove': ['ข้อความไทยที่จะตัด'] }",
-
     "options": [
       "งานบริการนักศึกษา (งานทะเบียน/ ตารางเรียน /ข้อมูลวิชา/ ข้อมูลอาจารย์)",
       "งานข่าวสาร ข้อมูลต่างๆ (หลักสูตร/คณะ/กิจกรรม)",
@@ -278,13 +392,13 @@
       "เรื่องอื่นๆ หรือประสานงานทั่วไป"
     ]
   },
-
   "SUP_HM": {
     "config": {
       "_note": "langs ภาษาที่หน่วยรองรับ ['th'] หรือ ['th','en']",
-
       "group": "faculty",
-      "langs": ["th"],
+      "langs": [
+        "th"
+      ],
       "default_lang": "th",
       "sheet_label": "มนุษยศาสตร์ฯ",
       "display_title": {
@@ -293,15 +407,33 @@
       },
       "providers": {
         "mode": "auto",
-        "label": { "th": "ผู้ให้บริการ", "en": "Service provider" },
-        "aggregate_label": { "th": "ประเมินรวมทั้งหน่วยงาน", "en": "Evaluate the unit" },
+        "label": {
+          "th": "ผู้ให้บริการ",
+          "en": "Service provider"
+        },
+        "aggregate_label": {
+          "th": "ประเมินรวมทั้งหน่วยงาน",
+          "en": "Evaluate the unit"
+        },
         "require_on_list": true,
         "allow_aggregate_in_list": false,
         "people": [
-          { "code": "A67015", "display_th": "A67015 อมรเดช วรณะ" },
-          { "code": "C56001", "display_th": "C56001 สุเทพ พรรณประภาส" },
-          { "code": "C56002", "display_th": "C56002 อานนท์ แสงเทียน" },
-          { "code": "C56005", "display_th": "C56005 ธวัชชัย อิ่มพันธ์" }
+          {
+            "code": "A67015",
+            "display_th": "A67015 อมรเดช วรณะ"
+          },
+          {
+            "code": "C56001",
+            "display_th": "C56001 สุเทพ พรรณประภาส"
+          },
+          {
+            "code": "C56002",
+            "display_th": "C56002 อานนท์ แสงเทียน"
+          },
+          {
+            "code": "C56005",
+            "display_th": "C56005 ธวัชชัย อิ่มพันธ์"
+          }
         ]
       }
     },
@@ -315,41 +447,48 @@
       "เรื่องอื่นๆ หรือประสานงานทั่วไป"
     ]
   },
-
   "ASU_EC": {
     "config": {
       "group": "faculty",
-      "langs": ["th"],
+      "langs": [
+        "th"
+      ],
       "default_lang": "th",
       "sheet_label": "เศรษฐศาสตร์ฯ",
       "display_title": {
         "th": "คณะเศรษฐศาสตร์และการลงทุน",
         "en": "School of Economics and Investment"
       },
-      "providers": { "mode": "aggregate" }
+      "providers": {
+        "mode": "aggregate"
+      }
     },
     "use": "COMMON_STUDENT_SERVICES"
   },
-
   "ASU_ITI": {
     "config": {
       "group": "faculty",
-      "langs": ["th"],
+      "langs": [
+        "th"
+      ],
       "default_lang": "th",
       "sheet_label": "เทคโนโลยีฯ",
       "display_title": {
         "th": "คณะเทคโนโลยีสารสนเทศและนวัตกรรม",
         "en": "School of Information Technology and Innovation"
       },
-      "providers": { "mode": "aggregate" }
+      "providers": {
+        "mode": "aggregate"
+      }
     },
     "use": "COMMON_STUDENT_SERVICES"
   },
-
   "ASU_FA": {
     "config": {
       "group": "faculty",
-      "langs": ["th"],
+      "langs": [
+        "th"
+      ],
       "default_lang": "th",
       "sheet_label": "ศิลปกรรมศาสตร์",
       "display_title": {
@@ -359,13 +498,25 @@
       "providers": {
         "mode": "auto",
         "show_provider_in_ui": "none",
-        "label": { "th": "ผู้ให้บริการ", "en": "Service provider" },
-        "aggregate_label": { "th": "ประเมินรวมทั้งหน่วยงาน", "en": "Evaluate the unit" },
+        "label": {
+          "th": "ผู้ให้บริการ",
+          "en": "Service provider"
+        },
+        "aggregate_label": {
+          "th": "ประเมินรวมทั้งหน่วยงาน",
+          "en": "Evaluate the unit"
+        },
         "require_on_list": true,
         "allow_aggregate_in_list": false,
         "people": [
-          { "code": "A59069", "display_th": "A59069 ณัฐภัสสรฐ์ น้ำทิพย์" },
-          { "code": "C40016", "display_th": "C40016 อุไรวรรณ เนินผัน" }
+          {
+            "code": "A59069",
+            "display_th": "A59069 ณัฐภัสสรฐ์ น้ำทิพย์"
+          },
+          {
+            "code": "C40016",
+            "display_th": "C40016 อุไรวรรณ เนินผัน"
+          }
         ]
       }
     },
@@ -382,11 +533,12 @@
       "งานอื่นๆ"
     ]
   },
-
   "SUP_FA_Wood": {
     "config": {
       "group": "faculty",
-      "langs": ["th"],
+      "langs": [
+        "th"
+      ],
       "default_lang": "th",
       "sheet_label": "ศิลปกรรมศาสตร์",
       "display_title": {
@@ -396,13 +548,25 @@
       "providers": {
         "mode": "auto",
         "show_provider_in_ui": "none",
-        "label": { "th": "ผู้ให้บริการ", "en": "Service provider" },
-        "aggregate_label": { "th": "ประเมินรวมทั้งหน่วยงาน", "en": "Evaluate the unit" },
+        "label": {
+          "th": "ผู้ให้บริการ",
+          "en": "Service provider"
+        },
+        "aggregate_label": {
+          "th": "ประเมินรวมทั้งหน่วยงาน",
+          "en": "Evaluate the unit"
+        },
         "require_on_list": true,
         "allow_aggregate_in_list": false,
         "people": [
-          { "code": "C43009", "display_th": "C43009 ธนภัทร เสาะแสวง" },
-          { "code": "C67003", "display_th": "C67003 เอกวัฒน์ เพ็งอินทร์" }
+          {
+            "code": "C43009",
+            "display_th": "C43009 ธนภัทร เสาะแสวง"
+          },
+          {
+            "code": "C67003",
+            "display_th": "C67003 เอกวัฒน์ เพ็งอินทร์"
+          }
         ]
       }
     },
@@ -422,11 +586,12 @@
       "งานอื่นๆ"
     ]
   },
-
   "SUP_FA_Com": {
     "config": {
       "group": "faculty",
-      "langs": ["th"],
+      "langs": [
+        "th"
+      ],
       "default_lang": "th",
       "sheet_label": "ศิลปกรรมศาสตร์",
       "display_title": {
@@ -436,12 +601,21 @@
       "providers": {
         "mode": "auto",
         "show_provider_in_ui": "none",
-        "label": { "th": "ผู้ให้บริการ", "en": "Service provider" },
-        "aggregate_label": { "th": "ประเมินรวมทั้งหน่วยงาน", "en": "Evaluate the unit" },
+        "label": {
+          "th": "ผู้ให้บริการ",
+          "en": "Service provider"
+        },
+        "aggregate_label": {
+          "th": "ประเมินรวมทั้งหน่วยงาน",
+          "en": "Evaluate the unit"
+        },
         "require_on_list": true,
         "allow_aggregate_in_list": false,
         "people": [
-          { "code": "A67112", "display_th": "A67112 เกรียงศักดิ์ มิตรชอบ" }
+          {
+            "code": "A67112",
+            "display_th": "A67112 เกรียงศักดิ์ มิตรชอบ"
+          }
         ]
       }
     },
@@ -459,11 +633,12 @@
       "งานอื่นๆ"
     ]
   },
-
   "SUP_FA_Photo": {
     "config": {
       "group": "faculty",
-      "langs": ["th"],
+      "langs": [
+        "th"
+      ],
       "default_lang": "th",
       "sheet_label": "ศิลปกรรมศาสตร์",
       "display_title": {
@@ -473,12 +648,21 @@
       "providers": {
         "mode": "auto",
         "show_provider_in_ui": "none",
-        "label": { "th": "ผู้ให้บริการ", "en": "Service provider" },
-        "aggregate_label": { "th": "ประเมินรวมทั้งหน่วยงาน", "en": "Evaluate the unit" },
+        "label": {
+          "th": "ผู้ให้บริการ",
+          "en": "Service provider"
+        },
+        "aggregate_label": {
+          "th": "ประเมินรวมทั้งหน่วยงาน",
+          "en": "Evaluate the unit"
+        },
         "require_on_list": true,
         "allow_aggregate_in_list": false,
         "people": [
-          { "code": "C68002", "display_th": "C68002 ณัฐกิตติ์ มหาณรงค์ ณ ราชสีมา" }
+          {
+            "code": "C68002",
+            "display_th": "C68002 ณัฐกิตติ์ มหาณรงค์ ณ ราชสีมา"
+          }
         ]
       }
     },
@@ -496,11 +680,12 @@
       "งานอื่นๆ"
     ]
   },
-
   "SUP_FA_fashion": {
     "config": {
       "group": "faculty",
-      "langs": ["th"],
+      "langs": [
+        "th"
+      ],
       "default_lang": "th",
       "sheet_label": "ศิลปกรรมศาสตร์",
       "display_title": {
@@ -510,12 +695,21 @@
       "providers": {
         "mode": "auto",
         "show_provider_in_ui": "none",
-        "label": { "th": "ผู้ให้บริการ", "en": "Service provider" },
-        "aggregate_label": { "th": "ประเมินรวมทั้งหน่วยงาน", "en": "Evaluate the unit" },
+        "label": {
+          "th": "ผู้ให้บริการ",
+          "en": "Service provider"
+        },
+        "aggregate_label": {
+          "th": "ประเมินรวมทั้งหน่วยงาน",
+          "en": "Evaluate the unit"
+        },
         "require_on_list": true,
         "allow_aggregate_in_list": false,
         "people": [
-          { "code": "C68001", "display_th": "C68001 พานิชย์ ใจเฉื่อย" }
+          {
+            "code": "C68001",
+            "display_th": "C68001 พานิชย์ ใจเฉื่อย"
+          }
         ]
       }
     },
@@ -533,11 +727,12 @@
       "งานอื่นๆ"
     ]
   },
-
   "ASU_EE1": {
     "config": {
       "group": "faculty",
-      "langs": ["th"],
+      "langs": [
+        "th"
+      ],
       "default_lang": "th",
       "sheet_label": "วิศวกรรมศาสตร์",
       "display_title": {
@@ -547,22 +742,32 @@
       "providers": {
         "mode": "auto",
         "show_provider_in_ui": "none",
-        "label": { "th": "ผู้ให้บริการ", "en": "Service provider" },
-        "aggregate_label": { "th": "ประเมินรวมทั้งหน่วยงาน", "en": "Evaluate the unit" },
+        "label": {
+          "th": "ผู้ให้บริการ",
+          "en": "Service provider"
+        },
+        "aggregate_label": {
+          "th": "ประเมินรวมทั้งหน่วยงาน",
+          "en": "Evaluate the unit"
+        },
         "require_on_list": true,
         "allow_aggregate_in_list": false,
         "people": [
-          { "code": "ee_1", "display_th": "วิศวกรรมศาสตร์ 1" }
+          {
+            "code": "ee_1",
+            "display_th": "วิศวกรรมศาสตร์ 1"
+          }
         ]
       }
     },
     "use": "COMMON_STUDENT_SERVICES"
   },
-
   "ASU_EE2": {
     "config": {
       "group": "faculty",
-      "langs": ["th"],
+      "langs": [
+        "th"
+      ],
       "default_lang": "th",
       "sheet_label": "วิศวกรรมศาสตร์",
       "display_title": {
@@ -572,12 +777,21 @@
       "providers": {
         "mode": "auto",
         "show_provider_in_ui": "none",
-        "label": { "th": "ผู้ให้บริการ", "en": "Service provider" },
-        "aggregate_label": { "th": "ประเมินรวมทั้งหน่วยงาน", "en": "Evaluate the unit" },
+        "label": {
+          "th": "ผู้ให้บริการ",
+          "en": "Service provider"
+        },
+        "aggregate_label": {
+          "th": "ประเมินรวมทั้งหน่วยงาน",
+          "en": "Evaluate the unit"
+        },
         "require_on_list": true,
         "allow_aggregate_in_list": false,
         "people": [
-          { "code": "ee_2", "display_th": "วิศวกรรมศาสตร์ 2" }
+          {
+            "code": "ee_2",
+            "display_th": "วิศวกรรมศาสตร์ 2"
+          }
         ]
       }
     },
@@ -587,11 +801,13 @@
       "การให้การสนับสนุนที่เกี่ยวข้องกับวิชาแลปปฏิบัติการ"
     ]
   },
-
   "ASU_BUI": {
     "config": {
       "group": "faculty",
-      "langs": ["th","en"],
+      "langs": [
+        "th",
+        "en"
+      ],
       "default_lang": "en",
       "sheet_label": "วิทยาลัยนานาชาติ",
       "display_title": {
@@ -601,27 +817,54 @@
       "providers": {
         "mode": "auto",
         "show_provider_in_ui": "none",
-        "label": { "th": "ผู้ให้บริการ", "en": "Service provider" },
-        "aggregate_label": { "th": "ประเมินรวมทั้งหน่วยงาน", "en": "Evaluate the unit" },
+        "label": {
+          "th": "ผู้ให้บริการ",
+          "en": "Service provider"
+        },
+        "aggregate_label": {
+          "th": "ประเมินรวมทั้งหน่วยงาน",
+          "en": "Evaluate the unit"
+        },
         "require_on_list": true,
         "allow_aggregate_in_list": false,
         "people": [
-          { "code": "bui_1" },
-          { "code": "bui_2" },
-          { "code": "A69029", "display_th": "A69029 อาจารย์ปุญญพัฒน์ ระเบียบโอษฐ์", "display_en": "A69029 Punyaphat Rabieboat" },
-          { "code": "A69030", "display_th": "A69030 อาจารย์ธิติยา ประเสริฐกุล", "display_en": "A69030 Thitiya Prasertkul" },
-          { "code": "A69039", "display_th": "A69039 อาจารย์เตชินท์ เจริญลาภ", "display_en": "A69039 Techin Charoenlap" },
-          { "code": "A69045", "display_th": "A69045 อาจารย์จินดารัตน์ ลักษณะจินดา", "display_en": "A69045 Jindarat Laksanajinda" }
+          {
+            "code": "bui_1"
+          },
+          {
+            "code": "bui_2"
+          },
+          {
+            "code": "A69029",
+            "display_th": "A69029 อาจารย์ปุญญพัฒน์ ระเบียบโอษฐ์",
+            "display_en": "A69029 Punyaphat Rabieboat"
+          },
+          {
+            "code": "A69030",
+            "display_th": "A69030 อาจารย์ธิติยา ประเสริฐกุล",
+            "display_en": "A69030 Thitiya Prasertkul"
+          },
+          {
+            "code": "A69039",
+            "display_th": "A69039 อาจารย์เตชินท์ เจริญลาภ",
+            "display_en": "A69039 Techin Charoenlap"
+          },
+          {
+            "code": "A69045",
+            "display_th": "A69045 อาจารย์จินดารัตน์ ลักษณะจินดา",
+            "display_en": "A69045 Jindarat Laksanajinda"
+          }
         ]
       }
     },
     "use": "COMMON_STUDENT_SERVICES"
   },
-
   "ASU_ARC": {
     "config": {
       "group": "faculty",
-      "langs": ["th"],
+      "langs": [
+        "th"
+      ],
       "default_lang": "th",
       "sheet_label": "สถาปัตยกรรมศาสตร์",
       "display_title": {
@@ -631,28 +874,46 @@
       "providers": {
         "mode": "auto",
         "show_provider_in_ui": "none",
-        "label": { "th": "ผู้ให้บริการ", "en": "Service provider" },
-        "aggregate_label": { "th": "ประเมินรวมทั้งหน่วยงาน", "en": "Evaluate the unit" },
+        "label": {
+          "th": "ผู้ให้บริการ",
+          "en": "Service provider"
+        },
+        "aggregate_label": {
+          "th": "ประเมินรวมทั้งหน่วยงาน",
+          "en": "Evaluate the unit"
+        },
         "require_on_list": true,
         "allow_aggregate_in_list": false,
         "people": [
-          { "code": "C58002", "display_th": "C58002 กัญญา ศรีใจยา" },
-          { "code": "A67075", "display_th": "A67075 เยาวลักษณ์ อู๊ดเอม" }
+          {
+            "code": "C58002",
+            "display_th": "C58002 กัญญา ศรีใจยา"
+          },
+          {
+            "code": "A67075",
+            "display_th": "A67075 เยาวลักษณ์ อู๊ดเอม"
+          }
         ]
       }
     },
     "use": "COMMON_STUDENT_SERVICES",
     "extend": {
-      "remove": [ "อื่นๆ" ],
-      "add": ["ภาระงาน การสนับสนุนงานด้านคุณภาพหลักสูตร AUN-QA EdPEx",
-              "อื่นๆ"]
+      "remove": [
+        "อื่นๆ"
+      ],
+      "add": [
+        "ภาระงาน การสนับสนุนงานด้านคุณภาพหลักสูตร AUN-QA EdPEx",
+        "อื่นๆ"
+      ]
     }
   },
-
   "ASU_SEM": {
     "config": {
       "group": "faculty",
-      "langs": ["th","en"],
+      "langs": [
+        "th",
+        "en"
+      ],
       "default_lang": "th",
       "sheet_label": "การสร้างเจ้าของธุรกิจฯ",
       "display_title": {
@@ -662,23 +923,34 @@
       "providers": {
         "mode": "auto",
         "show_provider_in_ui": "none",
-        "label": { "th": "ผู้ให้บริการ", "en": "Service provider" },
-        "aggregate_label": { "th": "ประเมินรวมทั้งหน่วยงาน", "en": "Evaluate the unit" },
+        "label": {
+          "th": "ผู้ให้บริการ",
+          "en": "Service provider"
+        },
+        "aggregate_label": {
+          "th": "ประเมินรวมทั้งหน่วยงาน",
+          "en": "Evaluate the unit"
+        },
         "require_on_list": true,
         "allow_aggregate_in_list": false,
         "people": [
-          { "code": "sem_1" },
-          { "code": "sem_2" }
+          {
+            "code": "sem_1"
+          },
+          {
+            "code": "sem_2"
+          }
         ]
       }
     },
     "use": "COMMON_STUDENT_SERVICES"
   },
-
   "ASU_DC": {
     "config": {
       "group": "faculty",
-      "langs": ["th"],
+      "langs": [
+        "th"
+      ],
       "default_lang": "th",
       "sheet_label": "ดิจิทัลมีเดียฯ",
       "display_title": {
@@ -688,22 +960,32 @@
       "providers": {
         "mode": "auto",
         "show_provider_in_ui": "none",
-        "label": { "th": "ผู้ให้บริการ", "en": "Service provider" },
-        "aggregate_label": { "th": "ประเมินรวมทั้งหน่วยงาน", "en": "Evaluate the unit" },
+        "label": {
+          "th": "ผู้ให้บริการ",
+          "en": "Service provider"
+        },
+        "aggregate_label": {
+          "th": "ประเมินรวมทั้งหน่วยงาน",
+          "en": "Evaluate the unit"
+        },
         "require_on_list": true,
         "allow_aggregate_in_list": false,
         "people": [
-          { "code": "DC"}
+          {
+            "code": "DC"
+          }
         ]
       }
     },
     "use": "COMMON_STUDENT_SERVICES"
   },
-
   "ASU_BUCI": {
     "config": {
       "group": "faculty",
-      "langs": ["th","en"],
+      "langs": [
+        "th",
+        "en"
+      ],
       "default_lang": "th",
       "sheet_label": "วิทยาลัยนานาชาติจีน",
       "display_title": {
@@ -713,89 +995,149 @@
       "providers": {
         "mode": "auto",
         "show_provider_in_ui": "none",
-        "label": { "th": "ผู้ให้บริการ", "en": "Service provider" },
-        "aggregate_label": { "th": "ประเมินรวมทั้งหน่วยงาน", "en": "Evaluate the unit" },
+        "label": {
+          "th": "ผู้ให้บริการ",
+          "en": "Service provider"
+        },
+        "aggregate_label": {
+          "th": "ประเมินรวมทั้งหน่วยงาน",
+          "en": "Evaluate the unit"
+        },
         "require_on_list": true,
         "allow_aggregate_in_list": false,
         "people": [
-          { "code": "buci_1" },
-          { "code": "buci_2" }
+          {
+            "code": "buci_1"
+          },
+          {
+            "code": "buci_2"
+          }
         ]
       }
     },
     "use": "COMMON_STUDENT_SERVICES"
   },
-
   "ASU_grad": {
     "config": {
       "group": "faculty",
-      "langs": ["th","en"],
+      "langs": [
+        "th",
+        "en"
+      ],
       "default_lang": "th",
       "sheet_label": "บัณฑิตวิทยาลัย",
       "display_title": {
         "th": "บัณฑิตวิทยาลัย",
         "en": "Graduate School"
       },
-      "providers": { "mode": "aggregate" }
+      "providers": {
+        "mode": "aggregate"
+      }
     },
     "options": [
-      { "th": "การเรียนการสอน /  วิทยานิพนธ์ / การค้นคว้าอิสระ", "en": "Teaching & Learning / Thesis / Independent Study" },
-      { "th": "การลงทะเบียน / งานทะเบียน / ขอเอกสาร", "en": "Registration / Academic Records / Document Request" },
-      { "th": "ข้อมูลหลักสูตร / การรับสมัคร", "en": "Program Information / Admission" },
-      { "th": "การประสานงานกับหน่วยงานอื่น ๆ", "en": "Coordination with Other Departments" },
-      { "th": "เรื่องร้องเรียน", "en": "Complaints / Issues Report" },
-      { "th": "อื่นๆ", "en": "Other(s)"}
+      {
+        "th": "การเรียนการสอน /  วิทยานิพนธ์ / การค้นคว้าอิสระ",
+        "en": "Teaching & Learning / Thesis / Independent Study"
+      },
+      {
+        "th": "การลงทะเบียน / งานทะเบียน / ขอเอกสาร",
+        "en": "Registration / Academic Records / Document Request"
+      },
+      {
+        "th": "ข้อมูลหลักสูตร / การรับสมัคร",
+        "en": "Program Information / Admission"
+      },
+      {
+        "th": "การประสานงานกับหน่วยงานอื่น ๆ",
+        "en": "Coordination with Other Departments"
+      },
+      {
+        "th": "เรื่องร้องเรียน",
+        "en": "Complaints / Issues Report"
+      },
+      {
+        "th": "อื่นๆ",
+        "en": "Other(s)"
+      }
     ]
   },
-
   "GE": {
     "config": {
       "group": "support",
-      "langs": ["th"],
+      "langs": [
+        "th"
+      ],
       "default_lang": "th",
       "sheet_label": "GE",
       "display_title": {
         "th": "ศูนย์บริหารจัดการหมวดวิชาศึกษาทั่วไป - GE",
         "en": "General Education Administration Center"
       },
-      "providers": { "mode": "aggregate" }
+      "providers": {
+        "mode": "aggregate"
+      }
     },
     "use": "COMMON_STUDENT_SERVICES"
   },
-
   "clinic": {
     "config": {
       "group": "support",
-      "langs": ["th","en"],
+      "langs": [
+        "th",
+        "en"
+      ],
       "default_lang": "th",
       "sheet_label": "ห้องพยาบาล",
       "display_title": {
         "th": "ห้องพยาบาล",
         "en": "Clinic"
       },
-      "providers": { "mode": "aggregate" }
+      "providers": {
+        "mode": "aggregate"
+      }
     },
     "options": [
-      { "th": "ตรวจรักษาโดยแพทย์", "en": "Consult a doctor" },
-      { "th": "เบิกยาตามอาการ/เวชภัณฑ์", "en": "Receive  medication" },
-      { "th": "ทำแผลและหัตการต่างๆ", "en": "Dressing  wound" },
-      { "th": "นอนพักสังเกตอาการ", "en": "Observe" },
-      { "th": "วัดความดันโลหิต", "en": "Check blood pressure" },
-      { "th": "การอบรม/ให้ความรู้เกี่ยวกับสุขภาพ/วัคซีน", "en": "Train/Health  teaching/Vaccine" }
+      {
+        "th": "ตรวจรักษาโดยแพทย์",
+        "en": "Consult a doctor"
+      },
+      {
+        "th": "เบิกยาตามอาการ/เวชภัณฑ์",
+        "en": "Receive  medication"
+      },
+      {
+        "th": "ทำแผลและหัตการต่างๆ",
+        "en": "Dressing  wound"
+      },
+      {
+        "th": "นอนพักสังเกตอาการ",
+        "en": "Observe"
+      },
+      {
+        "th": "วัดความดันโลหิต",
+        "en": "Check blood pressure"
+      },
+      {
+        "th": "การอบรม/ให้ความรู้เกี่ยวกับสุขภาพ/วัคซีน",
+        "en": "Train/Health  teaching/Vaccine"
+      }
     ]
   },
-
   "OSS": {
     "config": {
       "group": "support",
-      "langs": ["th"],
+      "langs": [
+        "th"
+      ],
       "default_lang": "th",
       "sheet_label": "หน่วยบริการเบ็ดเสร็จ",
       "display_title": {
         "th": "หน่วยบริการเบ็ดเสร็จ",
         "en": "One Stop Services"
       },
-      "providers": { "mode": "aggregate" }
+      "providers": {
+        "mode": "aggregate"
+      }
     },
     "options": [
       "ผ่อนผันทหาร",
@@ -812,11 +1154,13 @@
       "อื่นๆ"
     ]
   },
-
   "records_office": {
     "config": {
       "group": "support",
-      "langs": ["th","en"],
+      "langs": [
+        "th",
+        "en"
+      ],
       "default_lang": "th",
       "sheet_label": "สำนักทะเบียน",
       "display_title": {
@@ -826,39 +1170,77 @@
       "providers": {
         "mode": "auto",
         "show_provider_in_ui": "none",
-        "label": { "th": "ผู้ให้บริการ", "en": "Service provider" },
-        "aggregate_label": { "th": "ประเมินรวมทั้งหน่วยงาน", "en": "Evaluate the unit" },
+        "label": {
+          "th": "ผู้ให้บริการ",
+          "en": "Service provider"
+        },
+        "aggregate_label": {
+          "th": "ประเมินรวมทั้งหน่วยงาน",
+          "en": "Evaluate the unit"
+        },
         "require_on_list": true,
         "allow_aggregate_in_list": false,
         "people": [
-          { "code": "rd" },
-          { "code": "A33097", "display_th": "A33097 อ.สมหมาย ค้าข้าว", "display_en": "A33097 Sommaiy Khakhaow" },
-          { "code": "A33100", "display_th": "A33100 อ.สร้อยทอง เอกพฤกษาอำไพ", "display_en": "A33100 Sroythong Akpruksaumpai" },
-          { "code": "A66055", "display_th": "A66055 อ.นัทธ์กัญภ์ ปราบทุกข์", "display_en": "A66055 Nathkan Prabthuk" },
-          { "code": "A66063", "display_th": "A66063 อ.พฤกษ์ พฤษปัญจะ", "display_en": "A66063 Pruek Pruesapanja" }
+          {
+            "code": "rd"
+          },
+          {
+            "code": "A33097",
+            "display_th": "A33097 อ.สมหมาย ค้าข้าว",
+            "display_en": "A33097 Sommaiy Khakhaow"
+          },
+          {
+            "code": "A33100",
+            "display_th": "A33100 อ.สร้อยทอง เอกพฤกษาอำไพ",
+            "display_en": "A33100 Sroythong Akpruksaumpai"
+          },
+          {
+            "code": "A66055",
+            "display_th": "A66055 อ.นัทธ์กัญภ์ ปราบทุกข์",
+            "display_en": "A66055 Nathkan Prabthuk"
+          },
+          {
+            "code": "A66063",
+            "display_th": "A66063 อ.พฤกษ์ พฤษปัญจะ",
+            "display_en": "A66063 Pruek Pruesapanja"
+          }
         ]
       }
     },
     "options": [
-      { "th": "ด้านขอหลักฐานการศึกษา", "en": "Academic Record Requests and Verification" },
-      { "th": "ด้านเกี่ยวกับการลงทะเบียน", "en": "Academic Enrollment and Course Registration" },
-      { "th": "ด้านบริการงานทะเบียนทั่วไป", "en": "General Registrar Services" },
-      { "th": "อื่นๆ", "en": "Other(s)" }
+      {
+        "th": "ด้านขอหลักฐานการศึกษา",
+        "en": "Academic Record Requests and Verification"
+      },
+      {
+        "th": "ด้านเกี่ยวกับการลงทะเบียน",
+        "en": "Academic Enrollment and Course Registration"
+      },
+      {
+        "th": "ด้านบริการงานทะเบียนทั่วไป",
+        "en": "General Registrar Services"
+      },
+      {
+        "th": "อื่นๆ",
+        "en": "Other(s)"
+      }
     ]
   },
-
-
   "scholarship": {
     "config": {
       "group": "support",
-      "langs": ["th"],
+      "langs": [
+        "th"
+      ],
       "default_lang": "th",
       "sheet_label": "แผนกทุนการศึกษา",
       "display_title": {
         "th": "แผนกทุนการศึกษา",
         "en": "Scholarship Department"
       },
-      "providers": { "mode": "aggregate" }
+      "providers": {
+        "mode": "aggregate"
+      }
     },
     "options": [
       "การให้คำปรึกษาเกี่ยวกับการกู้ยืม กยศ.",
@@ -869,11 +1251,13 @@
       "ประเมินความพึงพอใจประจำภาคการศึกษา"
     ]
   },
-
   "CC": {
     "config": {
       "group": "support",
-      "langs": ["th","en"],
+      "langs": [
+        "th",
+        "en"
+      ],
       "default_lang": "th",
       "sheet_label": "คอนแทคเซ็นเตอร์",
       "display_title": {
@@ -883,34 +1267,72 @@
       "providers": {
         "mode": "auto",
         "show_provider_in_ui": "none",
-        "label": { "th": "ผู้ให้บริการ", "en": "Service provider" },
-        "aggregate_label": { "th": "ประเมินรวมทั้งหน่วยงาน", "en": "Evaluate the unit" },
+        "label": {
+          "th": "ผู้ให้บริการ",
+          "en": "Service provider"
+        },
+        "aggregate_label": {
+          "th": "ประเมินรวมทั้งหน่วยงาน",
+          "en": "Evaluate the unit"
+        },
         "require_on_list": true,
         "allow_aggregate_in_list": false,
         "people": [
-          { "code": "A64009"},
-          { "code": "A64010"},
-          { "code": "A65028"},
-          { "code": "A65096"},
-          { "code": "A68062"}
+          {
+            "code": "A64009"
+          },
+          {
+            "code": "A64010"
+          },
+          {
+            "code": "A65028"
+          },
+          {
+            "code": "A65096"
+          },
+          {
+            "code": "A68062"
+          }
         ]
       }
     },
     "options": [
-      { "th": "ข้อมูลสมัครเรียน", "en": "Enrollment Information" },
-      { "th": "ข้อมูลงานทะเบียน", "en": "Registrar Information" },
-      { "th": "ข้อมูลลงทะเบียนเรียน", "en": "Course Registration Information" },
-      { "th": "ข้อมูลการเงิน", "en": "Finance Information" },
-      { "th": "ข้อมูลทุนการศึกษา/กู้กองทุนฯ", "en": "Scholarship/ Student Loan Information" },
-      { "th": "ข้อมูลบริการและสวัสดิการนักศึกษา", "en": "Student Services and Welfare Information" },
-      { "th": "อื่นๆ", "en": "Other(s)" }
+      {
+        "th": "ข้อมูลสมัครเรียน",
+        "en": "Enrollment Information"
+      },
+      {
+        "th": "ข้อมูลงานทะเบียน",
+        "en": "Registrar Information"
+      },
+      {
+        "th": "ข้อมูลลงทะเบียนเรียน",
+        "en": "Course Registration Information"
+      },
+      {
+        "th": "ข้อมูลการเงิน",
+        "en": "Finance Information"
+      },
+      {
+        "th": "ข้อมูลทุนการศึกษา/กู้กองทุนฯ",
+        "en": "Scholarship/ Student Loan Information"
+      },
+      {
+        "th": "ข้อมูลบริการและสวัสดิการนักศึกษา",
+        "en": "Student Services and Welfare Information"
+      },
+      {
+        "th": "อื่นๆ",
+        "en": "Other(s)"
+      }
     ]
   },
-
   "Work-Integ": {
     "config": {
       "group": "support",
-      "langs": ["th"],
+      "langs": [
+        "th"
+      ],
       "default_lang": "th",
       "sheet_label": "เวิร์คอินเทค",
       "display_title": {
@@ -920,36 +1342,93 @@
       "providers": {
         "mode": "auto",
         "show_provider_in_ui": "none",
-        "label": { "th": "ผู้ให้บริการ", "en": "Service provider" },
-        "aggregate_label": { "th": "ประเมินรวมทั้งหน่วยงาน", "en": "Evaluate the unit" },
+        "label": {
+          "th": "ผู้ให้บริการ",
+          "en": "Service provider"
+        },
+        "aggregate_label": {
+          "th": "ประเมินรวมทั้งหน่วยงาน",
+          "en": "Evaluate the unit"
+        },
         "require_on_list": true,
         "allow_aggregate_in_list": false,
         "people": [
-          { "code": "A46032", "display_th": "A46032 เสาวณี มณีแสงสาคร", "display_en": "A46032 เสาวณี มณีแสงสาคร" },
-          { "code": "A36103", "display_th": "A36103 ผศ.กัณฐกร อู่อ้น", "display_en": "A36103 ผศ.กัณฐกร อู่อ้น" },
-          { "code": "A41038", "display_th": "A41038 วรพงศ์ พิรอด", "display_en": "A41038 วรพงศ์ พิรอด" },
-          { "code": "A45029", "display_th": "A45029 รณิดา รัตตากร", "display_en": "A45029 รณิดา รัตตากร" },
-          { "code": "A54117", "display_th": "A54117 ฐิติรัตน์ เกิดหาญ", "display_en": "A54117 ฐิติรัตน์ เกิดหาญ" },
-          { "code": "A68117", "display_th": "A68117 ปิยาพร ประชุมพวก", "display_en": "A68117 ปิยาพร ประชุมพวก" },
-          { "code": "A43008", "display_th": "A43008 วิรชา ณ พัทลุง", "display_en": "A43008 วิรชา ณ พัทลุง" },
-          { "code": "A60083", "display_th": "A60083  ณภัทร นิธิชนากานต์", "display_en": "A60083  ณภัทร นิธิชนากานต์" }          
+          {
+            "code": "A46032",
+            "display_th": "A46032 เสาวณี มณีแสงสาคร",
+            "display_en": "A46032 เสาวณี มณีแสงสาคร"
+          },
+          {
+            "code": "A36103",
+            "display_th": "A36103 ผศ.กัณฐกร อู่อ้น",
+            "display_en": "A36103 ผศ.กัณฐกร อู่อ้น"
+          },
+          {
+            "code": "A41038",
+            "display_th": "A41038 วรพงศ์ พิรอด",
+            "display_en": "A41038 วรพงศ์ พิรอด"
+          },
+          {
+            "code": "A45029",
+            "display_th": "A45029 รณิดา รัตตากร",
+            "display_en": "A45029 รณิดา รัตตากร"
+          },
+          {
+            "code": "A54117",
+            "display_th": "A54117 ฐิติรัตน์ เกิดหาญ",
+            "display_en": "A54117 ฐิติรัตน์ เกิดหาญ"
+          },
+          {
+            "code": "A68117",
+            "display_th": "A68117 ปิยาพร ประชุมพวก",
+            "display_en": "A68117 ปิยาพร ประชุมพวก"
+          },
+          {
+            "code": "A43008",
+            "display_th": "A43008 วิรชา ณ พัทลุง",
+            "display_en": "A43008 วิรชา ณ พัทลุง"
+          },
+          {
+            "code": "A60083",
+            "display_th": "A60083  ณภัทร นิธิชนากานต์",
+            "display_en": "A60083  ณภัทร นิธิชนากานต์"
+          }
         ]
       }
     },
     "options": [
-      { "th": "การเตรียมความพร้อมการสมัครงาน/ทำงาน", "en": "การเตรียมความพร้อมการสมัครงาน/ทำงาน" },
-      { "th": "การประสานงานโครงการสหกิจศึกษา", "en": "การประสานงานโครงการสหกิจศึกษา" },
-      { "th": "การส่งเสริมการทำงาน Part-time/Freelance", "en": "การส่งเสริมการทำงาน Part-time/Freelance" },
-      { "th": "การจัดการ Job Matching", "en": "การจัดการ Job Matching" },
-      { "th": "การประสานงานโครงการปัจฉิมนิเทศคณะ", "en": "การประสานงานโครงการปัจฉิมนิเทศคณะ" },
-      { "th": "การออกจดหมายขอความอนุเคราะห์/จดหมายส่งตัว (ฝึกงานสมัครใจ)", "en": "การออกจดหมายขอความอนุเคราะห์/จดหมายส่งตัว (ฝึกงานสมัครใจ)" }
+      {
+        "th": "การเตรียมความพร้อมการสมัครงาน/ทำงาน",
+        "en": "การเตรียมความพร้อมการสมัครงาน/ทำงาน"
+      },
+      {
+        "th": "การประสานงานโครงการสหกิจศึกษา",
+        "en": "การประสานงานโครงการสหกิจศึกษา"
+      },
+      {
+        "th": "การส่งเสริมการทำงาน Part-time/Freelance",
+        "en": "การส่งเสริมการทำงาน Part-time/Freelance"
+      },
+      {
+        "th": "การจัดการ Job Matching",
+        "en": "การจัดการ Job Matching"
+      },
+      {
+        "th": "การประสานงานโครงการปัจฉิมนิเทศคณะ",
+        "en": "การประสานงานโครงการปัจฉิมนิเทศคณะ"
+      },
+      {
+        "th": "การออกจดหมายขอความอนุเคราะห์/จดหมายส่งตัว (ฝึกงานสมัครใจ)",
+        "en": "การออกจดหมายขอความอนุเคราะห์/จดหมายส่งตัว (ฝึกงานสมัครใจ)"
+      }
     ]
   },
-
   "InterCenter": {
     "config": {
       "group": "support",
-      "langs": ["en"],
+      "langs": [
+        "en"
+      ],
       "default_lang": "en",
       "sheet_label": "ศูนย์นานาชาติ",
       "display_title": {
@@ -959,57 +1438,134 @@
       "providers": {
         "mode": "auto",
         "show_provider_in_ui": "none",
-        "label": { "th": "ผู้ให้บริการ", "en": "Service provider" },
-        "aggregate_label": { "th": "ประเมินรวมทั้งหน่วยงาน", "en": "Evaluate the unit" },
+        "label": {
+          "th": "ผู้ให้บริการ",
+          "en": "Service provider"
+        },
+        "aggregate_label": {
+          "th": "ประเมินรวมทั้งหน่วยงาน",
+          "en": "Evaluate the unit"
+        },
         "require_on_list": true,
         "allow_aggregate_in_list": false,
         "people": [
-          { "code": "A39012", "display_th": "A39012 Dr. Supat Rattanasuksun", "display_en": "A39012 Dr. Supat Rattanasuksun" },
-          { "code": "A52024", "display_th": "A52024 A. Nisachol Jitdechkajorn", "display_en": "A52024 A. Nisachol Jitdechkajorn" },
-          { "code": "A37031", "display_th": "A37031 A. Usaralak Intarasuwon", "display_en": "A37031 A. Usaralak Intarasuwon" },
-          { "code": "A45089", "display_th": "A45089 A. Janya Reanthaisong", "display_en": "A45089 A. Janya Reanthaisong" },
-          { "code": "A67097", "display_th": "A67097 A. Chinnapat Wongplub", "display_en": "A67097 A. Chinnapat Wongplub" },
-          { "code": "A55088", "display_th": "A55088 A. Witwasit Sresteesang", "display_en": "A55088 A. Witwasit Sresteesang" },
-          { "code": "A65050", "display_th": "A65050 A. Praew Chancham", "display_en": "A65050 A. Praew Chancham" },
-          { "code": "A66104", "display_th": "A66104 A. Arisara Pankui", "display_en": "A66104 A. Arisara Pankui" }
+          {
+            "code": "A39012",
+            "display_th": "A39012 Dr. Supat Rattanasuksun",
+            "display_en": "A39012 Dr. Supat Rattanasuksun"
+          },
+          {
+            "code": "A52024",
+            "display_th": "A52024 A. Nisachol Jitdechkajorn",
+            "display_en": "A52024 A. Nisachol Jitdechkajorn"
+          },
+          {
+            "code": "A37031",
+            "display_th": "A37031 A. Usaralak Intarasuwon",
+            "display_en": "A37031 A. Usaralak Intarasuwon"
+          },
+          {
+            "code": "A45089",
+            "display_th": "A45089 A. Janya Reanthaisong",
+            "display_en": "A45089 A. Janya Reanthaisong"
+          },
+          {
+            "code": "A67097",
+            "display_th": "A67097 A. Chinnapat Wongplub",
+            "display_en": "A67097 A. Chinnapat Wongplub"
+          },
+          {
+            "code": "A55088",
+            "display_th": "A55088 A. Witwasit Sresteesang",
+            "display_en": "A55088 A. Witwasit Sresteesang"
+          },
+          {
+            "code": "A65050",
+            "display_th": "A65050 A. Praew Chancham",
+            "display_en": "A65050 A. Praew Chancham"
+          },
+          {
+            "code": "A66104",
+            "display_th": "A66104 A. Arisara Pankui",
+            "display_en": "A66104 A. Arisara Pankui"
+          }
         ]
       }
     },
     "options": [
-      { "th": "Accidental / Health Insurance", "en": "Accidental / Health Insurance" },
-      { "th": "Activities", "en": "Activities" },
-      { "th": "Advising / Counceling", "en": "Advising / Counceling" },
-      { "th": "Compliance / Student Attendance", "en": "Compliance / Student Attendance" },
-      { "th": "Dual Degree/ Study Abroad", "en": "Dual Degree/ Study Abroad" },
-      { "th": "New Student Report", "en": "New Student Report" },
-      { "th": "PEC/IEN001 Coures", "en": "PEC/IEN001 Coures" },
-      { "th": "Visa", "en": "Visa" },
-      { "th": "Other(s)", "en": "Other(s)" }
+      {
+        "th": "Accidental / Health Insurance",
+        "en": "Accidental / Health Insurance"
+      },
+      {
+        "th": "Activities",
+        "en": "Activities"
+      },
+      {
+        "th": "Advising / Counceling",
+        "en": "Advising / Counceling"
+      },
+      {
+        "th": "Compliance / Student Attendance",
+        "en": "Compliance / Student Attendance"
+      },
+      {
+        "th": "Dual Degree/ Study Abroad",
+        "en": "Dual Degree/ Study Abroad"
+      },
+      {
+        "th": "New Student Report",
+        "en": "New Student Report"
+      },
+      {
+        "th": "PEC/IEN001 Coures",
+        "en": "PEC/IEN001 Coures"
+      },
+      {
+        "th": "Visa",
+        "en": "Visa"
+      },
+      {
+        "th": "Other(s)",
+        "en": "Other(s)"
+      }
     ]
   },
-
   "Museum": {
     "config": {
       "group": "support",
-      "langs": ["th","en"],
+      "langs": [
+        "th",
+        "en"
+      ],
       "default_lang": "th",
       "sheet_label": "ศูนย์บริหารศิลปวัฒนธรรม",
       "display_title": {
         "th": "ศูนย์บริหารศิลปวัฒนธรรม",
         "en": "Arts and Culture Administration Center"
       },
-      "providers": { "mode": "aggregate" }
+      "providers": {
+        "mode": "aggregate"
+      }
     },
     "options": [
-      { "th": "งานให้บริการเข้านิทรรศการภายในพิพิธภัณฑสถานฯ", "en": "Service for visiting exhibitions within the Museum." },
-      { "th": "งานบริการนำชมสำหรับผู้เยี่ยมชมสำหรับหมู่คณะ", "en": "Guided tour service for group visitors." }
+      {
+        "th": "งานให้บริการเข้านิทรรศการภายในพิพิธภัณฑสถานฯ",
+        "en": "Service for visiting exhibitions within the Museum."
+      },
+      {
+        "th": "งานบริการนำชมสำหรับผู้เยี่ยมชมสำหรับหมู่คณะ",
+        "en": "Guided tour service for group visitors."
+      }
     ]
   },
-
   "Fin": {
     "config": {
       "group": "support",
-      "langs": ["th","en"],
+      "langs": [
+        "th",
+        "en"
+      ],
       "default_lang": "th",
       "sheet_label": "ฝ่ายการคลัง",
       "display_title": {
@@ -1019,47 +1575,89 @@
       "providers": {
         "mode": "auto",
         "show_provider_in_ui": "none",
-        "label": { "th": "ผู้ให้บริการ", "en": "Service provider" },
-        "aggregate_label": { "th": "ประเมินรวมทั้งหน่วยงาน", "en": "Evaluate the unit" },
+        "label": {
+          "th": "ผู้ให้บริการ",
+          "en": "Service provider"
+        },
+        "aggregate_label": {
+          "th": "ประเมินรวมทั้งหน่วยงาน",
+          "en": "Evaluate the unit"
+        },
         "require_on_list": true,
         "allow_aggregate_in_list": false,
         "people": [
-          { "code": "Cashier_1", "display_th": "Cashier 1", "display_en": "Cashier 1" },
-          { "code": "Cashier_2", "display_th": "Cashier 2", "display_en": "Cashier 2" },
-          { "code": "Cashier_3", "display_th": "Cashier 3", "display_en": "Cashier 3" },
-          { "code": "Cashier_4", "display_th": "Cashier 4", "display_en": "Cashier 4" }
+          {
+            "code": "Cashier_1",
+            "display_th": "Cashier 1",
+            "display_en": "Cashier 1"
+          },
+          {
+            "code": "Cashier_2",
+            "display_th": "Cashier 2",
+            "display_en": "Cashier 2"
+          },
+          {
+            "code": "Cashier_3",
+            "display_th": "Cashier 3",
+            "display_en": "Cashier 3"
+          },
+          {
+            "code": "Cashier_4",
+            "display_th": "Cashier 4",
+            "display_en": "Cashier 4"
+          }
         ]
       }
     },
     "options": [
-      { "th": "ชำระเงิน", "en": "Payment" },
-      { "th": "ขอเอกสารประกอบการเบิกค่าเล่าเรียน", "en": "Request for Supporting Documents for Tuition Fee Reimbursement" },
-      { "th": "ขอคืนเงินต่าง ๆ", "en": "Refunds" },
-      { "th": "อื่นๆ", "en": "Other(s)" }
+      {
+        "th": "ชำระเงิน",
+        "en": "Payment"
+      },
+      {
+        "th": "ขอเอกสารประกอบการเบิกค่าเล่าเรียน",
+        "en": "Request for Supporting Documents for Tuition Fee Reimbursement"
+      },
+      {
+        "th": "ขอคืนเงินต่าง ๆ",
+        "en": "Refunds"
+      },
+      {
+        "th": "อื่นๆ",
+        "en": "Other(s)"
+      }
     ]
   },
-
   "CorpCom": {
     "config": {
       "group": "support",
-      "langs": ["th","en"],
+      "langs": [
+        "th",
+        "en"
+      ],
       "default_lang": "th",
       "sheet_label": "สื่อสารองค์กร",
       "display_title": {
         "th": "สำนักงานอธิการบดีและสื่อสารองค์กร",
         "en": "Office of the President and Corporate Communication"
       },
-      "providers": { "mode": "aggregate" }
+      "providers": {
+        "mode": "aggregate"
+      }
     },
     "options": [
-      { "th": "งานประชาสัมพันธ์", "en": "PR Service" }
+      {
+        "th": "งานประชาสัมพันธ์",
+        "en": "PR Service"
+      }
     ]
   },
-
-"QA": {
+  "QA": {
     "config": {
       "group": "support",
-      "langs": ["th"],
+      "langs": [
+        "th"
+      ],
       "default_lang": "th",
       "sheet_label": "สำนักมาตรฐาน",
       "display_title": {
@@ -1069,13 +1667,27 @@
       "providers": {
         "mode": "auto",
         "show_provider_in_ui": "none",
-        "label": { "th": "ผู้ให้บริการ", "en": "Service provider" },
-        "aggregate_label": { "th": "ประเมินรวมทั้งหน่วยงาน", "en": "Evaluate the unit" },
+        "label": {
+          "th": "ผู้ให้บริการ",
+          "en": "Service provider"
+        },
+        "aggregate_label": {
+          "th": "ประเมินรวมทั้งหน่วยงาน",
+          "en": "Evaluate the unit"
+        },
         "require_on_list": true,
         "allow_aggregate_in_list": false,
         "people": [
-          { "code": "C39044", "display_th": "C39044 กฤตยากรณ์ โหยหวล", "display_en": "C39044 กฤตยากรณ์ โหยหวล" },
-          { "code": "C38018", "display_th": "C38018 พรสุดา สมบูรณ์", "display_en": "C38018 พรสุดา สมบูรณ์" }
+          {
+            "code": "C39044",
+            "display_th": "C39044 กฤตยากรณ์ โหยหวล",
+            "display_en": "C39044 กฤตยากรณ์ โหยหวล"
+          },
+          {
+            "code": "C38018",
+            "display_th": "C38018 พรสุดา สมบูรณ์",
+            "display_en": "C38018 พรสุดา สมบูรณ์"
+          }
         ]
       }
     },
@@ -1087,11 +1699,12 @@
       "อื่นๆ"
     ]
   },
-
-"STUDEV": {
+  "STUDEV": {
     "config": {
       "group": "support",
-      "langs": ["th"],
+      "langs": [
+        "th"
+      ],
       "default_lang": "th",
       "sheet_label": "แผนก พก และ ทล",
       "display_title": {
@@ -1101,22 +1714,72 @@
       "providers": {
         "mode": "auto",
         "show_provider_in_ui": "none",
-        "label": { "th": "ผู้ให้บริการ", "en": "Service provider" },
-        "aggregate_label": { "th": "ประเมินรวมทั้งหน่วยงาน", "en": "Evaluate the unit" },
+        "label": {
+          "th": "ผู้ให้บริการ",
+          "en": "Service provider"
+        },
+        "aggregate_label": {
+          "th": "ประเมินรวมทั้งหน่วยงาน",
+          "en": "Evaluate the unit"
+        },
         "require_on_list": true,
         "allow_aggregate_in_list": false,
         "people": [
-          { "code": "A36090", "display_th": "A36090  รัฐพงศ์ สง่าแสง", "display_en": "A36090  รัฐพงศ์ สง่าแสง" },
-          { "code": "A37130", "display_th": "A37130  มณฑกาญจน์ ลดาภิวัฒน์", "display_en": "A37130  มณฑกาญจน์ ลดาภิวัฒน์" },
-          { "code": "A39051", "display_th": "A39051  อนุชา ปิยะวาณิชย์สกุล", "display_en": "A39051  อนุชา ปิยะวาณิชย์สกุล" },
-          { "code": "A43046", "display_th": "A43046  ประชา สมนาค", "display_en": "A43046  ประชา สมนาค" },
-          { "code": "A46015", "display_th": "A46015  คุณากร สุทธิโสตถิ์", "display_en": "A46015  คุณากร สุทธิโสตถิ์" },
-          { "code": "A52078", "display_th": "A52078  สราวุฒิ สำเนียงดี", "display_en": "A52078  สราวุฒิ สำเนียงดี" },
-          { "code": "A66084", "display_th": "A66084  วรายุทธ เสือสวย", "display_en": "A66084  วรายุทธ เสือสวย" },
-          { "code": "A68105", "display_th": "A68105  อภิสิทธิ์ นาคทิพย์", "display_en": "A68105  อภิสิทธิ์ นาคทิพย์" },
-          { "code": "A68116", "display_th": "A68116  ประดิพัทธ์ วนัสพรชนิตว์", "display_en": "A68116  ประดิพัทธ์ วนัสพรชนิตว์" },
-          { "code": "A69075", "display_th": "A69075  ทิสา ธนาทิพยกุล", "display_en": "A69075  ทิสา ธนาทิพยกุล" },
-          { "code": "A69079", "display_th": "A69079  ปัณฑารีย์ เต่าทอง", "display_en": "A69079  ปัณฑารีย์ เต่าทอง" }          
+          {
+            "code": "A36090",
+            "display_th": "A36090  รัฐพงศ์ สง่าแสง",
+            "display_en": "A36090  รัฐพงศ์ สง่าแสง"
+          },
+          {
+            "code": "A37130",
+            "display_th": "A37130  มณฑกาญจน์ ลดาภิวัฒน์",
+            "display_en": "A37130  มณฑกาญจน์ ลดาภิวัฒน์"
+          },
+          {
+            "code": "A39051",
+            "display_th": "A39051  อนุชา ปิยะวาณิชย์สกุล",
+            "display_en": "A39051  อนุชา ปิยะวาณิชย์สกุล"
+          },
+          {
+            "code": "A43046",
+            "display_th": "A43046  ประชา สมนาค",
+            "display_en": "A43046  ประชา สมนาค"
+          },
+          {
+            "code": "A46015",
+            "display_th": "A46015  คุณากร สุทธิโสตถิ์",
+            "display_en": "A46015  คุณากร สุทธิโสตถิ์"
+          },
+          {
+            "code": "A52078",
+            "display_th": "A52078  สราวุฒิ สำเนียงดี",
+            "display_en": "A52078  สราวุฒิ สำเนียงดี"
+          },
+          {
+            "code": "A66084",
+            "display_th": "A66084  วรายุทธ เสือสวย",
+            "display_en": "A66084  วรายุทธ เสือสวย"
+          },
+          {
+            "code": "A68105",
+            "display_th": "A68105  อภิสิทธิ์ นาคทิพย์",
+            "display_en": "A68105  อภิสิทธิ์ นาคทิพย์"
+          },
+          {
+            "code": "A68116",
+            "display_th": "A68116  ประดิพัทธ์ วนัสพรชนิตว์",
+            "display_en": "A68116  ประดิพัทธ์ วนัสพรชนิตว์"
+          },
+          {
+            "code": "A69075",
+            "display_th": "A69075  ทิสา ธนาทิพยกุล",
+            "display_en": "A69075  ทิสา ธนาทิพยกุล"
+          },
+          {
+            "code": "A69079",
+            "display_th": "A69079  ปัณฑารีย์ เต่าทอง",
+            "display_en": "A69079  ปัณฑารีย์ เต่าทอง"
+          }
         ]
       }
     },
@@ -1128,12 +1791,14 @@
       "อื่นๆ"
     ]
   },
-
-"SportsF": {
+  "SportsF": {
     "config": {
       "hasServices": false,
       "group": "support",
-      "langs": ["th","en"],
+      "langs": [
+        "th",
+        "en"
+      ],
       "default_lang": "th",
       "sheet_label": "บริการสนามกีฬาและอุปกรณ์",
       "display_title": {
@@ -1143,40 +1808,110 @@
       "providers": {
         "mode": "auto",
         "show_provider_in_ui": "none",
-        "label": { "th": "ผู้ให้บริการ", "en": "Service provider" },
-        "aggregate_label": { "th": "ประเมินรวมทั้งหน่วยงาน", "en": "Evaluate the unit" },
+        "label": {
+          "th": "ผู้ให้บริการ",
+          "en": "Service provider"
+        },
+        "aggregate_label": {
+          "th": "ประเมินรวมทั้งหน่วยงาน",
+          "en": "Evaluate the unit"
+        },
         "require_on_list": true,
         "allow_aggregate_in_list": false,
         "people": [
-          { "code": "Basketball_F_1", "display_th": "สนามบาสเกตบอล 1", "display_en": "Basketball Court 1" },
-          { "code": "Basketball_F_2", "display_th": "สนามบาสเกตบอล 2", "display_en": "Basketball Court 2" },
-          { "code": "Basketball_F_3", "display_th": "สนามบาสเกตบอล 3", "display_en": "Basketball Court 3" },
-          { "code": "Futsal_F_1", "display_th": "สนามฟุตซอล 1", "display_en": "Futsal Court 1" },
-          { "code": "Futsal_F_2", "display_th": "สนามฟุตซอล 2", "display_en": "Futsal Court 2" },
-          { "code": "Futsal_F_3", "display_th": "สนามฟุตซอล 3", "display_en": "Futsal Court 3" },
-          { "code": "Volleyball_F_1", "display_th": "สนามวอลเลย์บอล 1", "display_en": "Volleyball Court 1" },
-          { "code": "Volleyball_F_2", "display_th": "สนามวอลเลย์บอล 2", "display_en": "Volleyball Court 2" },
-          { "code": "Football_F", "display_th": "สนามฟุตบอล", "display_en": "Football Field" },
-          { "code": "Rugby_F", "display_th": "สนามรักบี้ฟุตบอล", "display_en": "Rugby Field" },
-          { "code": "Badminton_F", "display_th": "สนามแบดมินตัน", "display_en": "Badminton Court" },
-          { "code": "Tennis_F", "display_th": "สนามเทนนิส", "display_en": "Tennis Court" },
-          { "code": "TableTennis_F", "display_th": "สนามเทเบิลเทนนิส", "display_en": "Table Tennis Room" },
-          { "code": "SepakTakraw_F", "display_th": "สนามตะกร้อ", "display_en": "Sepak Takraw Court" },
-          { "code": "Petanque_F", "display_th": "สนามเปตอง", "display_en": "Petanque Court" },
-          { "code": "Fitness_F", "display_th": "ห้องฟิตเนส", "display_en": "Fitness Room" }
+          {
+            "code": "Basketball_F_1",
+            "display_th": "สนามบาสเกตบอล 1",
+            "display_en": "Basketball Court 1"
+          },
+          {
+            "code": "Basketball_F_2",
+            "display_th": "สนามบาสเกตบอล 2",
+            "display_en": "Basketball Court 2"
+          },
+          {
+            "code": "Basketball_F_3",
+            "display_th": "สนามบาสเกตบอล 3",
+            "display_en": "Basketball Court 3"
+          },
+          {
+            "code": "Futsal_F_1",
+            "display_th": "สนามฟุตซอล 1",
+            "display_en": "Futsal Court 1"
+          },
+          {
+            "code": "Futsal_F_2",
+            "display_th": "สนามฟุตซอล 2",
+            "display_en": "Futsal Court 2"
+          },
+          {
+            "code": "Futsal_F_3",
+            "display_th": "สนามฟุตซอล 3",
+            "display_en": "Futsal Court 3"
+          },
+          {
+            "code": "Volleyball_F_1",
+            "display_th": "สนามวอลเลย์บอล 1",
+            "display_en": "Volleyball Court 1"
+          },
+          {
+            "code": "Volleyball_F_2",
+            "display_th": "สนามวอลเลย์บอล 2",
+            "display_en": "Volleyball Court 2"
+          },
+          {
+            "code": "Football_F",
+            "display_th": "สนามฟุตบอล",
+            "display_en": "Football Field"
+          },
+          {
+            "code": "Rugby_F",
+            "display_th": "สนามรักบี้ฟุตบอล",
+            "display_en": "Rugby Field"
+          },
+          {
+            "code": "Badminton_F",
+            "display_th": "สนามแบดมินตัน",
+            "display_en": "Badminton Court"
+          },
+          {
+            "code": "Tennis_F",
+            "display_th": "สนามเทนนิส",
+            "display_en": "Tennis Court"
+          },
+          {
+            "code": "TableTennis_F",
+            "display_th": "สนามเทเบิลเทนนิส",
+            "display_en": "Table Tennis Room"
+          },
+          {
+            "code": "SepakTakraw_F",
+            "display_th": "สนามตะกร้อ",
+            "display_en": "Sepak Takraw Court"
+          },
+          {
+            "code": "Petanque_F",
+            "display_th": "สนามเปตอง",
+            "display_en": "Petanque Court"
+          },
+          {
+            "code": "Fitness_F",
+            "display_th": "ห้องฟิตเนส",
+            "display_en": "Fitness Room"
+          }
         ]
       }
     },
-    "options": [
-
-    ]
+    "options": []
   },
-
-"SportsE": {
+  "SportsE": {
     "config": {
       "hasServices": false,
       "group": "support",
-      "langs": ["th","en"],
+      "langs": [
+        "th",
+        "en"
+      ],
       "default_lang": "th",
       "sheet_label": "บริการสนามกีฬาและอุปกรณ์",
       "display_title": {
@@ -1186,30 +1921,63 @@
       "providers": {
         "mode": "auto",
         "show_provider_in_ui": "none",
-        "label": { "th": "ผู้ให้บริการ", "en": "Service provider" },
-        "aggregate_label": { "th": "ประเมินรวมทั้งหน่วยงาน", "en": "Evaluate the unit" },
+        "label": {
+          "th": "ผู้ให้บริการ",
+          "en": "Service provider"
+        },
+        "aggregate_label": {
+          "th": "ประเมินรวมทั้งหน่วยงาน",
+          "en": "Evaluate the unit"
+        },
         "require_on_list": true,
         "allow_aggregate_in_list": false,
         "people": [
-          { "code": "Basketball_E", "display_th": "ลูกบาสเกตบอล", "display_en": "Basketball" },
-          { "code": "Futsal_E", "display_th": "ลูกฟุตซอล", "display_en": "Futsal Ball" },
-          { "code": "Volleyball_E", "display_th": "ลูกวอลเลย์บอล", "display_en": "Volleyball" },
-          { "code": "Football_E", "display_th": "ลูกฟุตบอล", "display_en": "Football" },
-          { "code": "SepakTakraw_E", "display_th": "ลูกตะกร้อ", "display_en": "Sepak Takraw Ball" },
-          { "code": "Petanque_E", "display_th": "ลูกเปตอง", "display_en": "Petanque Balls" },
-          { "code": "TableTennis_E", "display_th": "ไม้และลูกเทเบิลเทนนิส", "display_en": "Table Tennis Rackets and Balls" }
+          {
+            "code": "Basketball_E",
+            "display_th": "ลูกบาสเกตบอล",
+            "display_en": "Basketball"
+          },
+          {
+            "code": "Futsal_E",
+            "display_th": "ลูกฟุตซอล",
+            "display_en": "Futsal Ball"
+          },
+          {
+            "code": "Volleyball_E",
+            "display_th": "ลูกวอลเลย์บอล",
+            "display_en": "Volleyball"
+          },
+          {
+            "code": "Football_E",
+            "display_th": "ลูกฟุตบอล",
+            "display_en": "Football"
+          },
+          {
+            "code": "SepakTakraw_E",
+            "display_th": "ลูกตะกร้อ",
+            "display_en": "Sepak Takraw Ball"
+          },
+          {
+            "code": "Petanque_E",
+            "display_th": "ลูกเปตอง",
+            "display_en": "Petanque Balls"
+          },
+          {
+            "code": "TableTennis_E",
+            "display_th": "ไม้และลูกเทเบิลเทนนิส",
+            "display_en": "Table Tennis Rackets and Balls"
+          }
         ]
       }
     },
-    "options": [
-
-    ]
+    "options": []
   },
-
-"Purchase": {
+  "Purchase": {
     "config": {
       "group": "support",
-      "langs": ["th"],
+      "langs": [
+        "th"
+      ],
       "default_lang": "th",
       "sheet_label": "แผนกจัดซื้อ",
       "display_title": {
@@ -1219,24 +1987,82 @@
       "providers": {
         "mode": "auto",
         "show_provider_in_ui": "none",
-        "label": { "th": "ผู้ให้บริการ", "en": "Service provider" },
-        "aggregate_label": { "th": "ประเมินรวมทั้งหน่วยงาน", "en": "Evaluate the unit" },
+        "label": {
+          "th": "ผู้ให้บริการ",
+          "en": "Service provider"
+        },
+        "aggregate_label": {
+          "th": "ประเมินรวมทั้งหน่วยงาน",
+          "en": "Evaluate the unit"
+        },
         "require_on_list": true,
         "allow_aggregate_in_list": false,
         "people": [
-          { "code": "A66070", "display_th": "A66070 ธันว์เทพ เดชชนะ", "display_en": "A66070 ธันว์เทพ เดชชนะ" },
-          { "code": "A41052", "display_th": "A41052 กชพรรณ รักษี", "display_en": "A41052 กชพรรณ รักษี" },
-          { "code": "A67038", "display_th": "A67038 กนิษฐา ดิลกมงคลจารุ", "display_en": "A67038 กนิษฐา ดิลกมงคลจารุ" },
-          { "code": "A68015", "display_th": "A68015 ภัทชา ปิยวัชรเมธา", "display_en": "A68015 ภัทชา ปิยวัชรเมธา" },
-          { "code": "A68029", "display_th": "A68029 เปรม นะรุรา", "display_en": "A68029 เปรม นะรุรา" },
-          { "code": "A68031", "display_th": "A68031 อนุชา คณานุรักษ์", "display_en": "A68031 อนุชา คณานุรักษ์" },
-          { "code": "A68035", "display_th": "A68035 อาคม คำก๋อง", "display_en": "A68035 อาคม คำก๋อง" },
-          { "code": "A68039", "display_th": "A68039 พรภิญญา ทุมพันธ์", "display_en": "A68039 พรภิญญา ทุมพันธ์" },
-          { "code": "A68043", "display_th": "A68043 ปัญจะ ธัญญเจริญ", "display_en": "A68043 ปัญจะ ธัญญเจริญ" },
-          { "code": "A68051", "display_th": "A68051 สายชล พรมพิลา", "display_en": "A68051 สายชล พรมพิลา" },
-          { "code": "A68056", "display_th": "A68056 ประติมา ต่วนจะโป๊ะ", "display_en": "A68056 ประติมา ต่วนจะโป๊ะ" },
-          { "code": "A68113", "display_th": "A68113 ธีรญาณ ศักดิ์ชัยสมบูรณ์", "display_en": "A68113 ธีรญาณ ศักดิ์ชัยสมบูรณ์" },
-          { "code": "A69027", "display_th": "A69027 จันทร์งาม ทองดี", "display_en": "A69027 จันทร์งาม ทองดี" }
+          {
+            "code": "A66070",
+            "display_th": "A66070 ธันว์เทพ เดชชนะ",
+            "display_en": "A66070 ธันว์เทพ เดชชนะ"
+          },
+          {
+            "code": "A41052",
+            "display_th": "A41052 กชพรรณ รักษี",
+            "display_en": "A41052 กชพรรณ รักษี"
+          },
+          {
+            "code": "A67038",
+            "display_th": "A67038 กนิษฐา ดิลกมงคลจารุ",
+            "display_en": "A67038 กนิษฐา ดิลกมงคลจารุ"
+          },
+          {
+            "code": "A68015",
+            "display_th": "A68015 ภัทชา ปิยวัชรเมธา",
+            "display_en": "A68015 ภัทชา ปิยวัชรเมธา"
+          },
+          {
+            "code": "A68029",
+            "display_th": "A68029 เปรม นะรุรา",
+            "display_en": "A68029 เปรม นะรุรา"
+          },
+          {
+            "code": "A68031",
+            "display_th": "A68031 อนุชา คณานุรักษ์",
+            "display_en": "A68031 อนุชา คณานุรักษ์"
+          },
+          {
+            "code": "A68035",
+            "display_th": "A68035 อาคม คำก๋อง",
+            "display_en": "A68035 อาคม คำก๋อง"
+          },
+          {
+            "code": "A68039",
+            "display_th": "A68039 พรภิญญา ทุมพันธ์",
+            "display_en": "A68039 พรภิญญา ทุมพันธ์"
+          },
+          {
+            "code": "A68043",
+            "display_th": "A68043 ปัญจะ ธัญญเจริญ",
+            "display_en": "A68043 ปัญจะ ธัญญเจริญ"
+          },
+          {
+            "code": "A68051",
+            "display_th": "A68051 สายชล พรมพิลา",
+            "display_en": "A68051 สายชล พรมพิลา"
+          },
+          {
+            "code": "A68056",
+            "display_th": "A68056 ประติมา ต่วนจะโป๊ะ",
+            "display_en": "A68056 ประติมา ต่วนจะโป๊ะ"
+          },
+          {
+            "code": "A68113",
+            "display_th": "A68113 ธีรญาณ ศักดิ์ชัยสมบูรณ์",
+            "display_en": "A68113 ธีรญาณ ศักดิ์ชัยสมบูรณ์"
+          },
+          {
+            "code": "A69027",
+            "display_th": "A69027 จันทร์งาม ทองดี",
+            "display_en": "A69027 จันทร์งาม ทองดี"
+          }
         ]
       }
     },
@@ -1248,11 +2074,12 @@
       "อื่นๆ"
     ]
   },
-
-"Supply": {
+  "Supply": {
     "config": {
       "group": "support",
-      "langs": ["th"],
+      "langs": [
+        "th"
+      ],
       "default_lang": "th",
       "sheet_label": "แผนกพัสดุ",
       "display_title": {
@@ -1262,23 +2089,77 @@
       "providers": {
         "mode": "auto",
         "show_provider_in_ui": "none",
-        "label": { "th": "ผู้ให้บริการ", "en": "Service provider" },
-        "aggregate_label": { "th": "ประเมินรวมทั้งหน่วยงาน", "en": "Evaluate the unit" },
+        "label": {
+          "th": "ผู้ให้บริการ",
+          "en": "Service provider"
+        },
+        "aggregate_label": {
+          "th": "ประเมินรวมทั้งหน่วยงาน",
+          "en": "Evaluate the unit"
+        },
         "require_on_list": true,
         "allow_aggregate_in_list": false,
         "people": [
-          { "code": "A37036", "display_th": "A37036 กัญณิกา เพชรแสง", "display_en": "A37036 กัญณิกา เพชรแสง" },
-          { "code": "A68036", "display_th": "A68036 กานต์พิชชา หลักด่าน", "display_en": "A68036 กานต์พิชชา หลักด่าน" },
-          { "code": "A40100", "display_th": "A40100 พิมพ์พร คำสดใสกุล", "display_en": "A40100 พิมพ์พร คำสดใสกุล" },
-          { "code": "A45082", "display_th": "A45082 อรรถกร สุขนันทฬส", "display_en": "A45082 อรรถกร สุขนันทฬส" },
-          { "code": "A48006", "display_th": "A48006 วิลาสินี มาลากุล", "display_en": "A48006 วิลาสินี มาลากุล" },
-          { "code": "A55025", "display_th": "A55025 สงวนวงศ์ อินทร์มา", "display_en": "A55025 สงวนวงศ์ อินทร์มา" },
-          { "code": "A58023", "display_th": "A58023 สุพัตรา ยอดจักร", "display_en": "A58023 สุพัตรา ยอดจักร" },
-          { "code": "A67115", "display_th": "A67115 ปุณยนุช บัวทอง", "display_en": "A67115 ปุณยนุช บัวทอง" },
-          { "code": "A68003", "display_th": "A68003 ภาณุพงษ์ ภานุมาตย์", "display_en": "A68003 ภาณุพงษ์ ภานุมาตย์" },
-          { "code": "A68030", "display_th": "A68030 ศราวุฒิ ทั่งรื่น", "display_en": "A68030 ศราวุฒิ ทั่งรื่น" },
-          { "code": "A68050", "display_th": "A68050 สยาม มีพลอย", "display_en": "A68050 สยาม มีพลอย" },
-          { "code": "E39018", "display_th": "E39018 หลาวมณี วงษ์งาม", "display_en": "E39018 หลาวมณี วงษ์งาม" }
+          {
+            "code": "A37036",
+            "display_th": "A37036 กัญณิกา เพชรแสง",
+            "display_en": "A37036 กัญณิกา เพชรแสง"
+          },
+          {
+            "code": "A68036",
+            "display_th": "A68036 กานต์พิชชา หลักด่าน",
+            "display_en": "A68036 กานต์พิชชา หลักด่าน"
+          },
+          {
+            "code": "A40100",
+            "display_th": "A40100 พิมพ์พร คำสดใสกุล",
+            "display_en": "A40100 พิมพ์พร คำสดใสกุล"
+          },
+          {
+            "code": "A45082",
+            "display_th": "A45082 อรรถกร สุขนันทฬส",
+            "display_en": "A45082 อรรถกร สุขนันทฬส"
+          },
+          {
+            "code": "A48006",
+            "display_th": "A48006 วิลาสินี มาลากุล",
+            "display_en": "A48006 วิลาสินี มาลากุล"
+          },
+          {
+            "code": "A55025",
+            "display_th": "A55025 สงวนวงศ์ อินทร์มา",
+            "display_en": "A55025 สงวนวงศ์ อินทร์มา"
+          },
+          {
+            "code": "A58023",
+            "display_th": "A58023 สุพัตรา ยอดจักร",
+            "display_en": "A58023 สุพัตรา ยอดจักร"
+          },
+          {
+            "code": "A67115",
+            "display_th": "A67115 ปุณยนุช บัวทอง",
+            "display_en": "A67115 ปุณยนุช บัวทอง"
+          },
+          {
+            "code": "A68003",
+            "display_th": "A68003 ภาณุพงษ์ ภานุมาตย์",
+            "display_en": "A68003 ภาณุพงษ์ ภานุมาตย์"
+          },
+          {
+            "code": "A68030",
+            "display_th": "A68030 ศราวุฒิ ทั่งรื่น",
+            "display_en": "A68030 ศราวุฒิ ทั่งรื่น"
+          },
+          {
+            "code": "A68050",
+            "display_th": "A68050 สยาม มีพลอย",
+            "display_en": "A68050 สยาม มีพลอย"
+          },
+          {
+            "code": "E39018",
+            "display_th": "E39018 หลาวมณี วงษ์งาม",
+            "display_en": "E39018 หลาวมณี วงษ์งาม"
+          }
         ]
       }
     },
@@ -1290,5 +2171,4 @@
       "อื่นๆ"
     ]
   }
-
 }
