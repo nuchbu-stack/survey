@@ -1,12 +1,12 @@
 {
   "Features": {
-    "_comment": "รายชื่อ <unitKey> ที่ต้องแสดงคำถาม 'ผู้รับบริการคือ' (QUser). ถ้าไม่อยู่ในลิสต์จะซ่อน QUser อัตโนมัติ. ใส่ครบทุกหน่วยงานแล้ว (แสดงทุกหน่วย) เพราะ list นี้เช็คจาก q0Options.json (static, โหลดเร็ว) โดยตรง ไม่ต้องรอ endpoint UnitsConfig ของ Apps Script ที่ cold start ช้า — ถ้าเดิมหน่วยไหนเคยเปิดผ่าน UnitsConfig sheet (ShowUserType=TRUE) ค่านั้นตอนนี้ซ้ำซ้อนแล้ว เอาออกจากชีทได้เลยหรือจะเก็บไว้เฉยๆ ก็ไม่กระทบ (ไม่มีผลอะไรเพิ่มเพราะเปิดจาก .json อยู่แล้ว)",
+    "_comment": "รายชื่อ <unitKey> ที่ต้องแสดงคำถาม 'ผู้รับบริการคือ' (QUser). ถ้าไม่อยู่ในลิสต์จะซ่อน QUser อัตโนมัติ.",
 
     "UserType": ["ASU_LI1","ASU_LI2","ASU_AC","ASU_BA","ASU_CA","ASU_LA","ASU_HM","SUP_HM","ASU_EC",
                  "ASU_ITI","ASU_FA","SUP_FA_Wood","SUP_FA_Com","SUP_FA_fashion","SUP_FA_Photo","ASU_EE1","ASU_EE2","ASU_BUI",
                  "ASU_ARC","ASU_SEM","ASU_DC","ASU_BUCI","ASU_grad","GE",
-                 "clinic","OSS","records_office","scholarship","CC","Work-Integ","InterCenter","Museum","Fin","CorpCom","QA",
-                 "STUDEV","SportsF","SportsE","Purchase","Supply"],
+                 "clinic","records_office","CC","Work-Integ","InterCenter","Fin","CorpCom","QA",
+                 "STUDEV","Supply","Purchase","SportsF","SportsE"],
 
     "_comment_studentInfo": "ใหม่: ฟิลด์ 'รหัสนักศึกษา / หลักสูตร' ที่จะโชว์ต่อเมื่อ (1) หน่วยนั้นอยู่ใน UserType ด้านบน และ (2) ผู้ตอบเลือก 'นักศึกษา'. ตั้งค่าที่ config.studentInfo ของแต่ละหน่วยงานด้านล่าง (ไม่ใช่ list ตรงนี้ เพราะแต่ละหน่วยต้องเลือก mode ต่างกันได้). ถ้าหน่วยไหนไม่ใส่ config.studentInfo เลย จะใช้ค่าจาก Defaults.studentInfo แทน (ตอนนี้คือ mode:'id' ให้ทุกหน่วยกรอกรหัสนักศึกษา) — ถ้าหน่วยไหนอยากได้โหมดอื่น หรือไม่อยากมีฟิลด์นี้เลย ให้ใส่ config.studentInfo ของหน่วยนั้นทับ (เช่น mode:'off') เท่านั้นพอ ไม่ต้องแก้ทุกหน่วย.",
     "_studentInfo_modes": {
@@ -27,10 +27,12 @@
   },
 
   "Defaults": {
-    "_comment": "ค่า default ที่ใช้กับทุกหน่วยงานที่ไม่ได้ตั้งค่า config.studentInfo ของตัวเองไว้ (ลดงานแก้ JSON ทีละหน่วย). ถ้าหน่วยไหนต้องการโหมดอื่น หรือไม่ต้องการฟิลด์นี้เลย ให้ใส่ config.studentInfo ของหน่วยนั้นทับค่านี้ได้เสมอ (เช่น {\"mode\":\"off\"} หรือ {\"mode\":\"program\", ...}). เปลี่ยนเป็น faculty_program ทุกหน่วยงานแล้ว (แทน API ศคพ สำหรับข้อมูลคณะ/สาขาไปเลย ไม่ต้องรอ Task #8) — ลิสต์คณะ/หลักสูตรอ่านสดจากแท็บ Programs",
+    "_comment": "ค่า default ที่ใช้กับทุกหน่วยงานที่ไม่ได้ตั้งค่า config.studentInfo ของตัวเองไว้ (ลดงานแก้ JSON ทีละหน่วย). ถ้าหน่วยไหนต้องการโหมดอื่น หรือไม่ต้องการฟิลด์นี้เลย ให้ใส่ config.studentInfo ของหน่วยนั้นทับค่านี้ได้เสมอ (เช่น {\"mode\":\"off\"} หรือ {\"mode\":\"program\", ...}).",
     "studentInfo": {
-      "mode": "faculty_program",
-      "label": { "th": "คณะที่นักศึกษาสังกัด", "en": "Student's Faculty" }
+      "mode": "id",
+      "label": { "th": "รหัสนักศึกษา", "en": "Student ID" },
+      "idPattern": "^[0-9]{10}$",
+      "idPatternHint": { "th": "กรอกรหัสนักศึกษา (ตัวเลข 10 หลัก)", "en": "Enter student ID (10 digits)" }
     }
   },
 
@@ -92,7 +94,7 @@
         "require_on_list": true,
         "allow_aggregate_in_list": false,
         "people": [
-          { "code": "LI_1", "display_th": "สถาบันภาษา 1", "display_en": "Language Institute 1"  }
+          { "code": "LI_1", "display_th": "การสอบถามเกี่ยวกับรายวิชา EN", "display_en": "Language Institute 1"  }
         ]
       }
     },
@@ -117,7 +119,7 @@
         "require_on_list": true,
         "allow_aggregate_in_list": false,
         "people": [
-          { "code": "LI_2", "display_th": "สถาบันภาษา 2", "display_en": "Language Institute 2"  }
+          { "code": "LI_2", "display_th": "การสอบถามเรื่องโปรแกรม Speexx และการบริการของห้องปฏิบัติการทางภาษา ", "display_en": "Language Institute 2"  }
         ]
       }
     },
@@ -169,7 +171,13 @@
           { "code": "A57161", "display_th": "A57161 อ.พรสวรรค์ อิ้ววังโส" }
         ]
       },
-      "_note_studentInfo": "เอา override mode:'id' เดิมออกแล้ว หน่วยนี้จึงใช้ faculty_program ตาม Defaults ด้านบนแทน — ถ้าอยากกลับไปใช้โหมดกรอกรหัสนักศึกษาแบบเดิม ใส่ studentInfo:{mode:'id',...} กลับมาแทนคีย์นี้ได้เลย"
+      "studentInfo": {
+        "_comment": "ตัวอย่าง mode:'id' — ให้กรอกรหัสนักศึกษาเป็นข้อความ",
+        "mode": "id",
+        "label": { "th": "รหัสนักศึกษา", "en": "Student ID" },
+        "idPattern": "^[0-9]{10}$",
+        "idPatternHint": { "th": "กรอกเฉพาะตัวเลข 10 หลัก", "en": "Digits only, 10 characters" }
+      }
     },
     "use": "COMMON_STUDENT_SERVICES"
   },
@@ -192,8 +200,8 @@
         "require_on_list": true,
         "allow_aggregate_in_list": false,
         "people": [
-          { "code": "ca_1" },
-          { "code": "ca_2" }
+          { "code": "ca_1", "display_th": "คณะนิเทศศาสตร์"  },
+          { "code": "ca_2", "display_th": "ศูนย์ผลิตสื่อนิเทศศาสตร์"  }
         ]
       }
     },
@@ -923,7 +931,8 @@
           { "code": "A45029", "display_th": "A45029 รณิดา รัตตากร", "display_en": "A45029 รณิดา รัตตากร" },
           { "code": "A54117", "display_th": "A54117 ฐิติรัตน์ เกิดหาญ", "display_en": "A54117 ฐิติรัตน์ เกิดหาญ" },
           { "code": "A68117", "display_th": "A68117 ปิยาพร ประชุมพวก", "display_en": "A68117 ปิยาพร ประชุมพวก" },
-          { "code": "A43008", "display_th": "A43008 วิรชา ณ พัทลุง", "display_en": "A43008 วิรชา ณ พัทลุง" }
+          { "code": "A43008", "display_th": "A43008 วิรชา ณ พัทลุง", "display_en": "A43008 วิรชา ณ พัทลุง" },
+          { "code": "A60083", "display_th": "A60083  ณภัทร นิธิชนากานต์", "display_en": "A60083  ณภัทร นิธิชนากานต์" }          
         ]
       }
     },
@@ -1000,25 +1009,33 @@
   "Fin": {
     "config": {
       "group": "support",
-      "langs": ["th"],
+      "langs": ["th","en"],
       "default_lang": "th",
       "sheet_label": "ฝ่ายการคลัง",
       "display_title": {
         "th": "ฝ่ายการคลัง",
         "en": "Financial Affairs Office"
       },
-      "providers": { "mode": "aggregate" }
+      "providers": {
+        "mode": "auto",
+        "show_provider_in_ui": "none",
+        "label": { "th": "ผู้ให้บริการ", "en": "Service provider" },
+        "aggregate_label": { "th": "ประเมินรวมทั้งหน่วยงาน", "en": "Evaluate the unit" },
+        "require_on_list": true,
+        "allow_aggregate_in_list": false,
+        "people": [
+          { "code": "Cashier_1", "display_th": "Cashier 1", "display_en": "Cashier 1" },
+          { "code": "Cashier_2", "display_th": "Cashier 2", "display_en": "Cashier 2" },
+          { "code": "Cashier_3", "display_th": "Cashier 3", "display_en": "Cashier 3" },
+          { "code": "Cashier_4", "display_th": "Cashier 4", "display_en": "Cashier 4" }
+        ]
+      }
     },
     "options": [
-      { "th": "ชำระเงิน ค่าลงทะเบียน/ค่าโครงการ/ค่าเอกสารต่าง ๆ (Cashier)", "en": "ชำระเงิน ค่าลงทะเบียน/ค่าโครงการ/ค่าเอกสารต่าง ๆ (Cashier)" },
-      { "th": "ขอใบเสร็จรับเงินและเอกสารประกอบการเบิก (Cashier)", "en": "ขอใบเสร็จรับเงินและเอกสารประกอบการเบิก (Cashier)" },
-      { "th": "ขอคืนเงินค่าประกันความเสียหาย/ ค่าลงทะเบียนเรียน", "en": "ขอคืนเงินค่าประกันความเสียหาย/ ค่าลงทะเบียนเรียน" },
-      { "th": "ติดต่อรับเงิน/รับเช็ค", "en": "ติดต่อรับเงิน/รับเช็ค" },
-      { "th": "เบิกจ่ายบัญชีกิจกรรมคณะ / ชมรม", "en": "เบิกจ่ายบัญชีกิจกรรมคณะ / ชมรม" },
-      { "th": "ประสานงานเบิกค่าใช้จ่าย รวมถึงนำส่งเอกสารหรือ หลักฐาน เช่น เอกสารประกอบการเบิก /ใบเสร็จ (แผนกบัญชี)", "en": "ประสานงานเบิกค่าใช้จ่าย รวมถึงนำส่งเอกสารหรือ หลักฐาน เช่น เอกสารประกอบการเบิก /ใบเสร็จ (แผนกบัญชี)" },
-      { "th": "ติดต่อสอบถามเกี่ยวกับงบประมาณ", "en": "ติดต่อสอบถามเกี่ยวกับงบประมาณ" },
-      { "th": "รับเอกสารหรือ หลักฐาน (เช่น ใบเสร็จ/ หนังสือรับรองภาษี/ หลักฐานอื่นๆ)", "en": "รับเอกสารหรือ หลักฐาน (เช่น ใบเสร็จ/ หนังสือรับรองภาษี/ หลักฐานอื่นๆ)" },
-      { "th": "ติดต่อสอบถามข้อมูลต่าง ๆ", "en": "ติดต่อสอบถามข้อมูลต่าง ๆ" }
+      { "th": "ชำระเงิน", "en": "Payment" },
+      { "th": "ขอเอกสารประกอบการเบิกค่าเล่าเรียน", "en": "Request for Supporting Documents for Tuition Fee Reimbursement" },
+      { "th": "ขอคืนเงินต่าง ๆ", "en": "Refunds" },
+      { "th": "อื่นๆ", "en": "Other(s)" }
     ]
   },
 
@@ -1095,10 +1112,11 @@
           { "code": "A43046", "display_th": "A43046  ประชา สมนาค", "display_en": "A43046  ประชา สมนาค" },
           { "code": "A46015", "display_th": "A46015  คุณากร สุทธิโสตถิ์", "display_en": "A46015  คุณากร สุทธิโสตถิ์" },
           { "code": "A52078", "display_th": "A52078  สราวุฒิ สำเนียงดี", "display_en": "A52078  สราวุฒิ สำเนียงดี" },
-          { "code": "A60083", "display_th": "A60083  ณภัทร นิธิชนากานต์", "display_en": "A60083  ณภัทร นิธิชนากานต์" },
           { "code": "A66084", "display_th": "A66084  วรายุทธ เสือสวย", "display_en": "A66084  วรายุทธ เสือสวย" },
           { "code": "A68105", "display_th": "A68105  อภิสิทธิ์ นาคทิพย์", "display_en": "A68105  อภิสิทธิ์ นาคทิพย์" },
-          { "code": "A68116", "display_th": "A68116  ประดิพัทธ์ วนัสพรชนิตว์", "display_en": "A68116  ประดิพัทธ์ วนัสพรชนิตว์" }
+          { "code": "A68116", "display_th": "A68116  ประดิพัทธ์ วนัสพรชนิตว์", "display_en": "A68116  ประดิพัทธ์ วนัสพรชนิตว์" },
+          { "code": "A69075", "display_th": "A69075  ทิสา ธนาทิพยกุล", "display_en": "A69075  ทิสา ธนาทิพยกุล" },
+          { "code": "A69079", "display_th": "A69079  ปัณฑารีย์ เต่าทอง", "display_en": "A69079  ปัณฑารีย์ เต่าทอง" }          
         ]
       }
     },
