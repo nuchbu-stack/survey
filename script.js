@@ -119,7 +119,7 @@ const I18N = {
     q1_error: "กรุณาเลือกระดับความพึงพอใจ",
 
     q2_label: "ท่านไม่พึงพอใจในเรื่องใด",
-    q2_opt_staff: "มารยาทและความเต็มใจในการให้บริการ",
+    q2_opt_staff: "มรรยาทและความเต็มใจในการให้บริการ",
     q2_opt_delay: "ระยะเวลาที่ใช้ในการให้บริการ",
     q2_opt_accuracy: "ความสามารถในการให้ข้อมูลอย่างถูกต้อง",
     q2_opt_facility: "ความพร้อมของอุปกรณ์และสถานที่ (Facility)",
@@ -207,6 +207,24 @@ function isOther(val) {
   // EN: other, others, other., others., other (please specify) ฯลฯ
   if (s.startsWith('other')) return true; // ครอบคลุม others/other./other (...)
   return false;
+}
+
+// ถ้าหน่วยงานนี้ตั้งค่า "เรื่องที่รับบริการ" (Q0) ไว้แค่ตัวเลือกเดียว (ไม่นับ placeholder "-- กรุณาเลือก --")
+// ก็ไม่มีอะไรให้ผู้ตอบ "เลือก" จริงๆ อยู่แล้ว เลือกให้อัตโนมัติเลย ไม่ต้องบังคับให้เปิด dropdown มากดเอง —
+// ถ้าตัวเลือกเดียวนั้นบังเอิญเป็น "อื่นๆ" ก็ยังเลือกให้อัตโนมัติเหมือนกัน แค่ต้องโชว์ช่องให้พิมพ์ระบุตามปกติ
+// (ใช้ตรรกะเดียวกับ q0.addEventListener("change",...) ด้านล่าง เพราะการตั้ง q0.value ด้วยโค้ดไม่ทำให้ event "change" ยิงเอง)
+function autoSelectQ0IfSingleOption() {
+  if (!q0) return;
+  const realOptions = Array.from(q0.options).filter(o => o.value !== "");
+  if (realOptions.length !== 1) return; // มีมากกว่า 1 ตัวเลือกจริง หรือไม่มีเลย ปล่อยให้ผู้ตอบเลือกเองตามปกติ
+  q0.value = realOptions[0].value;
+  document.getElementById("q0Error")?.classList.add("hidden");
+  if (isOther(q0.value)) {
+    q0Other?.classList.remove("hidden");
+  } else {
+    q0Other?.classList.add("hidden");
+    if (q0Other) q0Other.value = "";
+  }
 }
 
 // เพิ่ม helper สำหรับ label 2 ภาษา และตั้งชื่อหน่วยบนหน้า
@@ -935,6 +953,7 @@ async function loadServices() {
         q0.appendChild(opt);
       });
       if (q0Other) q0Other.placeholder = I18N[CURRENT_LANG].q0_other_placeholder;
+      autoSelectQ0IfSingleOption(); // ตัวเลือกเดียว -> เลือกให้อัตโนมัติ ไม่ต้องบังคับกดเอง
     };
 
     window.switchLang = function(nextLang) {                 // NEW (override เดิมให้รวมทุกอย่างไว้ที่นี่)
@@ -1060,6 +1079,7 @@ function rerenderDynamicParts(data, conf) {
       q0.appendChild(opt);
     });
     if (q0Other) q0Other.placeholder = I18N[CURRENT_LANG].q0_other_placeholder;
+    autoSelectQ0IfSingleOption(); // ตัวเลือกเดียว -> เลือกให้อัตโนมัติ ไม่ต้องบังคับกดเอง
   }
 }
 
