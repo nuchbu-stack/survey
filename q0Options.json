@@ -41,7 +41,8 @@
       "SportsF",
       "SportsE",
       "Purchase",
-      "Supply"
+      "Supply",
+      "SECY_AES"
     ],
     "_comment_studentInfo": "ใหม่: ฟิลด์ 'รหัสนักศึกษา / หลักสูตร' ที่จะโชว์ต่อเมื่อ (1) หน่วยนั้นอยู่ใน UserType ด้านบน และ (2) ผู้ตอบเลือก 'นักศึกษา'. ตั้งค่าที่ config.studentInfo ของแต่ละหน่วยงานด้านล่าง (ไม่ใช่ list ตรงนี้ เพราะแต่ละหน่วยต้องเลือก mode ต่างกันได้). ถ้าหน่วยไหนไม่ใส่ config.studentInfo เลย จะใช้ค่าจาก Defaults.studentInfo แทน (ตอนนี้คือ mode:'id' ให้ทุกหน่วยกรอกรหัสนักศึกษา) — ถ้าหน่วยไหนอยากได้โหมดอื่น หรือไม่อยากมีฟิลด์นี้เลย ให้ใส่ config.studentInfo ของหน่วยนั้นทับ (เช่น mode:'off') เท่านั้นพอ ไม่ต้องแก้ทุกหน่วย.",
     "_studentInfo_modes": {
@@ -2170,5 +2171,51 @@
       "ส่งสินค้า/วางบิล/งานซื้อขาย",
       "อื่นๆ"
     ]
-  }
+  },
+  "SECY_AES": {
+    "config": {
+      "group": "support",
+      "langs": [
+        "th"
+      ],
+      "default_lang": "th",
+      "sheet_label": "เลขานุการสายบริหารฯ",
+      "display_title": {
+        "th": "สายบริหารและบริการการศึกษา",
+        "en": "Administrative and Educational Services Division"
+      },
+      "providers": {
+        "mode": "auto",
+        "show_provider_in_ui": "none",
+        "label": {
+          "th": "ผู้ให้บริการ",
+          "en": "Service provider"
+        },
+        "aggregate_label": {
+          "th": "ประเมินรวมทั้งหน่วยงาน",
+          "en": "Evaluate the unit"
+        },
+        "require_on_list": true,
+        "allow_aggregate_in_list": false,
+        "people": [
+          {
+            "code": "A46091",
+            "display_th": "A46091 อ.พิมอัปสรณ์ สวัสดิรักษ์",
+            "display_en": "A46091 อ.พิมอัปสรณ์ สวัสดิรักษ์"
+          },
+          {
+            "code": "A55090",
+            "display_th": "A55090 อ.ภัชราวัลย์ เกิดทอง",
+            "display_en": "A55090 อ.ภัชราวัลย์ เกิดทอง"
+          }
+        ]
+      }
+    },
+    "options": [
+      "การบันทึกรับ-ส่งเอกสารโดยระบบ I-Update",
+      "การบันทึกการประชุมและการจัดการเอกสารการประชุมทุกชนิด",
+      "การประสานงานและนัดหมายคิวผู้บริหาร (Calendar)",
+      "อื่นๆ"
+    ]
+  }  
 }
