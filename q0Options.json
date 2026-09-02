@@ -73,7 +73,7 @@
         "th"
       ],
       "default_lang": "th",
-      "sheet_label": "สถาบันภาษา",
+      "sheet_label": "สถาบันภาษา_1",
       "display_title": {
         "th": "สถาบันภาษา",
         "en": "Language Institute"
@@ -109,7 +109,7 @@
         "th"
       ],
       "default_lang": "th",
-      "sheet_label": "สถาบันภาษา",
+      "sheet_label": "สถาบันภาษา_2",
       "display_title": {
         "th": "สถาบันภาษา",
         "en": "Language Institute"
@@ -248,6 +248,111 @@
     },
     "use": "COMMON_STUDENT_SERVICES"
   },
+  "ASU_CA_Media": {
+    "config": {
+      "group": "faculty",
+      "langs": [
+        "th"
+      ],
+      "default_lang": "th",
+      "sheet_label": "นิเทศศาสตร์",
+      "display_title": {
+        "th": "คณะนิเทศศาสตร์",
+        "en": "School of Communication Arts"
+      },
+      "providers": {
+        "mode": "auto",
+        "show_provider_in_ui": "none",
+        "label": {
+          "th": "ผู้ให้บริการ",
+          "en": "Service provider"
+        },
+        "aggregate_label": {
+          "th": "ประเมินรวมทั้งหน่วยงาน",
+          "en": "Evaluate the unit"
+        },
+        "require_on_list": true,
+        "allow_aggregate_in_list": false,
+        "people": [
+          {
+            "code": "ca_media",
+            "display_th": "ศูนย์ผลิตสื่อนิเทศศาสตร์"
+          }
+        ]
+      }
+    },
+    "use": "COMMON_STUDENT_SERVICES"
+  }, 
+  "ASU_CA_EDM": {
+    "config": {
+      "group": "faculty",
+      "langs": [
+        "th"
+      ],
+      "default_lang": "th",
+      "sheet_label": "นิเทศศาสตร์",
+      "display_title": {
+        "th": "คณะนิเทศศาสตร์",
+        "en": "School of Communication Arts"
+      },
+      "providers": {
+        "mode": "auto",
+        "show_provider_in_ui": "none",
+        "label": {
+          "th": "ผู้ให้บริการ",
+          "en": "Service provider"
+        },
+        "aggregate_label": {
+          "th": "ประเมินรวมทั้งหน่วยงาน",
+          "en": "Evaluate the unit"
+        },
+        "require_on_list": true,
+        "allow_aggregate_in_list": false,
+        "people": [
+          {
+            "code": "ca_edm",
+            "display_th": "EDM"
+          }
+        ]
+      }
+    },
+    "use": "COMMON_STUDENT_SERVICES"
+  },  
+  "ASU_CA_PA": {
+    "config": {
+      "group": "faculty",
+      "langs": [
+        "th"
+      ],
+      "default_lang": "th",
+      "sheet_label": "นิเทศศาสตร์",
+      "display_title": {
+        "th": "คณะนิเทศศาสตร์",
+        "en": "School of Communication Arts"
+      },
+      "providers": {
+        "mode": "auto",
+        "show_provider_in_ui": "none",
+        "label": {
+          "th": "ผู้ให้บริการ",
+          "en": "Service provider"
+        },
+        "aggregate_label": {
+          "th": "ประเมินรวมทั้งหน่วยงาน",
+          "en": "Evaluate the unit"
+        },
+        "require_on_list": true,
+        "allow_aggregate_in_list": false,
+        "people": [
+          {
+            "code": "ca_pa",
+            "display_th": "PA"
+          }
+        ]
+      }
+    },
+    "use": "COMMON_STUDENT_SERVICES"
+  },    
   "ASU_LA": {
     "config": {
       "group": "faculty",
