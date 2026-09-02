@@ -879,8 +879,12 @@ async function loadServices() {
     // ค่า default ของฟิลด์รหัสนักศึกษา/หลักสูตร (ใช้กับหน่วยที่ไม่ได้ตั้ง config.studentInfo เอง)
     DEFAULT_STUDENT_INFO = data?.Defaults?.studentInfo || null;
 
-    // QUser: เปิด/ปิดตาม Features.UserType (ค่า override จาก UnitsConfig จะมาทีหลังแบบ async ด้านล่าง)
-    let hasUserType = !!data?.Features?.UserType?.includes(DEPARTMENT);
+    // QUser: default แสดงทุกหน่วยงาน ยกเว้นหน่วยที่อยู่ใน Features.HideUserType (blacklist)
+    // (เดิมเป็น whitelist Features.UserType ต้องใส่ทุกหน่วยที่จะโชว์ กลับด้านมาเป็น blacklist
+    // เพราะส่วนใหญ่อยากโชว์อยู่แล้ว มีแค่ 1-2 หน่วยที่ไม่อยากมี เพิ่มหน่วยใหม่จะได้ไม่ต้องมาแก้ list นี้ทุกครั้ง)
+    // ค่า override จาก UnitsConfig จะมาทีหลังแบบ async ด้านล่าง
+    const hideUserTypeList = Array.isArray(data?.Features?.HideUserType) ? data.Features.HideUserType : [];
+    let hasUserType = !hideUserTypeList.includes(DEPARTMENT);
     qUserSection?.classList.toggle("hidden", !hasUserType);
     if (!hasUserType) document.getElementById("qUserError")?.classList.add("hidden");
 

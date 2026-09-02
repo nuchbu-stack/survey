@@ -1,49 +1,8 @@
 {
   "Features": {
-    "_comment": "รายชื่อ <unitKey> ที่ต้องแสดงคำถาม 'ผู้รับบริการคือ' (QUser). ถ้าไม่อยู่ในลิสต์จะซ่อน QUser อัตโนมัติ. ใส่ครบทุกหน่วยงานแล้ว (แสดงทุกหน่วย) เพราะ list นี้เช็คจาก q0Options.json (static, โหลดเร็ว) โดยตรง ไม่ต้องรอ endpoint UnitsConfig ของ Apps Script ที่ cold start ช้า — ถ้าเดิมหน่วยไหนเคยเปิดผ่าน UnitsConfig sheet (ShowUserType=TRUE) ค่านั้นตอนนี้ซ้ำซ้อนแล้ว เอาออกจากชีทได้เลยหรือจะเก็บไว้เฉยๆ ก็ไม่กระทบ (ไม่มีผลอะไรเพิ่มเพราะเปิดจาก .json อยู่แล้ว)",
-    "UserType": [
-      "ASU_LI1",
-      "ASU_LI2",
-      "ASU_AC",
-      "ASU_BA",
-      "ASU_CA",
-      "ASU_LA",
-      "ASU_HM",
-      "SUP_HM",
-      "ASU_EC",
-      "ASU_ITI",
-      "ASU_FA",
-      "SUP_FA_Wood",
-      "SUP_FA_Com",
-      "SUP_FA_fashion",
-      "SUP_FA_Photo",
-      "ASU_EE1",
-      "ASU_EE2",
-      "ASU_BUI",
-      "ASU_ARC",
-      "ASU_SEM",
-      "ASU_DC",
-      "ASU_BUCI",
-      "ASU_grad",
-      "GE",
-      "clinic",
-      "OSS",
-      "records_office",
-      "scholarship",
-      "CC",
-      "Work-Integ",
-      "InterCenter",
-      "Museum",
-      "Fin",
-      "CorpCom",
-      "QA",
-      "STUDEV",
-      "SportsF",
-      "SportsE",
-      "Purchase",
-      "Supply",
-      "SECY_AES"
-    ],
+    "_comment": "รายชื่อ unitKey ที่ 'จะซ่อน' คำถาม 'ผู้รับบริการคือ' (QUser) — ค่า default คือแสดงทุกหน่วยงาน มีแค่หน่วยที่อยู่ใน list นี้เท่านั้นที่จะถูกซ่อน",
+    "HideUserType": [],
+
     "_comment_studentInfo": "ใหม่: ฟิลด์ 'รหัสนักศึกษา / หลักสูตร' ที่จะโชว์ต่อเมื่อ (1) หน่วยนั้นอยู่ใน UserType ด้านบน และ (2) ผู้ตอบเลือก 'นักศึกษา'. ตั้งค่าที่ config.studentInfo ของแต่ละหน่วยงานด้านล่าง (ไม่ใช่ list ตรงนี้ เพราะแต่ละหน่วยต้องเลือก mode ต่างกันได้). ถ้าหน่วยไหนไม่ใส่ config.studentInfo เลย จะใช้ค่าจาก Defaults.studentInfo แทน (ตอนนี้คือ mode:'id' ให้ทุกหน่วยกรอกรหัสนักศึกษา) — ถ้าหน่วยไหนอยากได้โหมดอื่น หรือไม่อยากมีฟิลด์นี้เลย ให้ใส่ config.studentInfo ของหน่วยนั้นทับ (เช่น mode:'off') เท่านั้นพอ ไม่ต้องแก้ทุกหน่วย.",
     "_studentInfo_modes": {
       "id": "ให้กรอกรหัสนักศึกษาเป็นข้อความ ตรวจสอบเบื้องต้นด้วย regex (idPattern) — ยังไม่ได้ตรวจกับฐานข้อมูลนักศึกษาจริง รอแหล่งข้อมูลยืนยันจากสำนักทะเบียนก่อน",
@@ -2181,8 +2140,8 @@
       "default_lang": "th",
       "sheet_label": "เลขานุการสายบริหารฯ",
       "display_title": {
-        "th": "สายบริหารและบริการการศึกษา",
-        "en": "Administrative and Educational Services Division"
+        "th": "เลขานุการสายบริหารฯ",
+        "en": "Secretary - Administrative and Educational Services Division"
       },
       "providers": {
         "mode": "auto",
