@@ -216,7 +216,7 @@
         "th"
       ],
       "default_lang": "th",
-      "sheet_label": "นิเทศศาสตร์",
+      "sheet_label": "ASU",
       "display_title": {
         "th": "คณะนิเทศศาสตร์",
         "en": "School of Communication Arts"
@@ -257,7 +257,7 @@
         "th"
       ],
       "default_lang": "th",
-      "sheet_label": "นิเทศศาสตร์",
+      "sheet_label": "ศูนย์ผลิตสื่อ",
       "display_title": {
         "th": "คณะนิเทศศาสตร์",
         "en": "School of Communication Arts"
@@ -278,7 +278,7 @@
         "people": [
           {
             "code": "ca_media",
-            "display_th": "ศูนย์ผลิตสื่อนิเทศศาสตร์"
+            "display_th": "Media Center : ศูนย์ผลิตสื่อ"
           }
         ]
       }
@@ -297,7 +297,7 @@
         "th"
       ],
       "default_lang": "th",
-      "sheet_label": "นิเทศศาสตร์",
+      "sheet_label": "EDM",
       "display_title": {
         "th": "คณะนิเทศศาสตร์",
         "en": "School of Communication Arts"
@@ -318,7 +318,7 @@
         "people": [
           {
             "code": "ca_edm",
-            "display_th": "EDM"
+            "display_th": "สาขาวิชาการผลิตอีเว้นท์ และการจัดการนิทรรศการและการประชุม : คณะนิเทศศาสตร์"
           }
         ]
       }
@@ -337,7 +337,7 @@
         "th"
       ],
       "default_lang": "th",
-      "sheet_label": "นิเทศศาสตร์",
+      "sheet_label": "PA",
       "display_title": {
         "th": "คณะนิเทศศาสตร์",
         "en": "School of Communication Arts"
@@ -358,7 +358,7 @@
         "people": [
           {
             "code": "ca_pa",
-            "display_th": "PA"
+            "display_th": "สาขาวิชาศิลปะการแสดง  : คณะนิเทศศาสตร์"
           }
         ]
       }
