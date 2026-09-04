@@ -1840,6 +1840,30 @@
       "อื่นๆ"
     ]
   },
+  "BoardGame": {
+    "config": {
+      "group": "support",
+      "langs": [
+        "th",
+        "en"
+      ],
+      "default_lang": "th",
+      "sheet_label": "บริการยืมบอร์ดเกมและจิ๊กซอว์",
+      "display_title": {
+        "th": "สำนักหอสมุดและพื้นที่การเรียนรู้",
+        "en": "Library and Learning Space"
+      },
+      "providers": {
+        "mode": "aggregate"
+      }
+    },
+    "options": [
+      {
+        "th": "บริการยืมบอร์ดเกมและจิ๊กซอว์",
+        "en": "Board Game and Jigsaw Puzzle Borrowing Service"
+      }          
+    ]
+  },  
   "STUDEV": {
     "config": {
       "group": "support",
