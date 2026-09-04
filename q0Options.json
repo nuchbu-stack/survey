@@ -2024,7 +2024,6 @@
   },
   "BUS_SHUTTLE": {
     "config": {
-      "hasServices": false,
       "group": "support",
       "langs": [
         "th"
@@ -2101,7 +2100,6 @@
   },
   "BUS_CENTRAL": {
     "config": {
-      "hasServices": false,
       "group": "support",
       "langs": [
         "th"
@@ -2141,7 +2139,6 @@
   },
   "BUS_REPAIR": {
     "config": {
-      "hasServices": false,
       "group": "support",
       "langs": [
         "th"
@@ -2181,7 +2178,6 @@
   },
   "BUS_REQUEST": {
     "config": {
-      "hasServices": false,
       "group": "support",
       "langs": [
         "th"
@@ -2271,7 +2267,6 @@
   },
   "CATERING": {
     "config": {
-      "hasServices": false,
       "group": "support",
       "langs": [
         "th"
@@ -2311,7 +2306,6 @@
   },
   "DOC_EXT": {
     "config": {
-      "hasServices": false,
       "group": "support",
       "langs": [
         "th"
@@ -2351,7 +2345,6 @@
   },
   "DOC_ARC": {
     "config": {
-      "hasServices": false,
       "group": "support",
       "langs": [
         "th"
@@ -2391,7 +2384,6 @@
   },
   "COMPLAINT": {
     "config": {
-      "hasServices": false,
       "group": "support",
       "langs": [
         "th",
