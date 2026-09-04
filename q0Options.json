@@ -2021,6 +2021,402 @@
         "en": "e-Resources Delivery Service for Faculty"
       }
     ]
+  },
+  "BUS_SHUTTLE": {
+    "config": {
+      "hasServices": false,
+      "group": "support",
+      "langs": [
+        "th"
+      ],
+      "default_lang": "th",
+      "sheet_label": "รถรับส่งภายใน",
+      "display_title": {
+        "th": "สำนักอำนวยการ",
+        "en": "Administrative Affairs Office"
+      },
+      "providers": {
+        "mode": "auto",
+        "show_provider_in_ui": "none",
+        "label": {
+          "th": "ผู้ให้บริการ",
+          "en": "Service provider"
+        },
+        "aggregate_label": {
+          "th": "ประเมินรวมทั้งหน่วยงาน",
+          "en": "Evaluate the unit"
+        },
+        "require_on_list": true,
+        "allow_aggregate_in_list": false,
+        "_comment": "TODO: ใส่รหัส/ชื่อคนขับจริง 10 คน แทนที่ placeholder ด้านล่าง (driver_1 ... driver_10)",
+        "people": [
+          {
+            "code": "BUS_SHUTTLE_1",
+            "display_th": "BUS_SHUTTLE_1"
+          },
+          {
+            "code": "BUS_SHUTTLE_2",
+            "display_th": "BUS_SHUTTLE_2"
+          },
+          {
+            "code": "BUS_SHUTTLE_3",
+            "display_th": "BUS_SHUTTLE_3"
+          },
+          {
+            "code": "BUS_SHUTTLE_4",
+            "display_th": "BUS_SHUTTLE_4"
+          },
+          {
+            "code": "BUS_SHUTTLE_5",
+            "display_th": "BUS_SHUTTLE_5"
+          },
+          {
+            "code": "BUS_SHUTTLE_6",
+            "display_th": "BUS_SHUTTLE_6"
+          },
+          {
+            "code": "BUS_SHUTTLE_7",
+            "display_th": "BUS_SHUTTLE_7"
+          },
+          {
+            "code": "BUS_SHUTTLE_8",
+            "display_th": "BUS_SHUTTLE_8"
+          },
+          {
+            "code": "BUS_SHUTTLE_9",
+            "display_th": "BUS_SHUTTLE_9"
+          },
+          {
+            "code": "BUS_SHUTTLE_10",
+            "display_th": "BUS_SHUTTLE_10"
+          }
+        ]
+      }
+    },
+    "options": [
+      {
+        "th": "ให้บริการรถรับส่งภายใน"
+      }      
+    ]
+  },
+  "BUS_CENTRAL": {
+    "config": {
+      "hasServices": false,
+      "group": "support",
+      "langs": [
+        "th"
+      ],
+      "default_lang": "th",
+      "sheet_label": "รถส่วนกลาง",
+      "display_title": {
+        "th": "สำนักอำนวยการ",
+        "en": "Administrative Affairs Office"
+      },
+      "providers": {
+        "mode": "auto",
+        "show_provider_in_ui": "none",
+        "label": {
+          "th": "ผู้ให้บริการ",
+          "en": "Service provider"
+        },
+        "aggregate_label": {
+          "th": "ประเมินรวมทั้งหน่วยงาน",
+          "en": "Evaluate the unit"
+        },
+        "require_on_list": true,
+        "allow_aggregate_in_list": false,
+        "people": [
+          {
+            "code": "BUS_CENTRAL",
+            "display_th": "แบบประเมินความพึงพอใจการให้บริการรถส่วนกลาง"
+          }
+        ]
+      }
+    },
+    "options": [
+      {
+        "th": "ให้บริการรถส่วนกลาง"
+      }          
+    ]
+  },
+  "BUS_REPAIR": {
+    "config": {
+      "hasServices": false,
+      "group": "support",
+      "langs": [
+        "th"
+      ],
+      "default_lang": "th",
+      "sheet_label": "งานซ่อมแซมยานพาหนะ",
+      "display_title": {
+        "th": "สำนักอำนวยการ",
+        "en": "Administrative Affairs Office"
+      },
+      "providers": {
+        "mode": "auto",
+        "show_provider_in_ui": "none",
+        "label": {
+          "th": "ผู้ให้บริการ",
+          "en": "Service provider"
+        },
+        "aggregate_label": {
+          "th": "ประเมินรวมทั้งหน่วยงาน",
+          "en": "Evaluate the unit"
+        },
+        "require_on_list": true,
+        "allow_aggregate_in_list": false,
+        "people": [
+          {
+            "code": "C52011",
+            "display_th": "C52011 คุณวสันต์ ทองก่อ"
+          }
+        ]
+      }
+    },
+    "options": [
+      {
+        "th": "ให้บริการงานซ่อมแซมยานพาหนะ"
+      }        
+    ]
+  },
+  "BUS_REQUEST": {
+    "config": {
+      "hasServices": false,
+      "group": "support",
+      "langs": [
+        "th"
+      ],
+      "default_lang": "th",
+      "sheet_label": "งานขอใช้ยานพาหนะ",
+      "display_title": {
+        "th": "สำนักอำนวยการ",
+        "en": "Administrative Affairs Office"
+      },
+      "providers": {
+        "mode": "auto",
+        "show_provider_in_ui": "none",
+        "label": {
+          "th": "ผู้ให้บริการ",
+          "en": "Service provider"
+        },
+        "aggregate_label": {
+          "th": "ประเมินรวมทั้งหน่วยงาน",
+          "en": "Evaluate the unit"
+        },
+        "require_on_list": true,
+        "allow_aggregate_in_list": false,
+        "people": [
+          {
+            "code": "C55001",
+            "display_th": "C55001 คุณจริยาภร สุวรดี"
+          }
+        ]
+      }
+    },
+    "options": [
+      {
+        "th": "ให้บริการงานขอใช้ยานพหานะ"
+      }          
+    ]
+  },
+  "PRESS": {
+    "config": {
+      "group": "support",
+      "langs": [
+        "th",
+        "en"
+      ],
+      "default_lang": "th",
+      "sheet_label": "แผนกบริการสิ่งพิมพ์",
+      "display_title": {
+        "th": "สำนักอำนวยการ",
+        "en": "Administrative Affairs Office"
+      },
+      "providers": {
+        "mode": "auto",
+        "show_provider_in_ui": "none",
+        "label": {
+          "th": "ผู้ให้บริการ",
+          "en": "Service provider"
+        },
+        "aggregate_label": {
+          "th": "ประเมินรวมทั้งหน่วยงาน",
+          "en": "Evaluate the unit"
+        },
+        "require_on_list": true,
+        "allow_aggregate_in_list": false,
+        "people": [
+          {
+            "code": "PRESS",
+            "display_th": "แบบประเมินความพึงพอใจการให้บริการสิ่งพิมพ์",
+            "display_en": "Printing Services Satisfaction Survey"
+          }
+        ]
+      }
+    },
+    "options": [
+      {
+        "th": "งานพิมพ์",
+        "en": "Printing"
+      },
+      {
+        "th": "งานถ่ายเอกสาร",
+        "en": "Photocopying"
+      },
+      {
+        "th": "งานอื่นๆ (เข้าเล่ม, ตัดกระดาษ, เจาะรู)",
+        "en": "More Service (Binding, Paper Cutting, Hole Punching)"
+      }
+    ]
+  },
+  "CATERING": {
+    "config": {
+      "hasServices": false,
+      "group": "support",
+      "langs": [
+        "th"
+      ],
+      "default_lang": "th",
+      "sheet_label": "งานบริการจัดเลี้ยง",
+      "display_title": {
+        "th": "สำนักอำนวยการ",
+        "en": "Administrative Affairs Office"
+      },
+      "providers": {
+        "mode": "auto",
+        "show_provider_in_ui": "none",
+        "label": {
+          "th": "ผู้ให้บริการ",
+          "en": "Service provider"
+        },
+        "aggregate_label": {
+          "th": "ประเมินรวมทั้งหน่วยงาน",
+          "en": "Evaluate the unit"
+        },
+        "require_on_list": true,
+        "allow_aggregate_in_list": false,
+        "people": [
+          {
+            "code": "CATERING",
+            "display_th": "แบบประเมินงานบริการจัดเลี้ยง"
+          }
+        ]
+      }
+    },
+    "options": [
+      {
+        "th": "แบบประเมินงานบริการจัดเลี้ยง"
+      }      
+    ]
+  },
+  "DOC_EXT": {
+    "config": {
+      "hasServices": false,
+      "group": "support",
+      "langs": [
+        "th"
+      ],
+      "default_lang": "th",
+      "sheet_label": "งานเสนอเอกสารภายนอกเพื่อพิจารณาแบบออนไลน์",
+      "display_title": {
+        "th": "สำนักอำนวยการ",
+        "en": "Administrative Affairs Office"
+      },
+      "providers": {
+        "mode": "auto",
+        "show_provider_in_ui": "none",
+        "label": {
+          "th": "ผู้ให้บริการ",
+          "en": "Service provider"
+        },
+        "aggregate_label": {
+          "th": "ประเมินรวมทั้งหน่วยงาน",
+          "en": "Evaluate the unit"
+        },
+        "require_on_list": true,
+        "allow_aggregate_in_list": false,
+        "people": [
+          {
+            "code": "DOC_EXT",
+            "display_th": "แบบประเมินงานเสนอเอกสารภายนอกเพื่อพิจารณาแบบออนไลน์"
+          }
+        ]
+      }
+    },
+    "options": []
+  },
+  "DOC_ARC": {
+    "config": {
+      "hasServices": false,
+      "group": "support",
+      "langs": [
+        "th"
+      ],
+      "default_lang": "th",
+      "sheet_label": "งานจัดเก็บ/สืบค้นเอกสารสำคัญ",
+      "display_title": {
+        "th": "สำนักอำนวยการ",
+        "en": "Administrative Affairs Office"
+      },
+      "providers": {
+        "mode": "auto",
+        "show_provider_in_ui": "none",
+        "label": {
+          "th": "ผู้ให้บริการ",
+          "en": "Service provider"
+        },
+        "aggregate_label": {
+          "th": "ประเมินรวมทั้งหน่วยงาน",
+          "en": "Evaluate the unit"
+        },
+        "require_on_list": true,
+        "allow_aggregate_in_list": false,
+        "people": [
+          {
+            "code": "DOC_ARC",
+            "display_th": "แบบประเมินความพึงพอใจงานบริการจัดเก็บ/สืบค้นเอกสารสำคัญ"
+          }
+        ]
+      }
+    },
+    "options": []
+  },
+  "COMPLAINT": {
+    "config": {
+      "hasServices": false,
+      "group": "support",
+      "langs": [
+        "th"
+      ],
+      "default_lang": "th",
+      "sheet_label": "งานจัดการข้อร้องเรียน",
+      "display_title": {
+        "th": "สำนักอำนวยการ",
+        "en": "Administrative Affairs Office"
+      },
+      "providers": {
+        "mode": "auto",
+        "show_provider_in_ui": "none",
+        "label": {
+          "th": "ผู้ให้บริการ",
+          "en": "Service provider"
+        },
+        "aggregate_label": {
+          "th": "ประเมินรวมทั้งหน่วยงาน",
+          "en": "Evaluate the unit"
+        },
+        "require_on_list": true,
+        "allow_aggregate_in_list": false,
+        "people": [
+          {
+            "code": "COMPLAINT",
+            "display_th": "แบบประเมินความพึงพอใจต่อการจัดการข้อร้องเรียน",
+            "display_en": "Complaint Management Satisfaction Survey"
+          }
+        ]
+      }
+    },
+    "options": []
   },  
   "STUDEV": {
     "config": {
