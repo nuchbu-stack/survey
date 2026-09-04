@@ -1881,6 +1881,146 @@
         "en": "Board Game and Jigsaw Puzzle Borrowing Service"
       }          
     ]
+  },
+  "Services": {
+    "config": {
+      "group": "support",
+      "langs": [
+        "th",
+        "en"
+      ],
+      "default_lang": "th",
+      "sheet_label": "บริการของห้องสมุด",
+      "display_title": {
+        "th": "สำนักหอสมุดและพื้นที่การเรียนรู้",
+        "en": "Library and Learning Space"
+      },
+      "providers": {
+        "mode": "auto",
+        "show_provider_in_ui": "none",
+        "label": {
+          "th": "ผู้ให้บริการ",
+          "en": "Service provider"
+        },
+        "aggregate_label": {
+          "th": "ประเมินรวมทั้งหน่วยงาน",
+          "en": "Evaluate the unit"
+        },
+        "require_on_list": true,
+        "allow_aggregate_in_list": false,
+        "people": [
+          {
+            "code": "lib_Services",
+            "display_th": "แบบประเมินความพึงพอใจการให้บริการของห้องสมุด",
+            "display_en": "Satisfaction Survey for Library Services"
+          }
+        ]
+      }
+    },
+    "options": [
+      {
+        "th": "บริการตอบคำถามและช่วยการค้นคว้าวิจัย",
+        "en": "Reference and Research Support Service"
+      },
+      {
+        "th": "บริการยืม-คืนหนังสือ",
+        "en": "Book Borrowing and Returning Service"
+      },
+      {
+        "th": "บริการห้อง Netflix",
+        "en": "Netflix Room Service"
+      },
+      {
+        "th": "บริการยืมหูฟัง",
+        "en": "Headphone Borrowing Service"
+      },
+      {
+        "th": "บริการช่วยหาหนังสือที่ชั้น",
+        "en": "Book Finding Service"
+      },
+      {
+        "th": "บริการ Renew หนังสือ",
+        "en": "Book Renewal Service"
+      },
+      {
+        "th": "บริการแนะนำการใช้ฐานข้อมูล โปรแกรม และ OPAC",
+        "en": "Database, Software, and OPAC User Guidance Service"
+      },
+      {
+        "th": "บริการจัดส่งหนังสือสำหรับอาจารย์",
+        "en": "Book Delivery Service for Faculty"
+      }       
+    ]
+  },
+  "OnlineServices": {
+    "config": {
+      "group": "support",
+      "langs": [
+        "th",
+        "en"
+      ],
+      "default_lang": "th",
+      "sheet_label": "Online Services",
+      "display_title": {
+        "th": "สำนักหอสมุดและพื้นที่การเรียนรู้",
+        "en": "Library and Learning Space"
+      },
+      "providers": {
+        "mode": "auto",
+        "show_provider_in_ui": "none",
+        "label": {
+          "th": "ผู้ให้บริการ",
+          "en": "Service provider"
+        },
+        "aggregate_label": {
+          "th": "ประเมินรวมทั้งหน่วยงาน",
+          "en": "Evaluate the unit"
+        },
+        "require_on_list": true,
+        "allow_aggregate_in_list": false,
+        "people": [
+          {
+            "code": "lib_online",
+            "display_th": "แบบประเมินความพึงพอใจ Library Online Services",
+            "display_en": "Satisfaction Survey for Library Online Services"
+          }
+        ]
+      }
+    },
+    "options": [
+      {
+        "th": "บริการหาบทความฉบับเต็ม",
+        "en": "Full Text Finder Service"
+      },
+      {
+        "th": "บริการจัดส่ง Username และ Password สำหรับเข้าใช้งาน eBooks ภาษาไทย",
+        "en": "Thai eBook Username and Password Service"
+      },
+      {
+        "th": "บริการตรวจสอบการคัดลอกผลงานด้วย Turnitin",
+        "en": "Turnitin Plagiarism Checking Service"
+      },
+      {
+        "th": "บริการยืมหนังสือและขอบทความจากห้องสมุดอื่น (ILL)",
+        "en": "Interlibrary Loan Service (ILL)"
+      },
+      {
+        "th": "บริการดาวน์โหลด eBooks",
+        "en": "eBook Download Service"
+      },
+      {
+        "th": "บริการเพิ่มบัญชี Turnitin Instructor สำหรับอาจารย์",
+        "en": "Turnitin Instructor Account Registration Service for Faculty"
+      },
+      {
+        "th": "บริการขอ Teaching Notes จากฐานข้อมูล SAGE Business Cases สำหรับอาจารย์",
+        "en": "Teaching Notes Request Service from the SAGE Business Cases Database for Faculty"
+      },
+      {
+        "th": "บริการ e-Resources Delivery สำหรับอาจารย์",
+        "en": "e-Resources Delivery Service for Faculty"
+      }
+    ]
   },  
   "STUDEV": {
     "config": {
