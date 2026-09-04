@@ -1854,7 +1854,25 @@
         "en": "Library and Learning Space"
       },
       "providers": {
-        "mode": "aggregate"
+        "mode": "auto",
+        "show_provider_in_ui": "none",
+        "label": {
+          "th": "ผู้ให้บริการ",
+          "en": "Service provider"
+        },
+        "aggregate_label": {
+          "th": "ประเมินรวมทั้งหน่วยงาน",
+          "en": "Evaluate the unit"
+        },
+        "require_on_list": true,
+        "allow_aggregate_in_list": false,
+        "people": [
+          {
+            "code": "lib_BoardGame",
+            "display_th": "แบบประเมินความพึงพอใจการให้บริการยืมบอร์ดเกมและจิ๊กซอว์",
+            "display_en": "Satisfaction Survey for Board Game and Jigsaw Puzzle Borrowing Service"
+          }
+        ]
       }
     },
     "options": [
