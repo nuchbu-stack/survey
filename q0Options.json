@@ -2394,7 +2394,8 @@
       "hasServices": false,
       "group": "support",
       "langs": [
-        "th"
+        "th",
+        "en"
       ],
       "default_lang": "th",
       "sheet_label": "งานจัดการข้อร้องเรียน",
