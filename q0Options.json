@@ -2941,5 +2941,93 @@
       "การประสานงานและนัดหมายคิวผู้บริหาร (Calendar)",
       "อื่นๆ"
     ]
+  },  
+  "FRO_1": {
+    "config": {
+      "group": "support",
+      "langs": [
+        "th",
+        "en"
+      ],
+      "default_lang": "th",
+      "sheet_label": "Translation Services",
+      "display_title": {
+        "th": "ฝ่ายกิจการต่างประเทศ",
+        "en": "International Affairs Division"
+      },
+      "providers": {
+        "mode": "auto",
+        "show_provider_in_ui": "none",
+        "label": {
+          "th": "ผู้ให้บริการ",
+          "en": "Service provider"
+        },
+        "aggregate_label": {
+          "th": "ประเมินรวมทั้งหน่วยงาน",
+          "en": "Evaluate the unit"
+        },
+        "require_on_list": true,
+        "allow_aggregate_in_list": false,
+        "_comment": "DUMMY placeholder — รอชื่อ/รหัสคนจริงจากฝ่ายกิจการต่างประเทศ",
+        "people": [
+          {
+            "code": "FRO_1",
+            "display_th": "แบบประเมินความพึงพอใจ Translation Services",
+            "display_en": "Translation Services Satisfaction Survey"
+          }
+        ]
+      }
+    },
+    "_comment_options": "DUMMY placeholder — รอ Q0 จริงจากหน่วยงาน",
+    "options": [
+      {
+        "th": "บริการแปลเอกสาร (Translation Services)",
+        "en": "Translation Services"
+      }
+    ]
+  },
+  "FRO_2": {
+    "config": {
+      "group": "support",
+      "langs": [
+        "th",
+        "en"
+      ],
+      "default_lang": "th",
+      "sheet_label": "Recommendation Letter",
+      "display_title": {
+        "th": "ฝ่ายกิจการต่างประเทศ",
+        "en": "International Affairs Division"
+      },
+      "providers": {
+        "mode": "auto",
+        "show_provider_in_ui": "none",
+        "label": {
+          "th": "ผู้ให้บริการ",
+          "en": "Service provider"
+        },
+        "aggregate_label": {
+          "th": "ประเมินรวมทั้งหน่วยงาน",
+          "en": "Evaluate the unit"
+        },
+        "require_on_list": true,
+        "allow_aggregate_in_list": false,
+        "_comment": "DUMMY placeholder — รอชื่อ/รหัสคนจริงจากฝ่ายกิจการต่างประเทศ",
+        "people": [
+          {
+            "code": "FRO_2",
+            "display_th": "แบบประเมินความพึงพอใจ Recommendation Letter",
+            "display_en": "Recommendation Letter Satisfaction Survey"
+          }
+        ]
+      }
+    },
+    "_comment_options": "DUMMY placeholder — รอ Q0 จริงจากหน่วยงาน",
+    "options": [
+      {
+        "th": "บริการออกหนังสือรับรอง/Recommendation Letter",
+        "en": "Recommendation Letter Service"
+      }
+    ]
   }  
 }
