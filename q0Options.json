@@ -1742,6 +1742,57 @@
       }            
     ]
   },
+  "Photo": {
+    "config": {
+      "group": "support",
+      "langs": [
+        "th"
+      ],
+      "default_lang": "th",
+      "sheet_label": "งานถ่ายภาพ",
+      "display_title": {
+        "th": "สำนักงานอธิการบดีและสื่อสารองค์กร",
+        "en": "Office of the President and Corporate Communication"
+      },
+      "providers": {
+        "mode": "auto",
+        "show_provider_in_ui": "none",
+        "label": {
+          "th": "ผู้ให้บริการ",
+          "en": "Service provider"
+        },
+        "aggregate_label": {
+          "th": "ประเมินรวมทั้งหน่วยงาน",
+          "en": "Evaluate the unit"
+        },
+        "require_on_list": true,
+        "allow_aggregate_in_list": false,
+        "people": [
+          {
+            "code": "A41032",
+            "display_th": "A41032 อ.จักรพงศ์ ศรีสุนทร",
+            "display_en": "A41032 อ.จักรพงศ์ ศรีสุนทร"
+          },
+          {
+            "code": "A41036",
+            "display_th": "A41036 อ.กิตติ กุลวิชวรากร",
+            "display_en": "A41036 อ.กิตติ กุลวิชวรากร"
+          },
+          {
+            "code": "A67087",
+            "display_th": "A67087 อ.จีรวัฒน์ ชาญประเสริฐ",
+            "display_en": "A67087 อ.จีรวัฒน์ ชาญประเสริฐ"
+          }          
+        ]
+      }
+    },
+    "options": [
+      {
+        "th": "งานถ่ายภาพ",
+        "en": "งานถ่ายภาพ"
+      }            
+    ]
+  },  
   "QA": {
     "config": {
       "group": "support",
