@@ -1186,6 +1186,8 @@ form.addEventListener("submit", async (e) => {
   let finalStudentId = "";
   let finalStudentProgram = "";
   let finalStudentFaculty = "";
+  let finalStudentFacultyCode = "";  // NEW: รหัสคณะทางการ (จากตาราง Programs) — เก็บคู่กับชื่อ กันปัญหาชื่อเปลี่ยนย้อนหลัง
+  let finalStudentProgramCode = "";  // NEW: รหัสสาขา (ProgramCode) — เก็บคู่กับชื่อเช่นกัน
   const isStudentInfoVisible = !!(studentInfoSection && !studentInfoSection.classList.contains("hidden"));
   if (isStudentInfoVisible) {
     if (STUDENT_INFO_MODE === "id") {
@@ -1227,6 +1229,16 @@ form.addEventListener("submit", async (e) => {
       } else {
         finalStudentFaculty = facultyVal;
         finalStudentProgram = programRequired ? programVal : "";
+        // NEW: หา code ที่ตรงกับค่าที่เลือกจาก PROGRAMS_CACHE (ข้อมูลเดียวกับที่ใช้เติม dropdown ไปแล้ว
+        // ไม่ต้องยิง request ใหม่) — ถ้าหาไม่เจอ (เช่น cache ยังไม่โหลดตอนกดส่งเร็วมาก) ปล่อยว่างไว้ ไม่ error
+        const facultyEntry = (PROGRAMS_CACHE.faculties || []).find(f => f.value === finalStudentFaculty);
+        finalStudentFacultyCode = facultyEntry?.code || "";
+        if (finalStudentProgram) {
+          const programEntry = (PROGRAMS_CACHE.programs || [])
+            .find(p => p.faculty === finalStudentFaculty && p.value === finalStudentProgram);
+          // ใช้ fullCode (เช่น "CA-CDE") ไม่ใช่ code สั้นๆ (เช่น "CDE") — ให้ตรงมาตรฐานเดียวกับที่ส่งให้ ศคพ
+          finalStudentProgramCode = programEntry?.fullCode || "";
+        }
         document.getElementById("studentInfoError")?.classList.add("hidden");
       }
     }
@@ -1324,6 +1336,8 @@ form.addEventListener("submit", async (e) => {
     studentId:       finalStudentId,
     studentProgram:  finalStudentProgram,
     studentFaculty:  finalStudentFaculty,
+    studentFacultyCode: finalStudentFacultyCode, // NEW: รหัสคณะทางการ (ว่างได้ ถ้าไม่ใช่โหมด faculty_program)
+    studentProgramCode: finalStudentProgramCode, // NEW: รหัสสาขา (ว่างได้)
     studentYear:     finalStudentYear,
 
     q0: finalQ0,
