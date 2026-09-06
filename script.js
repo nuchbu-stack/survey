@@ -8,6 +8,7 @@ const studentIdInput = document.getElementById("studentIdInput");
 const studentProgramSelect = document.getElementById("studentProgramSelect");
 const studentFacultySelect = document.getElementById("studentFacultySelect");
 const studentFacultyProgramSelect = document.getElementById("studentFacultyProgramSelect");
+const facultyChangeLink = document.getElementById("facultyChangeLink"); // NEW: ลิงก์ "เปลี่ยนคณะ" (โผล่เฉพาะหน่วยที่ตั้ง DefaultFaculty)
 const q0 = document.getElementById("q0");
 const q0Section = document.getElementById("q0Section");
 const q0Other = document.getElementById("q0Other");
@@ -51,6 +52,7 @@ let STUDENT_INFO_MODE = "off";  // "id" | "program" | "off"
 let STUDENT_INFO_CFG  = null;   // config.studentInfo ดิบของหน่วยงานนั้น
 let SHOW_STUDENT_YEAR = true;   // ค่าที่ใช้จริง ณ ขณะนี้ (คำนวณจากโหมด หรือถูก override จากชีท UnitsConfig)
 let STUDENT_YEAR_OVERRIDE = undefined; // ค่าที่ admin ตั้งไว้ในชีท UnitsConfig คอลัมน์ ShowStudentYear (undefined = ไม่ได้ตั้ง ใช้ค่า default ตามโหมดแทน)
+let FACULTY_MANUALLY_CHANGED = false; // NEW: true หลังผู้ใช้กด "เปลี่ยนคณะ" เอง (กันโดน default ทับตอน re-render ภาษา)
 let DEFAULT_STUDENT_INFO = null; // data.Defaults.studentInfo — ใช้เมื่อหน่วยงานไม่ได้ตั้งค่า config.studentInfo ของตัวเองไว้
 let PROGRAMS_DATA_PROMISE = null; // cache: fetch แค่ครั้งเดียวต่อการโหลดหน้า แม้จะสลับภาษา/เรียก renderStudentInfo หลายรอบ
 let PROGRAMS_CACHE = { faculties: [], programs: [] }; // ผลลัพธ์ล่าสุดจาก fetchProgramsData() ใช้กรองหลักสูตรตามคณะที่เลือก
@@ -96,6 +98,7 @@ const I18N = {
     faculty_label: "คณะที่นักศึกษาสังกัด",
     faculty_placeholder: "-- กรุณาเลือกคณะ --",
     faculty_error: "กรุณาเลือกคณะและหลักสูตรที่เรียน",
+    faculty_change_link: "ผู้รับบริการมาจากคณะอื่น? กดเพื่อเปลี่ยนคณะ",
     loading_label: "กำลังโหลดรายชื่อคณะ...",
     year_label: "ชั้นปี:",
     year_1: "1",
@@ -156,6 +159,7 @@ const I18N = {
     faculty_label: "Student's Faculty",
     faculty_placeholder: "-- Please select your faculty --",
     faculty_error: "Please select your faculty and program of study.",
+    faculty_change_link: "From another faculty? Click to change",
     loading_label: "Loading faculty list...",
     year_label: "Year:",
     year_1: "1",
@@ -420,8 +424,10 @@ function renderStudentInfo(cfg) {
     if (studentFacultySelect && studentFacultyProgramSelect) {
       const prevFaculty = studentFacultySelect.value || "";
       const prevProgram = studentFacultyProgramSelect.value || "";
+      const defaultFaculty = si.defaultFaculty ? String(si.defaultFaculty).trim() : ""; // NEW
 
       studentFacultySelect.classList.remove("hidden");
+      facultyChangeLink?.classList.add("hidden"); // NEW: ซ่อนไว้ก่อน โชว์เฉพาะตอนที่มี defaultFaculty จริง
       // ดรอปดาวน์หลักสูตรยังไม่โชว์จนกว่าจะเลือกคณะก่อน (populateFacultyProgramOptions จะเป็นคนโชว์/ซ่อนเอง)
       studentFacultyProgramSelect.innerHTML = "";
       studentFacultyProgramSelect.classList.add("hidden");
@@ -443,9 +449,21 @@ function renderStudentInfo(cfg) {
         });
         studentFacultySelect.innerHTML = opts;
 
-        if (prevFaculty) {
-          studentFacultySelect.value = prevFaculty;
-          populateFacultyProgramOptions(prevFaculty, prevProgram);
+        // NEW: ถ้าหน่วยนี้ตั้ง defaultFaculty ไว้ และผู้ใช้ยังไม่เคยกด "เปลี่ยนคณะ" เอง -> auto-select ให้
+        const facultyToUse = prevFaculty || (!FACULTY_MANUALLY_CHANGED && defaultFaculty) || "";
+
+        if (facultyToUse) {
+          studentFacultySelect.value = facultyToUse;
+          populateFacultyProgramOptions(facultyToUse, prevProgram);
+        }
+
+        // NEW: ซ่อน select + โชว์ลิงก์ "เปลี่ยนคณะ" เฉพาะตอนมี defaultFaculty และยังไม่ถูกกดเปลี่ยนเอง
+        if (defaultFaculty && !FACULTY_MANUALLY_CHANGED) {
+          studentFacultySelect.classList.add("hidden");
+          if (facultyChangeLink) {
+            facultyChangeLink.classList.remove("hidden");
+            facultyChangeLink.textContent = I18N[CURRENT_LANG].faculty_change_link;
+          }
         }
       });
     }
@@ -517,6 +535,15 @@ studentFacultyProgramSelect?.addEventListener("change", () => {
   if (studentFacultyProgramSelect.value) {
     document.getElementById("studentInfoError")?.classList.add("hidden");
   }
+});
+// NEW: ปุ่ม/ลิงก์ "เปลี่ยนคณะ" — เผยดรอปดาวน์คณะกลับมาให้เลือกเอง แล้วจำไว้ว่าห้าม default ทับอีก
+facultyChangeLink?.addEventListener("click", () => {
+  FACULTY_MANUALLY_CHANGED = true;
+  facultyChangeLink.classList.add("hidden");
+  studentFacultySelect?.classList.remove("hidden");
+  if (studentFacultySelect) studentFacultySelect.value = "";
+  populateFacultyProgramOptions("", "");
+  document.getElementById("studentInfoError")?.classList.add("hidden");
 });
 
 /********************
@@ -1385,6 +1412,8 @@ form.addEventListener("submit", async (e) => {
   document.querySelectorAll('input[name="studentYear"]').forEach(r => (r.checked = false));
   document.getElementById("studentYearError")?.classList.add("hidden");
   document.getElementById("studentInfoError")?.classList.add("hidden");
+  // NEW: เคลียร์สถานะ "เปลี่ยนคณะ" หลังส่งฟอร์มเสร็จ เพื่อให้รอบถัดไป (คนต่อไปที่มาใช้จอเดียวกัน) กลับไป default ตามปกติ
+  FACULTY_MANUALLY_CHANGED = false;
   updateStudentInfoVisibility(); // จะซ่อนกลับเพราะไม่มี qUser ถูกเลือกแล้ว
 
   fetch(GAS_URL + "?cachebust=" + Date.now(), {
