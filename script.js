@@ -9,6 +9,7 @@ const studentProgramSelect = document.getElementById("studentProgramSelect");
 const studentFacultySelect = document.getElementById("studentFacultySelect");
 const studentFacultyProgramSelect = document.getElementById("studentFacultyProgramSelect");
 const facultyChangeLink = document.getElementById("facultyChangeLink"); // NEW: ลิงก์ "เปลี่ยนคณะ" (โผล่เฉพาะหน่วยที่ตั้ง DefaultFaculty)
+const facultyCurrentLabel = document.getElementById("facultyCurrentLabel"); // NEW: ข้อความโชว์ชื่อคณะที่ระบบเลือกให้อัตโนมัติ (ให้ผู้ตอบเห็นว่าเลือกอะไรอยู่)
 const q0 = document.getElementById("q0");
 const q0Section = document.getElementById("q0Section");
 const q0Other = document.getElementById("q0Other");
@@ -428,6 +429,7 @@ function renderStudentInfo(cfg) {
 
       studentFacultySelect.classList.remove("hidden");
       facultyChangeLink?.classList.add("hidden"); // NEW: ซ่อนไว้ก่อน โชว์เฉพาะตอนที่มี defaultFaculty จริง
+      facultyCurrentLabel?.classList.add("hidden"); // NEW: ซ่อนไว้ก่อนเช่นกัน
       // ดรอปดาวน์หลักสูตรยังไม่โชว์จนกว่าจะเลือกคณะก่อน (populateFacultyProgramOptions จะเป็นคนโชว์/ซ่อนเอง)
       studentFacultyProgramSelect.innerHTML = "";
       studentFacultyProgramSelect.classList.add("hidden");
@@ -457,9 +459,17 @@ function renderStudentInfo(cfg) {
           populateFacultyProgramOptions(facultyToUse, prevProgram);
         }
 
-        // NEW: ซ่อน select + โชว์ลิงก์ "เปลี่ยนคณะ" เฉพาะตอนมี defaultFaculty และยังไม่ถูกกดเปลี่ยนเอง
+        // NEW: ซ่อน select + โชว์ "ชื่อคณะที่เลือกให้" + ลิงก์ "เปลี่ยนคณะ" เฉพาะตอนมี defaultFaculty และยังไม่ถูกกดเปลี่ยนเอง
         if (defaultFaculty && !FACULTY_MANUALLY_CHANGED) {
           studentFacultySelect.classList.add("hidden");
+          // หา label ที่ตรงภาษาปัจจุบันจากลิสต์คณะจริงที่โหลดมา ถ้าหาไม่เจอ (เช่น API โหลดไม่ทัน/พลาด)
+          // ใช้ค่าดิบจาก DefaultFaculty ไปก่อน ผู้ตอบจะได้เห็นชื่อคณะเสมอ ไม่ใช่ช่องว่างๆ
+          const matchedFaculty = (d.faculties || []).find(f => f.value === defaultFaculty);
+          const displayFacultyName = matchedFaculty ? (pickLabel(matchedFaculty.label, CURRENT_LANG) || defaultFaculty) : defaultFaculty;
+          if (facultyCurrentLabel) {
+            facultyCurrentLabel.textContent = displayFacultyName;
+            facultyCurrentLabel.classList.remove("hidden");
+          }
           if (facultyChangeLink) {
             facultyChangeLink.classList.remove("hidden");
             facultyChangeLink.textContent = I18N[CURRENT_LANG].faculty_change_link;
@@ -540,6 +550,7 @@ studentFacultyProgramSelect?.addEventListener("change", () => {
 facultyChangeLink?.addEventListener("click", () => {
   FACULTY_MANUALLY_CHANGED = true;
   facultyChangeLink.classList.add("hidden");
+  facultyCurrentLabel?.classList.add("hidden"); // NEW: ซ่อนข้อความชื่อคณะเดิม พร้อมกับการเปิด dropdown ให้เลือกใหม่
   studentFacultySelect?.classList.remove("hidden");
   if (studentFacultySelect) studentFacultySelect.value = "";
   populateFacultyProgramOptions("", "");
