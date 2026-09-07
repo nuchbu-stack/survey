@@ -254,7 +254,8 @@
     "config": {
       "group": "faculty",
       "langs": [
-        "th"
+        "th",
+        "en"
       ],
       "default_lang": "th",
       "sheet_label": "ศูนย์ผลิตสื่อ",
