@@ -279,7 +279,8 @@
         "people": [
           {
             "code": "ca_media",
-            "display_th": "Media Center : ศูนย์ผลิตสื่อ"
+            "display_th": "Media Center : ศูนย์ผลิตสื่อ",
+            "display_en": "Media Center"
           }
         ]
       }
