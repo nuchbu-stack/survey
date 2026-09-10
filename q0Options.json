@@ -2645,7 +2645,22 @@
             "code": "Fitness_F",
             "display_th": "ห้องฟิตเนส",
             "display_en": "Fitness Room"
-          }
+          },
+          {
+            "code": "Basketball3x3_F",
+            "display_th": "สนามบาส 3×3",
+            "display_en": "Basketball 3x3 Court"
+          },
+          {
+            "code": "Skateboard_F",
+            "display_th": "สนามสเกตบอร์ด",
+            "display_en": "Skateboard Park"
+          },
+          {
+            "code": "RunningTrack_F",
+            "display_th": "ลู่วิ่งรอบสระ",
+            "display_en": "Running Track (Around Pool)"
+          }          
         ]
       }
     },
