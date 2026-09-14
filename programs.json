@@ -1,0 +1,848 @@
+{
+  "_comment": "ไฟล์นี้ generate มาจากแท็บ Programs ในชีทอ้างอิง — ใช้แทนการเรียก Apps Script สด (?action=programs) เพื่อความเร็ว/ความเสถียรตอนโหลดฟอร์ม. เมื่อแก้คณะ/หลักสูตรในแท็บ Programs แล้ว ให้เปิด URL ของ Apps Script ต่อท้ายด้วย ?action=programs_export แล้ว copy JSON ที่ได้มาวางทับไฟล์นี้ทั้งไฟล์ (เหมือนวิธีอัปเดต q0Options.json)",
+  "_generatedAt": "2026-09-15",
+  "faculties": [
+    {
+      "value": "คณะบัญชี",
+      "label": {
+        "th": "คณะบัญชี",
+        "en": "Accounting"
+      },
+      "code": "01_AC"
+    },
+    {
+      "value": "คณะบริหารธุรกิจ",
+      "label": {
+        "th": "คณะบริหารธุรกิจ",
+        "en": "Business Administration"
+      },
+      "code": "02_BA"
+    },
+    {
+      "value": "คณะนิเทศศาสตร์",
+      "label": {
+        "th": "คณะนิเทศศาสตร์",
+        "en": "Communication Arts"
+      },
+      "code": "03_CA"
+    },
+    {
+      "value": "คณะนิติศาสตร์",
+      "label": {
+        "th": "คณะนิติศาสตร์",
+        "en": "Law"
+      },
+      "code": "04_LA"
+    },
+    {
+      "value": "คณะมนุษยศาสตร์และการจัดการการท่องเที่ยว",
+      "label": {
+        "th": "คณะมนุษยศาสตร์และการจัดการการท่องเที่ยว",
+        "en": "Humanities and Tourism Management"
+      },
+      "code": "05_HM"
+    },
+    {
+      "value": "คณะเศรษฐศาสตร์",
+      "label": {
+        "th": "คณะเศรษฐศาสตร์",
+        "en": "Economics and Investment"
+      },
+      "code": "06_EC"
+    },
+    {
+      "value": "คณะเทคโนโลยีสารสนเทศและนวัตกรรม",
+      "label": {
+        "th": "คณะเทคโนโลยีสารสนเทศและนวัตกรรม",
+        "en": "Information Technology and Innovation"
+      },
+      "code": "07_ITI"
+    },
+    {
+      "value": "คณะศิลปกรรมศาสตร์",
+      "label": {
+        "th": "คณะศิลปกรรมศาสตร์",
+        "en": "Fine and Applied Arts"
+      },
+      "code": "08_FA"
+    },
+    {
+      "value": "คณะวิศวกรรมศาสตร์",
+      "label": {
+        "th": "คณะวิศวกรรมศาสตร์",
+        "en": "Engineering"
+      },
+      "code": "09_EE"
+    },
+    {
+      "value": "คณะสถาปัตยกรรมศาสตร์",
+      "label": {
+        "th": "คณะสถาปัตยกรรมศาสตร์",
+        "en": "Architecture"
+      },
+      "code": "10_ARC"
+    },
+    {
+      "value": "คณะการสร้างเจ้าของธุรกิจและการบริหารกิจการ",
+      "label": {
+        "th": "คณะการสร้างเจ้าของธุรกิจและการบริหารกิจการ",
+        "en": "Entrepreneurship and Management"
+      },
+      "code": "11_SEM"
+    },
+    {
+      "value": "คณะดิจิทัลมีเดียและศิลปะภาพยนตร์",
+      "label": {
+        "th": "คณะดิจิทัลมีเดียและศิลปะภาพยนตร์",
+        "en": "Digital Media and Cinematic Arts"
+      },
+      "code": "12_DC"
+    },
+    {
+      "value": "วิทยาลัยนานาชาติจีน",
+      "label": {
+        "th": "วิทยาลัยนานาชาติจีน",
+        "en": "Bangkok University Chinese International (BUCI)"
+      },
+      "code": "13_BUCI"
+    },
+    {
+      "value": "วิทยาลัยนานาชาติ",
+      "label": {
+        "th": "วิทยาลัยนานาชาติ",
+        "en": "Bangkok University International (BUI)"
+      },
+      "code": "14_BUI"
+    },
+    {
+      "value": "บัณฑิตวิทยาลัย",
+      "label": {
+        "th": "บัณฑิตวิทยาลัย",
+        "en": "Graduate School"
+      },
+      "code": "15_GRAD"
+    }
+  ],
+  "programs": [
+    {
+      "faculty": "คณะบัญชี",
+      "code": "AC",
+      "fullCode": "AC-AC",
+      "value": "หลักสูตรบัญชีบัณฑิต",
+      "label": {
+        "th": "หลักสูตรบัญชีบัณฑิต",
+        "en": "หลักสูตรบัญชีบัณฑิต"
+      }
+    },
+    {
+      "faculty": "คณะบริหารธุรกิจ",
+      "code": "MK",
+      "fullCode": "BA-MK",
+      "value": "สาขาวิชาการตลาด",
+      "label": {
+        "th": "สาขาวิชาการตลาด",
+        "en": "Marketing"
+      }
+    },
+    {
+      "faculty": "คณะบริหารธุรกิจ",
+      "code": "FI",
+      "fullCode": "BA-FI",
+      "value": "สาขาวิชาการเงิน",
+      "label": {
+        "th": "สาขาวิชาการเงิน",
+        "en": "Finance"
+      }
+    },
+    {
+      "faculty": "คณะบริหารธุรกิจ",
+      "code": "MG",
+      "fullCode": "BA-MG",
+      "value": "สาขาวิชาการจัดการ",
+      "label": {
+        "th": "สาขาวิชาการจัดการ",
+        "en": "Management"
+      }
+    },
+    {
+      "faculty": "คณะบริหารธุรกิจ",
+      "code": "IB",
+      "fullCode": "BA-IB",
+      "value": "สาขาวิชาการจัดการธุรกิจระหว่างประเทศ",
+      "label": {
+        "th": "สาขาวิชาการจัดการธุรกิจระหว่างประเทศ",
+        "en": "International Business Management"
+      }
+    },
+    {
+      "faculty": "คณะบริหารธุรกิจ",
+      "code": "LM",
+      "fullCode": "BA-LM",
+      "value": "สาขาวิชาการจัดการโลจิสติกส์และโซ่อุปทาน",
+      "label": {
+        "th": "สาขาวิชาการจัดการโลจิสติกส์และโซ่อุปทาน",
+        "en": "Logistics and Supply Chain Management"
+      }
+    },
+    {
+      "faculty": "คณะบริหารธุรกิจ",
+      "code": "DMK",
+      "fullCode": "BA-DMK",
+      "value": "สาขาวิชาการตลาดดิจิทัล",
+      "label": {
+        "th": "สาขาวิชาการตลาดดิจิทัล",
+        "en": "Digital Marketing"
+      }
+    },
+    {
+      "faculty": "คณะบริหารธุรกิจ",
+      "code": "FIP",
+      "fullCode": "BA-FIP",
+      "value": "สาขาวิชาการวางแผนการเงินและการลงทุน",
+      "label": {
+        "th": "สาขาวิชาการวางแผนการเงินและการลงทุน",
+        "en": "Financial and Investment Planning"
+      }
+    },
+    {
+      "faculty": "คณะนิเทศศาสตร์",
+      "code": "BRS",
+      "fullCode": "CA-BRS",
+      "value": "สาขาวิชาวิทยุกระจายเสียง วิทยุโทรทัศน์ และ การผลิตสื่อสตรีมมิ่ง",
+      "label": {
+        "th": "สาขาวิชาวิทยุกระจายเสียง วิทยุโทรทัศน์ และ การผลิตสื่อสตรีมมิ่ง",
+        "en": "Broadcasting and Streaming Media Production"
+      }
+    },
+    {
+      "faculty": "คณะนิเทศศาสตร์",
+      "code": "CDE",
+      "fullCode": "CA-CDE",
+      "value": "สาขาวิชาการผลิตเนื้อหาสร้างสรรค์และประสบการณ์ดิจิทัล",
+      "label": {
+        "th": "สาขาวิชาการผลิตเนื้อหาสร้างสรรค์และประสบการณ์ดิจิทัล",
+        "en": "Creative Content Production and Digital Experience"
+      }
+    },
+    {
+      "faculty": "คณะนิเทศศาสตร์",
+      "code": "CNM",
+      "fullCode": "CA-CNM",
+      "value": "สาขาวิชาการสื่อสารและสื่อใหม่",
+      "label": {
+        "th": "สาขาวิชาการสื่อสารและสื่อใหม่",
+        "en": "Communication and New Media"
+      }
+    },
+    {
+      "faculty": "คณะนิเทศศาสตร์",
+      "code": "PA",
+      "fullCode": "CA-PA",
+      "value": "สาขาวิชาศิลปะการแสดง",
+      "label": {
+        "th": "สาขาวิชาศิลปะการแสดง",
+        "en": "Performing Arts"
+      }
+    },
+    {
+      "faculty": "คณะนิเทศศาสตร์",
+      "code": "EDM",
+      "fullCode": "CA-EDM",
+      "value": "สาขาวิชาการผลิตอีเว้นท์ และการจัดการนิทรรศการและการประชุม",
+      "label": {
+        "th": "สาขาวิชาการผลิตอีเว้นท์ และการจัดการนิทรรศการและการประชุม",
+        "en": "Event Production and MICE Management"
+      }
+    },
+    {
+      "faculty": "คณะนิเทศศาสตร์",
+      "code": "IMI",
+      "fullCode": "CA-IMI",
+      "value": "สาขาวิชาการผลิตสื่อนวัตกรรม(หลักสูตรนานาชาติ)",
+      "label": {
+        "th": "สาขาวิชาการผลิตสื่อนวัตกรรม(หลักสูตรนานาชาติ)",
+        "en": "Innovative Media Production - International Program"
+      }
+    },
+    {
+      "faculty": "คณะนิเทศศาสตร์",
+      "code": "GIB",
+      "fullCode": "CA-GIB",
+      "value": "สาขาวิชาการสร้างสรรค์และการสร้างแบรนด์อินฟลูเอนเซอร์ระดับสากล",
+      "label": {
+        "th": "สาขาวิชาการสร้างสรรค์และการสร้างแบรนด์อินฟลูเอนเซอร์ระดับสากล",
+        "en": "Global Creator and Influencer Branding"
+      }
+    },
+    {
+      "faculty": "คณะนิติศาสตร์",
+      "code": "LLB",
+      "fullCode": "LA-LLB",
+      "value": "หลักสูตรนิติศาสตรบัณฑิต",
+      "label": {
+        "th": "หลักสูตรนิติศาสตรบัณฑิต",
+        "en": "หลักสูตรนิติศาสตรบัณฑิต"
+      }
+    },
+    {
+      "faculty": "คณะมนุษยศาสตร์และการจัดการการท่องเที่ยว",
+      "code": "ENL",
+      "fullCode": "HM-ENL",
+      "value": "สาขาวิชาภาษาอังกฤษ",
+      "label": {
+        "th": "สาขาวิชาภาษาอังกฤษ",
+        "en": "English"
+      }
+    },
+    {
+      "faculty": "คณะมนุษยศาสตร์และการจัดการการท่องเที่ยว",
+      "code": "HM",
+      "fullCode": "HM-HM",
+      "value": "สาขาวิชาการจัดการการโรงแรม",
+      "label": {
+        "th": "สาขาวิชาการจัดการการโรงแรม",
+        "en": "Hotel Management"
+      }
+    },
+    {
+      "faculty": "คณะมนุษยศาสตร์และการจัดการการท่องเที่ยว",
+      "code": "TCM",
+      "fullCode": "HM-TCM",
+      "value": "สาขาวิชาการจัดการการท่องเที่ยวและเรือสำราญ",
+      "label": {
+        "th": "สาขาวิชาการจัดการการท่องเที่ยวและเรือสำราญ",
+        "en": "Travel and Cruise Management"
+      }
+    },
+    {
+      "faculty": "คณะมนุษยศาสตร์และการจัดการการท่องเที่ยว",
+      "code": "ABM",
+      "fullCode": "HM-ABM",
+      "value": "สาขาวิชาการจัดการธุรกิจสายการบิน",
+      "label": {
+        "th": "สาขาวิชาการจัดการธุรกิจสายการบิน",
+        "en": "Airline Business Management"
+      }
+    },
+    {
+      "faculty": "คณะมนุษยศาสตร์และการจัดการการท่องเที่ยว",
+      "code": "CDI",
+      "fullCode": "HM-CDI",
+      "value": "สาขาวิชาศิลปะการประกอบและออกแบบอาหาร(หลักสูตรนานาชาติ)",
+      "label": {
+        "th": "สาขาวิชาศิลปะการประกอบและออกแบบอาหาร(หลักสูตรนานาชาติ)",
+        "en": "Culinary Arts and Design - International Program"
+      }
+    },
+    {
+      "faculty": "คณะมนุษยศาสตร์และการจัดการการท่องเที่ยว",
+      "code": "CRM",
+      "fullCode": "HM-CRM",
+      "value": "สาขาวิชาศิลปะการประกอบอาหารและการจัดการการบริการธุรกิจร้านอาหาร",
+      "label": {
+        "th": "สาขาวิชาศิลปะการประกอบอาหารและการจัดการการบริการธุรกิจร้านอาหาร",
+        "en": "Culinary Arts and Restaurant Service Management"
+      }
+    },
+    {
+      "faculty": "คณะเศรษฐศาสตร์",
+      "code": "EC",
+      "fullCode": "EC-EC",
+      "value": "หลักสูตรเศรษฐศาสตรบัณฑิต",
+      "label": {
+        "th": "หลักสูตรเศรษฐศาสตรบัณฑิต",
+        "en": "หลักสูตรเศรษฐศาสตรบัณฑิต"
+      }
+    },
+    {
+      "faculty": "คณะเทคโนโลยีสารสนเทศและนวัตกรรม",
+      "code": "CS",
+      "fullCode": "ITI-CS",
+      "value": "สาขาวิชาวิทยาการคอมพิวเตอร์",
+      "label": {
+        "th": "สาขาวิชาวิทยาการคอมพิวเตอร์",
+        "en": "Computer Science"
+      }
+    },
+    {
+      "faculty": "คณะเทคโนโลยีสารสนเทศและนวัตกรรม",
+      "code": "IT",
+      "fullCode": "ITI-IT",
+      "value": "สาขาวิชาเทคโนโลยีสารสนเทศ",
+      "label": {
+        "th": "สาขาวิชาเทคโนโลยีสารสนเทศ",
+        "en": "Information Technology"
+      }
+    },
+    {
+      "faculty": "คณะเทคโนโลยีสารสนเทศและนวัตกรรม",
+      "code": "GI",
+      "fullCode": "ITI-GI",
+      "value": "สาขาวิชาเกมและสื่อเชิงโต้ตอบ",
+      "label": {
+        "th": "สาขาวิชาเกมและสื่อเชิงโต้ตอบ",
+        "en": "Games and Interactive Media"
+      }
+    },
+    {
+      "faculty": "คณะศิลปกรรมศาสตร์",
+      "code": "CD",
+      "fullCode": "FA-CD",
+      "value": "สาขาวิชาการออกแบบนิเทศศิลป์",
+      "label": {
+        "th": "สาขาวิชาการออกแบบนิเทศศิลป์",
+        "en": "Communication Design"
+      }
+    },
+    {
+      "faculty": "คณะศิลปกรรมศาสตร์",
+      "code": "FD",
+      "fullCode": "FA-FD",
+      "value": "สาขาวิชาการออกแบบแฟชั่น",
+      "label": {
+        "th": "สาขาวิชาการออกแบบแฟชั่น",
+        "en": "Fashion Design"
+      }
+    },
+    {
+      "faculty": "คณะศิลปกรรมศาสตร์",
+      "code": "AD",
+      "fullCode": "FA-AD",
+      "value": "สาขาวิชาศิลปะและการออกแบบ",
+      "label": {
+        "th": "สาขาวิชาศิลปะและการออกแบบ",
+        "en": "Art and Design"
+      }
+    },
+    {
+      "faculty": "คณะวิศวกรรมศาสตร์",
+      "code": "EL",
+      "fullCode": "EE-EL",
+      "value": "สาขาวิชาวิศวกรรมไฟฟ้า",
+      "label": {
+        "th": "สาขาวิชาวิศวกรรมไฟฟ้า",
+        "en": "Electrical Engineering"
+      }
+    },
+    {
+      "faculty": "คณะวิศวกรรมศาสตร์",
+      "code": "CE",
+      "fullCode": "EE-CE",
+      "value": "สาขาวิชาวิศวกรรมคอมพิวเตอร์และหุ่นยนต์",
+      "label": {
+        "th": "สาขาวิชาวิศวกรรมคอมพิวเตอร์และหุ่นยนต์",
+        "en": "Computer and Robotics Engineering"
+      }
+    },
+    {
+      "faculty": "คณะวิศวกรรมศาสตร์",
+      "code": "MI",
+      "fullCode": "EE-MI",
+      "value": "สาขาวิชาวิศวกรรมมัลติมีเดียและเอ็นเตอร์เทนเมนต์",
+      "label": {
+        "th": "สาขาวิชาวิศวกรรมมัลติมีเดียและเอ็นเตอร์เทนเมนต์",
+        "en": "Multimedia and Entertainment Engineering"
+      }
+    },
+    {
+      "faculty": "คณะวิศวกรรมศาสตร์",
+      "code": "AIE",
+      "fullCode": "EE-AIE",
+      "value": "สาขาวิชาวิศวกรรมปัญญาประดิษฐ์และวิทยาการข้อมูล",
+      "label": {
+        "th": "สาขาวิชาวิศวกรรมปัญญาประดิษฐ์และวิทยาการข้อมูล",
+        "en": "Artificial Intelligence Engineering and Data Science"
+      }
+    },
+    {
+      "faculty": "คณะสถาปัตยกรรมศาสตร์",
+      "code": "ARC",
+      "fullCode": "ARC-ARC",
+      "value": "สาขาวิชาสถาปัตยกรรม หลักสูตร 5 ปี*",
+      "label": {
+        "th": "สาขาวิชาสถาปัตยกรรม หลักสูตร 5 ปี*",
+        "en": "Architecture"
+      }
+    },
+    {
+      "faculty": "คณะสถาปัตยกรรมศาสตร์",
+      "code": "INT",
+      "fullCode": "ARC-INT",
+      "value": "สาขาวิชาสถาปัตยกรรมภายใน",
+      "label": {
+        "th": "สาขาวิชาสถาปัตยกรรมภายใน",
+        "en": "Interior Architecture"
+      }
+    },
+    {
+      "faculty": "คณะการสร้างเจ้าของธุรกิจและการบริหารกิจการ",
+      "code": "EP",
+      "fullCode": "SEM-EP",
+      "value": "สาขาวิชาการเป็นเจ้าของธุรกิจ",
+      "label": {
+        "th": "สาขาวิชาการเป็นเจ้าของธุรกิจ",
+        "en": "Entrepreneurship"
+      }
+    },
+    {
+      "faculty": "คณะการสร้างเจ้าของธุรกิจและการบริหารกิจการ",
+      "code": "IEP",
+      "fullCode": "SEM-IEP",
+      "value": "สาขาวิชาการเป็นเจ้าของธุรกิจ (หลักสูตรนานาชาติ)",
+      "label": {
+        "th": "สาขาวิชาการเป็นเจ้าของธุรกิจ (หลักสูตรนานาชาติ)",
+        "en": "Entrepreneur - International Program"
+      }
+    },
+    {
+      "faculty": "คณะการสร้างเจ้าของธุรกิจและการบริหารกิจการ",
+      "code": "AIEE",
+      "fullCode": "SEM-AIEE",
+      "value": "สาขาวิชาวิศวกรรมปัญญาประดิษฐ์และการเป็นผู้ประกอบการ (หลักสูตรนานาชาติ)",
+      "label": {
+        "th": "สาขาวิชาวิศวกรรมปัญญาประดิษฐ์และการเป็นผู้ประกอบการ (หลักสูตรนานาชาติ)",
+        "en": "AI Engineering and Entrepreneurship (International Program)"
+      }
+    },
+    {
+      "faculty": "คณะดิจิทัลมีเดียและศิลปะภาพยนตร์",
+      "code": "DM",
+      "fullCode": "DC-DM",
+      "value": "สาขาวิชาสื่อดิจิทัล",
+      "label": {
+        "th": "สาขาวิชาสื่อดิจิทัล",
+        "en": "Digital Media"
+      }
+    },
+    {
+      "faculty": "คณะดิจิทัลมีเดียและศิลปะภาพยนตร์",
+      "code": "FM",
+      "fullCode": "DC-FM",
+      "value": "สาขาวิชาภาพยนตร์",
+      "label": {
+        "th": "สาขาวิชาภาพยนตร์",
+        "en": "Film"
+      }
+    },
+    {
+      "faculty": "คณะดิจิทัลมีเดียและศิลปะภาพยนตร์",
+      "code": "IFM",
+      "fullCode": "DC-IFM",
+      "value": "สาขาวิชาการผลิตและธุรกิจภาพยนตร์ ซีรีส์ และเนื้อหาสากล (หลักสูตรนานาชาติ)",
+      "label": {
+        "th": "สาขาวิชาการผลิตและธุรกิจภาพยนตร์ ซีรีส์ และเนื้อหาสากล (หลักสูตรนานาชาติ)",
+        "en": "Film, Series and Global Content Production and Business - International Program"
+      }
+    },
+    {
+      "faculty": "คณะดิจิทัลมีเดียและศิลปะภาพยนตร์",
+      "code": "VPE",
+      "fullCode": "DC-VPE",
+      "value": "สาขาวิชาการผลิตเสมือนและการออกแบบประสบการณ์โลกเสมือนจริง",
+      "label": {
+        "th": "สาขาวิชาการผลิตเสมือนและการออกแบบประสบการณ์โลกเสมือนจริง",
+        "en": "Virtual Production and Immersive Experience Design"
+      }
+    },
+    {
+      "faculty": "วิทยาลัยนานาชาติจีน",
+      "code": "BC",
+      "fullCode": "BUCI-BC",
+      "value": "สาขาวิชาภาษาจีนธุรกิจ",
+      "label": {
+        "th": "สาขาวิชาภาษาจีนธุรกิจ",
+        "en": "Business Chinese"
+      }
+    },
+    {
+      "faculty": "วิทยาลัยนานาชาติจีน",
+      "code": "BBA(Bi)",
+      "fullCode": "BUCI-BBA_BI",
+      "value": "หลักสูตรบริหารธุรกิจบัณฑิต (หลักสูตรสองภาษา)",
+      "label": {
+        "th": "หลักสูตรบริหารธุรกิจบัณฑิต (หลักสูตรสองภาษา)",
+        "en": "Bachelor of Business Administration Program (Bilingual Program)"
+      }
+    },
+    {
+      "faculty": "วิทยาลัยนานาชาติ",
+      "code": "IMK",
+      "fullCode": "BUI-IMK",
+      "value": "สาขาวิชาการตลาด (หลักสูตรนานาชาติ)",
+      "label": {
+        "th": "สาขาวิชาการตลาด (หลักสูตรนานาชาติ)",
+        "en": "Marketing - International Program"
+      }
+    },
+    {
+      "faculty": "วิทยาลัยนานาชาติ",
+      "code": "IBE",
+      "fullCode": "BUI-IBE",
+      "value": "สาขาวิชาภาษาอังกฤษธุรกิจ (หลักสูตรนานาชาติ)",
+      "label": {
+        "th": "สาขาวิชาภาษาอังกฤษธุรกิจ (หลักสูตรนานาชาติ)",
+        "en": "Business English - International Program"
+      }
+    },
+    {
+      "faculty": "วิทยาลัยนานาชาติ",
+      "code": "ITHM",
+      "fullCode": "BUI-ITHM",
+      "value": "สาขาวิชาการจัดการท่องเที่ยวและการบริการนานาชาติ (หลักสูตรนานาชาติ)",
+      "label": {
+        "th": "สาขาวิชาการจัดการท่องเที่ยวและการบริการนานาชาติ (หลักสูตรนานาชาติ)",
+        "en": "International Tourism and Hospitality Management - International Program"
+      }
+    },
+    {
+      "faculty": "วิทยาลัยนานาชาติ",
+      "code": "ICD",
+      "fullCode": "BUI-ICD",
+      "value": "สาขาวิชาการออกแบบนิเทศศิลป์เชิงสร้างสรรค์ (หลักสูตรนานาชาติ)",
+      "label": {
+        "th": "สาขาวิชาการออกแบบนิเทศศิลป์เชิงสร้างสรรค์ (หลักสูตรนานาชาติ)",
+        "en": "Creative Communication Design - International Program"
+      }
+    },
+    {
+      "faculty": "วิทยาลัยนานาชาติ",
+      "code": "IMC",
+      "fullCode": "BUI-IMC",
+      "value": "สาขาวิชาสื่อและการสื่อสาร (หลักสูตรนานาชาติ)",
+      "label": {
+        "th": "สาขาวิชาสื่อและการสื่อสาร (หลักสูตรนานาชาติ)",
+        "en": "Media and Communication - International Program"
+      }
+    },
+    {
+      "faculty": "วิทยาลัยนานาชาติ",
+      "code": "BBA(IP)",
+      "fullCode": "BUI-BBA_IP",
+      "value": "สาขาวิชาบริหารธุรกิจบัณฑิต (หลักสูตรนานาชาติ)",
+      "label": {
+        "th": "สาขาวิชาบริหารธุรกิจบัณฑิต (หลักสูตรนานาชาติ)",
+        "en": "BBA - International Program"
+      }
+    },
+    {
+      "faculty": "วิทยาลัยนานาชาติ",
+      "code": "ICS",
+      "fullCode": "BUI-ICS",
+      "value": "สาขาวิชาวิทยาการคอมพิวเตอร์ (หลักสูตรนานาชาติ)",
+      "label": {
+        "th": "สาขาวิชาวิทยาการคอมพิวเตอร์ (หลักสูตรนานาชาติ)",
+        "en": "Computer Science - International Program"
+      }
+    },
+    {
+      "faculty": "บัณฑิตวิทยาลัย",
+      "code": "MBA-TP",
+      "fullCode": "GRAD-MBA-TP",
+      "value": "หลักสูตรบริหารธุรกิจมหาบัณฑิต",
+      "label": {
+        "th": "หลักสูตรบริหารธุรกิจมหาบัณฑิต",
+        "en": "Master of Business Administration"
+      }
+    },
+    {
+      "faculty": "บัณฑิตวิทยาลัย",
+      "code": "MMA-EP",
+      "fullCode": "GRAD-MMA-EP",
+      "value": "หลักสูตรบริหารธุรกิจมหาบัณฑิต (หลักสูตรภาษาอังกฤษ)",
+      "label": {
+        "th": "หลักสูตรบริหารธุรกิจมหาบัณฑิต (หลักสูตรภาษาอังกฤษ)",
+        "en": "Master of Business Administration (English Program)"
+      }
+    },
+    {
+      "faculty": "บัณฑิตวิทยาลัย",
+      "code": "DiMC",
+      "fullCode": "GRAD-DiMC",
+      "value": "สาขาวิชาการสื่อสารการตลาดดิจิทัล",
+      "label": {
+        "th": "สาขาวิชาการสื่อสารการตลาดดิจิทัล",
+        "en": "Master of Communication Arts Program in Digital Marketing Communications"
+      }
+    },
+    {
+      "faculty": "บัณฑิตวิทยาลัย",
+      "code": "DdMC",
+      "fullCode": "GRAD-DdMC",
+      "value": "สาขาวิชาการตลาดเชิงข้อมูลและการสื่อสาร",
+      "label": {
+        "th": "สาขาวิชาการตลาดเชิงข้อมูลและการสื่อสาร",
+        "en": "Master of Arts Program in Data-Driven Marketing and Communications"
+      }
+    },
+    {
+      "faculty": "บัณฑิตวิทยาลัย",
+      "code": "ป.โท = MCA-SBC",
+      "fullCode": "GRAD-MCA-SBC",
+      "value": "สาขาวิชาการบริหารแบรนด์และการสื่อสารเชิงกลยุทธ์",
+      "label": {
+        "th": "สาขาวิชาการบริหารแบรนด์และการสื่อสารเชิงกลยุทธ์",
+        "en": "Master of Communication Arts (Strategic Brand and Communication Management)"
+      }
+    },
+    {
+      "faculty": "บัณฑิตวิทยาลัย",
+      "code": "ป.โท = MCA-GC",
+      "fullCode": "GRAD-MCA-GC",
+      "value": "สาขาวิชาการสื่อสารสากล(หลักสูตรนานาชาติ)",
+      "label": {
+        "th": "สาขาวิชาการสื่อสารสากล(หลักสูตรนานาชาติ)",
+        "en": "Master of Communication Arts Program in Global Communication (International Program)"
+      }
+    },
+    {
+      "faculty": "บัณฑิตวิทยาลัย",
+      "code": "LLM",
+      "fullCode": "GRAD-LLM",
+      "value": "หลักสูตรนิติศาสตรมหาบัณฑิต",
+      "label": {
+        "th": "หลักสูตรนิติศาสตรมหาบัณฑิต",
+        "en": "Master of Laws"
+      }
+    },
+    {
+      "faculty": "บัณฑิตวิทยาลัย",
+      "code": "M-Arch",
+      "fullCode": "GRAD-M-Arch",
+      "value": "หลักสูตรสถาปัตยกรรมศาสตรมหาบัณฑิต",
+      "label": {
+        "th": "หลักสูตรสถาปัตยกรรมศาสตรมหาบัณฑิต",
+        "en": "Master of Architecture"
+      }
+    },
+    {
+      "faculty": "บัณฑิตวิทยาลัย",
+      "code": "MS-ITD",
+      "fullCode": "GRAD-MS-ITD",
+      "value": "สาขาวิชาเทคโนโลยีสารสนเทศและวิทยาการข้อมูล",
+      "label": {
+        "th": "สาขาวิชาเทคโนโลยีสารสนเทศและวิทยาการข้อมูล",
+        "en": "Master of Science Program in Information Technology and Data Science"
+      }
+    },
+    {
+      "faculty": "บัณฑิตวิทยาลัย",
+      "code": "M-ITHM",
+      "fullCode": "GRAD-M-ITHM",
+      "value": "สาขาวิชานวัตกรรมการจัดการการท่องเที่ยวและการบริการ",
+      "label": {
+        "th": "สาขาวิชานวัตกรรมการจัดการการท่องเที่ยวและการบริการ",
+        "en": "Master of Arts Program in Tourism and Hospitality Management Innovation"
+      }
+    },
+    {
+      "faculty": "บัณฑิตวิทยาลัย",
+      "code": "M-THMI",
+      "fullCode": "GRAD-M-THMI",
+      "value": "สาขาวิชานวัตกรรมการจัดการการท่องเที่ยวและการบริการ (หลักสูตรนานาชาติ)",
+      "label": {
+        "th": "สาขาวิชานวัตกรรมการจัดการการท่องเที่ยวและการบริการ (หลักสูตรนานาชาติ)",
+        "en": "Master of Arts Program in Tourism and Hospitality Management Innovation (International Program)"
+      }
+    },
+    {
+      "faculty": "บัณฑิตวิทยาลัย",
+      "code": "MME",
+      "fullCode": "GRAD-MME-ENT",
+      "value": "สาขาวิชาความเป็นผู้ประกอบการ",
+      "label": {
+        "th": "สาขาวิชาความเป็นผู้ประกอบการ",
+        "en": "Master of Management Program in Entrepreneurship"
+      }
+    },
+    {
+      "faculty": "บัณฑิตวิทยาลัย",
+      "code": "MME",
+      "fullCode": "GRAD-MME-EEE",
+      "value": "สาขาวิชาความเป็นผู้ประกอบการและธุรกิจเกิดใหม่",
+      "label": {
+        "th": "สาขาวิชาความเป็นผู้ประกอบการและธุรกิจเกิดใหม่",
+        "en": "Master of Management Program in Entrepreneurship and Emerging Enterprises"
+      }
+    },
+    {
+      "faculty": "บัณฑิตวิทยาลัย",
+      "code": "MBA-IM",
+      "fullCode": "GRAD-MBA-IM",
+      "value": "สาขาวิชาการจัดการนวัตกรรม (หลักสูตรนานาชาติ)",
+      "label": {
+        "th": "สาขาวิชาการจัดการนวัตกรรม (หลักสูตรนานาชาติ)",
+        "en": "Master of Business Administration in Innovation Management (International Program)"
+      }
+    },
+    {
+      "faculty": "บัณฑิตวิทยาลัย",
+      "code": "ป.โท = MM-KIM",
+      "fullCode": "GRAD-MM-KIM",
+      "value": "สาขาวิชาการจัดการความรู้และนวัตกรรม(หลักสูตรนานาชาติ)",
+      "label": {
+        "th": "สาขาวิชาการจัดการความรู้และนวัตกรรม(หลักสูตรนานาชาติ)",
+        "en": "Master of Management Program in Knowledge Management and Innovation Management (International Program)"
+      }
+    },
+    {
+      "faculty": "บัณฑิตวิทยาลัย",
+      "code": "ป.โท = M-Eng",
+      "fullCode": "GRAD-M-Eng",
+      "value": "สาขาวิชาวิศวกรรมไฟฟ้าและคอมพิวเตอร์(หลักสูตรนานาชาติ)",
+      "label": {
+        "th": "สาขาวิชาวิศวกรรมไฟฟ้าและคอมพิวเตอร์(หลักสูตรนานาชาติ)",
+        "en": "Master of Engineering in Electrical & Computer Engineering (International Program)"
+      }
+    },
+    {
+      "faculty": "บัณฑิตวิทยาลัย",
+      "code": "MBA-Online",
+      "fullCode": "GRAD-MBA-Online",
+      "value": "หลักสูตรบริหารธุรกิจบัณฑิต (หลักสูตรการจัดการศึกษาผ่านระบบเทคโนโลยีสารสนเทศ)",
+      "label": {
+        "th": "หลักสูตรบริหารธุรกิจบัณฑิต (หลักสูตรการจัดการศึกษาผ่านระบบเทคโนโลยีสารสนเทศ)",
+        "en": "Master of Business Administration Program (Information Technology - Based Education Program)"
+      }
+    },
+    {
+      "faculty": "บัณฑิตวิทยาลัย",
+      "code": "ป.เอก = DCA-GC",
+      "fullCode": "GRAD-DCA-GC",
+      "value": "สาขาวิชาการสื่อสารสากล(หลักสูตรนานาชาติ)",
+      "label": {
+        "th": "สาขาวิชาการสื่อสารสากล(หลักสูตรนานาชาติ)",
+        "en": "Doctor of Communication Arts Program in Global Communication (International Program)"
+      }
+    },
+    {
+      "faculty": "บัณฑิตวิทยาลัย",
+      "code": "ป.เอก = DCA-SBC",
+      "fullCode": "GRAD-DCA-SBC",
+      "value": "สาขาวิชาการบริหารแบรนด์และการสื่อสารเชิงกลยุทธ์",
+      "label": {
+        "th": "สาขาวิชาการบริหารแบรนด์และการสื่อสารเชิงกลยุทธ์",
+        "en": "Doctor of Communication Arts (Strategic Brand and Communication Management)"
+      }
+    },
+    {
+      "faculty": "บัณฑิตวิทยาลัย",
+      "code": "Ph.D-KIM",
+      "fullCode": "GRAD-PhD-KIM",
+      "value": "สาขาวิชาการจัดการความรู้และนวัตกรรม(หลักสูตรนานาชาติ)",
+      "label": {
+        "th": "สาขาวิชาการจัดการความรู้และนวัตกรรม(หลักสูตรนานาชาติ)",
+        "en": "Ph.D. in Knowledge Management and Innovation Management (International Program)"
+      }
+    },
+    {
+      "faculty": "บัณฑิตวิทยาลัย",
+      "code": "ป.เอก = D-Eng",
+      "fullCode": "GRAD-D-Eng",
+      "value": "สาขาวิชาวิศวกรรมไฟฟ้าและคอมพิวเตอร์ (หลักสูตรนานาชาติ)",
+      "label": {
+        "th": "สาขาวิชาวิศวกรรมไฟฟ้าและคอมพิวเตอร์ (หลักสูตรนานาชาติ)",
+        "en": "D.Eng. in Electrical and Computer Engineering (International Program)"
+      }
+    }
+  ]
+}

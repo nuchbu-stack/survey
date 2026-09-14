@@ -26,7 +26,10 @@ const thankYou = document.getElementById("thankYou");
 //   Execute as: Me, Who has access: Anyone > Deploy > copy URL ที่ลงท้ายด้วย /exec
 const GAS_URL = "https://script.google.com/macros/s/AKfycby-SDiwfLzoZgonW_Civm9nvOOkM9YJGxltU5wu0eOPK62BeFdmOvi_WLdA4UE1uf75/exec";
 const JSON_URL = new URL("q0Options.json", window.location.href).href;
-const PROGRAMS_URL = GAS_URL + "?action=programs"; // อ่านลิสต์คณะ/หลักสูตรจากแท็บ Programs (โหมด faculty_program)
+// NEW: ไฟล์นิ่ง (static) เก็บลิสต์คณะ/หลักสูตร — โหลดเร็ว/นิ่งกว่าการยิงไป Apps Script สดทุกครั้ง (แก้ปัญหาดรอปดาวน์คณะบางทีโหลดไม่ขึ้น/ต้องรอนาน)
+// อัปเดตไฟล์นี้เมื่อคณะ/หลักสูตรเปลี่ยน โดยเปิด GAS_URL + "?action=programs_export" แล้ว copy JSON วางทับไฟล์ programs.json (วิธีเดียวกับ q0Options.json)
+const PROGRAMS_JSON_URL = new URL("programs.json", window.location.href).href;
+const PROGRAMS_URL = GAS_URL + "?action=programs"; // สำรอง: อ่านสดจากแท็บ Programs — ใช้ตอน programs.json ยังไม่มี/โหลดไม่สำเร็จ หรือใช้เป็นต้นทางตอน generate ไฟล์ static ด้านบน
 const CONFIG_URL = GAS_URL + "?action=config"; // อ่านค่า override รายหน่วยงานจากแท็บ UnitsConfig (admin ตั้งค่าผ่าน Sheet แทนแก้ q0Options.json)
 
 // อ่านพารามิเตอร์ URL
@@ -55,15 +58,30 @@ let DEFAULT_STUDENT_INFO = null; // data.Defaults.studentInfo — ใช้เ�
 let PROGRAMS_DATA_PROMISE = null; // cache: fetch แค่ครั้งเดียวต่อการโหลดหน้า แม้จะสลับภาษา/เรียก renderStudentInfo หลายรอบ
 let PROGRAMS_CACHE = { faculties: [], programs: [] }; // ผลลัพธ์ล่าสุดจาก fetchProgramsData() ใช้กรองหลักสูตรตามคณะที่เลือก
 
-// ดึงลิสต์คณะ/หลักสูตรจาก Apps Script (แท็บ Programs) — cache ไว้ใน promise เดียวกันกันยิงซ้ำ
+// ดึงลิสต์คณะ/หลักสูตร — โหลดจากไฟล์นิ่ง programs.json ก่อน (เร็ว/นิ่ง same-origin ไม่ผ่าน Apps Script)
+// ถ้าไฟล์ static หายไป/พังต/ยังไม่เคย generate จะ fallback ไปเรียก Apps Script สด (?action=programs) แทนอัตโนมัติ
+// cache ผลไว้ใน promise เดียวกันกันยิงซ้ำ (เหมือนเดิม)
 function fetchProgramsData() {
   if (!PROGRAMS_DATA_PROMISE) {
-    PROGRAMS_DATA_PROMISE = fetch(PROGRAMS_URL)
+    const isUsable = (d) => d && Array.isArray(d.faculties) && d.faculties.length > 0;
+
+    const fetchLive = () => fetch(PROGRAMS_URL)
       .then(r => r.json())
       .then(d => (d && d.status === "ok") ? d : { faculties: [], programs: [] })
       .catch(err => {
-        console.error("โหลดลิสต์คณะ/หลักสูตรไม่สำเร็จ:", err);
+        console.error("โหลดลิสต์คณะ/หลักสูตรไม่สำเร็จ (live):", err);
         return { faculties: [], programs: [] };
+      });
+
+    PROGRAMS_DATA_PROMISE = fetch(PROGRAMS_JSON_URL + "?v=" + Date.now())
+      .then(r => {
+        if (!r.ok) throw new Error("programs.json not found (HTTP " + r.status + ")");
+        return r.json();
+      })
+      .then(d => isUsable(d) ? d : Promise.reject(new Error("programs.json ว่างเปล่า/รูปแบบไม่ถูกต้อง")))
+      .catch(err => {
+        console.warn("โหลด programs.json (static) ไม่สำเร็จ — fallback ไปเรียก Apps Script สดแทน:", err);
+        return fetchLive();
       });
   }
   return PROGRAMS_DATA_PROMISE;
