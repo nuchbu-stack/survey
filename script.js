@@ -30,7 +30,11 @@ const JSON_URL = new URL("q0Options.json", window.location.href).href;
 // อัปเดตไฟล์นี้เมื่อคณะ/หลักสูตรเปลี่ยน โดยเปิด GAS_URL + "?action=programs_export" แล้ว copy JSON วางทับไฟล์ programs.json (วิธีเดียวกับ q0Options.json)
 const PROGRAMS_JSON_URL = new URL("programs.json", window.location.href).href;
 const PROGRAMS_URL = GAS_URL + "?action=programs"; // สำรอง: อ่านสดจากแท็บ Programs — ใช้ตอน programs.json ยังไม่มี/โหลดไม่สำเร็จ หรือใช้เป็นต้นทางตอน generate ไฟล์ static ด้านบน
-const CONFIG_URL = GAS_URL + "?action=config"; // อ่านค่า override รายหน่วยงานจากแท็บ UnitsConfig (admin ตั้งค่าผ่าน Sheet แทนแก้ q0Options.json)
+// NEW: ไฟล์นิ่งเก็บค่า override รายหน่วยจากแท็บ UnitsConfig (เช่น DefaultFaculty) — ปัญหาเดียวกับ Programs:
+// ถ้าปล่อยให้ prefill คณะรอ ?action=config สดอย่างเดียว จะช้า/นิ่งเหมือนที่เคยเกิดกับดรอปดาวน์คณะ
+// อัปเดตไฟล์นี้เมื่อแก้ UnitsConfig โดยเปิด GAS_URL + "?action=config_export" แล้ว copy JSON วางทับไฟล์ unitsConfig.json
+const UNITS_CONFIG_JSON_URL = new URL("unitsConfig.json", window.location.href).href;
+const CONFIG_URL = GAS_URL + "?action=config"; // สำรอง: อ่านค่า override สดจากแท็บ UnitsConfig — ใช้ตอน unitsConfig.json ยังไม่มี/โหลดไม่สำเร็จ หรือใช้เป็นต้นทางตอน generate ไฟล์ static ด้านบน
 
 // อ่านพารามิเตอร์ URL
 const params = new URLSearchParams(location.search);
@@ -85,6 +89,31 @@ function fetchProgramsData() {
       });
   }
   return PROGRAMS_DATA_PROMISE;
+}
+
+// ดึงค่า override รายหน่วยจาก UnitsConfig (เช่น DefaultFaculty) — เหตุผล/รูปแบบเดียวกับ fetchProgramsData() ด้านบน:
+// โหลดจากไฟล์นิ่ง unitsConfig.json ก่อน (เร็ว/นิ่ง) ถ้าไม่มี/ว่าง/พัง ค่อย fallback ไปเรียก ?action=config สด
+// (ก่อนหน้านี้ configPromise ผูกกับ live fetch อย่างเดียว ทำให้ DefaultFaculty prefill ช้าแบบเดียวกับที่เคยเกิดกับดรอปดาวน์คณะ)
+function fetchUnitsConfigData() {
+  const isUsable = (d) => d && d.units && typeof d.units === "object" && Object.keys(d.units).length > 0;
+
+  const fetchLive = () => fetch(CONFIG_URL)
+    .then(r => r.json())
+    .catch(err => {
+      console.error("โหลดค่า override UnitsConfig ไม่สำเร็จ (live):", err);
+      return {};
+    });
+
+  return fetch(UNITS_CONFIG_JSON_URL + "?v=" + Date.now())
+    .then(r => {
+      if (!r.ok) throw new Error("unitsConfig.json not found (HTTP " + r.status + ")");
+      return r.json();
+    })
+    .then(d => isUsable(d) ? d : Promise.reject(new Error("unitsConfig.json ว่างเปล่า/รูปแบบไม่ถูกต้อง")))
+    .catch(err => {
+      console.warn("โหลด unitsConfig.json (static) ไม่สำเร็จ — fallback ไปเรียก Apps Script สดแทน:", err);
+      return fetchLive();
+    });
 }
 
 // ข้อความปิดปรับปรุงระบบ (เก็บไว้ re-render ตอนสลับภาษาระหว่างที่ปิดอยู่)
@@ -875,11 +904,10 @@ async function loadServices() {
   // ก็แค่เสียคำขอไปเปล่าๆ ไม่กระทบอะไร เพราะ fetchProgramsData() cache ผลไว้ในตัวอยู่แล้ว)
   fetchProgramsData();
 
-  // ดึงค่า override รายหน่วยจากแท็บ UnitsConfig "แบบไม่บล็อกการโหลดหลัก" — ยิงคำขอไปพร้อมกัน
-  // แต่ไม่ await ตรงนี้ เพราะ Apps Script (Web App) มักมี cold start ช้ากว่า static JSON บน GitHub Pages
-  // มาก (บางทีหลายวินาที) ถ้าไปรวมไว้ใน Promise.all แล้ว await พร้อมกัน ฟอร์มทั้งหน้าจะค้างรอ endpoint
-  // นี้อยู่เฉยๆ ทั้งที่ค่า override เป็นแค่ตัวเสริม ไม่ใช่ข้อมูลที่ต้องมีก่อนแสดงฟอร์มได้
-  const configPromise = fetch(CONFIG_URL).then(r => r.json()).catch(() => ({}));
+  // ดึงค่า override รายหน่วยจากแท็บ UnitsConfig "แบบไม่บล็อกการโหลดหลัก" — ยิงคำขอไปพร้อมกัน แต่ไม่ await ตรงนี้
+  // (ฟอร์มแสดงผลจาก q0Options.json ไปก่อนได้เลย ไม่ต้องรอ) ตอนนี้ลองไฟล์นิ่ง unitsConfig.json ก่อนเป็นหลัก
+  // (เร็ว/นิ่งเหมือน programs.json) แล้วค่อย fallback ไปเรียก Apps Script สดถ้าไฟล์ static ยังไม่มี/ว่าง/พัง
+  const configPromise = fetchUnitsConfigData();
 
   try {
     q0.disabled = true;
