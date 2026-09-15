@@ -1,5 +1,232 @@
 {
-  "_comment": "ไฟล์นี้ยังเป็นแค่ placeholder ว่างเปล่า (ยังไม่เคย generate จริง) — ระบบจะเห็น units ว่างเปล่าแล้ว fallback ไปเรียก Apps Script สดโดยอัตโนมัติ (พฤติกรรมเดิมก่อนแก้ ไม่มีอะไรพัง) ไปเปิด URL ของ Apps Script ต่อท้ายด้วย ?action=config_export แล้ว copy JSON ทั้งหมดมาวางทับไฟล์นี้ทั้งไฟล์ครั้งแรก จะได้เริ่มได้ความเร็ว/ความนิ่งเหมือน programs.json ตั้งแต่ตอนนั้นเป็นต้นไป",
-  "_generatedAt": null,
-  "units": {}
+  "_comment": "ไฟล์นี้ generate มาจากแท็บ UnitsConfig — วางทับไฟล์ unitsConfig.json ทั้งไฟล์ที่โฮสต์คู่กับ index.html/script.js",
+  "_generatedAt": "2026-09-15 11:15",
+  "units": {
+    "ASU_LI1": {
+      "enabled": true,
+      "showUserType": true,
+      "showStudentYear": true
+    },
+    "ASU_LI2": {
+      "showUserType": true
+    },
+    "ASU_AC": {
+      "showUserType": true,
+      "studentInfo": {
+        "mode": "faculty_program",
+        "defaultFaculty": "คณะบัญชี"
+      }
+    },
+    "ASU_BA": {
+      "showUserType": true,
+      "studentInfo": {
+        "mode": "faculty_program",
+        "idPattern": "^[0-9]{10}$",
+        "defaultFaculty": "คณะบริหารธุรกิจ"
+      }
+    },
+    "ASU_CA": {
+      "showUserType": true,
+      "studentInfo": {
+        "mode": "faculty_program",
+        "defaultFaculty": "คณะนิเทศศาสตร์"
+      }
+    },
+    "ASU_CA_Media": {
+      "studentInfo": {
+        "mode": "faculty_program",
+        "defaultFaculty": "คณะนิเทศศาสตร์"
+      }
+    },
+    "ASU_CA_EDM": {
+      "studentInfo": {
+        "mode": "faculty_program",
+        "defaultFaculty": "คณะนิเทศศาสตร์"
+      }
+    },
+    "ASU_CA_PA": {
+      "studentInfo": {
+        "mode": "faculty_program",
+        "defaultFaculty": "คณะนิเทศศาสตร์"
+      }
+    },
+    "ASU_LA": {
+      "showUserType": true,
+      "studentInfo": {
+        "mode": "faculty_program",
+        "defaultFaculty": "คณะนิติศาสตร์"
+      }
+    },
+    "ASU_HM": {
+      "showUserType": true,
+      "studentInfo": {
+        "mode": "faculty_program",
+        "idPattern": "^[0-9]{10}$",
+        "defaultFaculty": "คณะมนุษยศาสตร์และการจัดการการท่องเที่ยว"
+      }
+    },
+    "SUP_HM": {
+      "showUserType": true,
+      "studentInfo": {
+        "mode": "faculty_program",
+        "defaultFaculty": "คณะมนุษยศาสตร์และการจัดการการท่องเที่ยว"
+      }
+    },
+    "ASU_EC": {
+      "showUserType": true,
+      "studentInfo": {
+        "mode": "faculty_program",
+        "defaultFaculty": "คณะเศรษฐศาสตร์"
+      }
+    },
+    "ASU_ITI": {
+      "showUserType": true,
+      "studentInfo": {
+        "mode": "faculty_program",
+        "defaultFaculty": "คณะเทคโนโลยีสารสนเทศและนวัตกรรม"
+      }
+    },
+    "ASU_FA": {
+      "showUserType": true,
+      "studentInfo": {
+        "mode": "faculty_program",
+        "defaultFaculty": "คณะศิลปกรรมศาสตร์"
+      }
+    },
+    "SUP_FA_Wood": {
+      "showUserType": true,
+      "studentInfo": {
+        "mode": "faculty_program",
+        "defaultFaculty": "คณะศิลปกรรมศาสตร์"
+      }
+    },
+    "SUP_FA_Com": {
+      "showUserType": true,
+      "studentInfo": {
+        "mode": "faculty_program",
+        "defaultFaculty": "คณะศิลปกรรมศาสตร์"
+      }
+    },
+    "SUP_FA_Photo": {
+      "showUserType": true,
+      "studentInfo": {
+        "mode": "faculty_program",
+        "defaultFaculty": "คณะศิลปกรรมศาสตร์"
+      }
+    },
+    "SUP_FA_fashion": {
+      "showUserType": true,
+      "studentInfo": {
+        "mode": "faculty_program",
+        "defaultFaculty": "คณะศิลปกรรมศาสตร์"
+      }
+    },
+    "ASU_EE1": {
+      "showUserType": true,
+      "studentInfo": {
+        "mode": "faculty_program",
+        "defaultFaculty": "คณะวิศวกรรมศาสตร์"
+      }
+    },
+    "ASU_EE2": {
+      "showUserType": true,
+      "studentInfo": {
+        "mode": "faculty_program",
+        "defaultFaculty": "คณะวิศวกรรมศาสตร์"
+      }
+    },
+    "ASU_BUI": {
+      "showUserType": true,
+      "studentInfo": {
+        "mode": "faculty_program",
+        "defaultFaculty": "วิทยาลัยนานาชาติ"
+      }
+    },
+    "ASU_ARC": {
+      "showUserType": true,
+      "studentInfo": {
+        "mode": "faculty_program",
+        "defaultFaculty": "คณะสถาปัตยกรรมศาสตร์"
+      }
+    },
+    "ASU_SEM": {
+      "showUserType": true,
+      "studentInfo": {
+        "mode": "faculty_program",
+        "defaultFaculty": "คณะการสร้างเจ้าของธุรกิจและการบริหารกิจการ"
+      }
+    },
+    "ASU_DC": {
+      "showUserType": true,
+      "studentInfo": {
+        "mode": "faculty_program",
+        "defaultFaculty": "คณะดิจิทัลมีเดียและศิลปะภาพยนตร์"
+      }
+    },
+    "ASU_BUCI": {
+      "showUserType": true,
+      "studentInfo": {
+        "mode": "faculty_program",
+        "defaultFaculty": "วิทยาลัยนานาชาติจีน"
+      }
+    },
+    "ASU_grad": {
+      "showUserType": true,
+      "studentInfo": {
+        "mode": "faculty_program",
+        "defaultFaculty": "บัณฑิตวิทยาลัย"
+      }
+    },
+    "GE": {
+      "showUserType": true
+    },
+    "clinic": {
+      "showUserType": true
+    },
+    "OSS": {
+      "showUserType": true
+    },
+    "records_office": {
+      "showUserType": true
+    },
+    "scholarship": {
+      "showUserType": true
+    },
+    "CC": {
+      "showUserType": true
+    },
+    "Work-Integ": {
+      "showUserType": true
+    },
+    "InterCenter": {
+      "showUserType": true
+    },
+    "Museum": {
+      "showUserType": true
+    },
+    "Fin": {
+      "showUserType": true
+    },
+    "CorpCom": {
+      "showUserType": true
+    },
+    "QA": {
+      "showUserType": true
+    },
+    "STUDEV": {
+      "showUserType": true
+    },
+    "SportsF": {
+      "showUserType": true
+    },
+    "SportsE": {
+      "showUserType": true
+    },
+    "Purchase": {
+      "showUserType": true
+    },
+    "Supply": {
+      "showUserType": true
+    }
+  }
 }
