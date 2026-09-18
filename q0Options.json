@@ -953,7 +953,12 @@
             "code": "A69045",
             "display_th": "A69045 อาจารย์จินดารัตน์ ลักษณะจินดา",
             "display_en": "A69045 Jindarat Laksanajinda"
-          }
+          },
+          {
+            "code": "A69071",
+            "display_th": "A69071 อาจารย์วาสน์นิดา ชื่นสกุล",
+            "display_en": "A69071 Wasnida Chuensakul"
+          }          
         ]
       }
     },
