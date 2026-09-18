@@ -28,6 +28,14 @@
       <p id="maintenanceMessage" style="text-align:center; font-weight:600;"></p>
     </div>
 
+    <!-- หน้าเลือกหน่วยงาน — โชว์แทนฟอร์มเมื่อเข้าลิงก์โดยไม่มีพารามิเตอร์ ?unit=... หรือใส่โค้ดหน่วยงานที่ไม่มีอยู่จริง
+         โครงสร้าง/ลำดับอ้างอิงจากชีท Dim_Unit (สาย > หน่วยงาน > หน่วยย่อย) เหมือนหน้า dashboard
+         เนื้อหา (UNIT_TREE) อยู่ใน script.js — ดูคอมเมนต์ตรงนั้นถ้าต้องอัปเดตรายชื่อ/ลำดับหน่วยงาน -->
+    <div class="question hidden" id="unitPickerSection">
+      <p id="unitPickerIntro" class="unit-picker-intro">กรุณาเลือกหน่วยงานที่ท่านต้องการประเมิน</p>
+      <div id="unitPickerTree" class="unit-picker-tree"></div>
+    </div>
+
     <!-- ฟอร์ม -->
     <form id="surveyForm">
 

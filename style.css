@@ -490,3 +490,156 @@ select:focus {
 .lang-switch.hidden { display: none !important; }
 
 #thankTitle { white-space: pre-line; }
+
+/* ===============
+   หน้าเลือกหน่วยงาน (unit picker) — โชว์แทนฟอร์มเมื่อเข้าลิงก์โดยไม่มี ?unit=... หรือใส่โค้ดที่ไม่มีอยู่จริง
+   โครงสร้าง: สาย (line) > หน่วยงาน (unit) > หน่วยย่อย (leaf) ล้อกับหน้า dashboard
+   ================*/
+.unit-picker-intro {
+  text-align: center;
+  font-weight: 600;
+  margin-bottom: 16px;
+  color: #333;
+}
+
+.unit-picker-tree {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* ระดับ "สาย" — แถบหัวเรื่องทึบ กดขยาย/ยุบได้ */
+.up-line {
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid #d9e3f0;
+}
+
+.up-line-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 12px 14px;
+  background: #eef4fc;
+  border: none;
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #14335c;
+  cursor: pointer;
+  text-align: left;
+  transition: background .2s;
+}
+
+.up-line-header:hover { background: #e2ecfa; }
+
+.up-caret {
+  display: inline-block;
+  transition: transform .2s;
+  color: #1976D2;
+  font-size: 0.8em;
+}
+
+.up-line.open > .up-line-header .up-caret { transform: rotate(90deg); }
+
+.up-line-body {
+  display: none;
+  padding: 8px 10px 10px;
+}
+
+.up-line.open > .up-line-body { display: block; }
+
+/* ระดับ "หน่วยงาน" — ถ้ามีหน่วยย่อยหลายอันจะขยายได้ ถ้ามีอันเดียวจะเป็นปุ่มกดตรงๆ */
+.up-unit-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 10px 12px;
+  margin: 4px 0;
+  background: #fff;
+  border: 1px solid #e3e9f2;
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #222;
+  cursor: pointer;
+  text-align: left;
+  transition: border-color .2s, box-shadow .2s;
+}
+
+.up-unit-header:hover {
+  border-color: #1976D2;
+  box-shadow: 0 0 0 2px rgba(25,118,210,0.08);
+}
+
+.up-unit.open > .up-unit-header .up-caret { transform: rotate(90deg); }
+
+.up-unit-body {
+  display: none;
+  padding-left: 18px;
+}
+
+.up-unit.open > .up-unit-body { display: block; }
+
+/* ปุ่มกดเลือกจริง (leaf) — ทั้งกรณีอยู่ใต้หน่วยงานที่ขยาย และกรณีหน่วยงานเดียวไม่มีลูก */
+.up-leaf {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  width: 100%;
+  padding: 9px 12px;
+  margin: 4px 0;
+  background: #fff;
+  border: 1px solid #e3e9f2;
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 0.92rem;
+  color: #333;
+  cursor: pointer;
+  text-align: left;
+  transition: border-color .2s, box-shadow .2s, background .2s;
+}
+
+.up-leaf:hover {
+  border-color: #1976D2;
+  background: #f6faff;
+  box-shadow: 0 0 0 2px rgba(25,118,210,0.08);
+}
+
+.up-leaf-arrow { color: #90a4bf; }
+
+/* หน่วยงานที่ไม่มีลูก (leaf เดียว) ใช้สไตล์เดียวกับ up-unit-header แต่ไม่มี caret หมุน */
+.up-unit-single {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  width: 100%;
+  padding: 10px 12px;
+  margin: 4px 0;
+  background: #fff;
+  border: 1px solid #e3e9f2;
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #222;
+  cursor: pointer;
+  text-align: left;
+  transition: border-color .2s, box-shadow .2s;
+}
+
+.up-unit-single:hover {
+  border-color: #1976D2;
+  box-shadow: 0 0 0 2px rgba(25,118,210,0.08);
+}
+
+@media (max-width: 480px) {
+  .up-line-header { font-size: 0.95rem; padding: 10px 12px; }
+  .up-unit-header, .up-unit-single { font-size: 0.9rem; }
+  .up-leaf { font-size: 0.88rem; }
+}

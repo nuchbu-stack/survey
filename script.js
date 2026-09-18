@@ -15,6 +15,8 @@ const q1Options = document.querySelectorAll("#q1Options .option");
 const q2Section = document.getElementById("q2Section");
 const q2Other = document.getElementById("q2Other");
 const thankYou = document.getElementById("thankYou");
+const unitPickerSection = document.getElementById("unitPickerSection");
+const unitPickerTree = document.getElementById("unitPickerTree");
 
 
 /********************
@@ -38,9 +40,114 @@ const CONFIG_URL = GAS_URL + "?action=config"; // สำรอง: อ่าน�
 
 // อ่านพารามิเตอร์ URL
 const params = new URLSearchParams(location.search);
-const DEPARTMENT  = params.get("unit") || "ASU_HM";  // หน่วยงาน
+// เดิม fallback เป็น "ASU_HM" ทำให้เข้าลิงก์เปล่า (ไม่มี ?unit=...) แล้วโดนพาไปหน้าคณะมนุษยศาสตร์ฯ โดยไม่ตั้งใจ
+// เปลี่ยนเป็นค่าว่าง แล้วให้ loadServices() เช็คว่าไม่มี/ไม่รู้จักโค้ดนี้ -> โชว์หน้าเลือกหน่วยงานแทน (ดู renderUnitPicker ด้านล่าง)
+const DEPARTMENT  = params.get("unit") || "";  // หน่วยงาน
 const STAFF_PARAM = (params.get("staff") || "").trim(); // โหมดรายบุคคล
 const LANG_PARAM  = (params.get("lang") || "").toLowerCase();
+
+/********************
+ * หน้าเลือกหน่วยงาน (unit picker)
+ * โชว์แทนฟอร์มเมื่อไม่มี ?unit=... หรือใส่โค้ดที่ไม่มีอยู่จริงใน q0Options.json (ดูจุดเรียกใน loadServices())
+ *
+ * UNIT_TREE: โครงสร้าง สาย(line) > หน่วยงาน(unit) > หน่วยย่อย(leaf) — อ้างอิงลำดับจากชีท Dim_Unit
+ * (คอลัมน์ line_name, unit_name, subunit_name, group_order, unit_order, subunit_order) ให้ตรงกับหน้า dashboard
+ * ตัดหน่วยงานที่ไม่มีแบบฟอร์มกลางออก (ศูนย์คอมพิวเตอร์, สำนักพัฒนาการเรียนรู้ — ไม่มีโค้ดใน q0Options.json อยู่แล้ว,
+ * และศูนย์นานาชาติ/InterCenter — มีโค้ดแต่ไม่ใช้แบบฟอร์มกลาง จึงตัดออกตรงนี้)
+ *
+ * ⚠️ วิธีอัปเดตเมื่อ Dim_Unit เปลี่ยน (เพิ่ม/ลบ/ย้ายหน่วยงาน หรือแก้ลำดับ):
+ * แก้ array ด้านล่างตรงๆ ให้ตรงกับ Dim_Unit ปัจจุบัน (leaf.code ต้องตรงกับ key ใน q0Options.json เท่านั้น
+ * ไม่งั้นจะกดแล้วไม่มีฟอร์มให้ตอบ) — ไม่มีการ generate อัตโนมัติจากชีทในตอนนี้ (ต่างจาก programs.json/unitsConfig.json)
+ * เพราะ Dim_Unit อยู่คนละสเปรดชีตกับระบบฟอร์มนี้ (อยู่ฝั่ง dashboard pipeline)
+ ********************/
+const UNIT_TREE = [{"line":"สายกิจการนักศึกษา","units":[{"unit":"สำนักทะเบียน","leaves":[{"code":"records_office","label":"สำนักทะเบียน"}]},{"unit":"ศูนย์บริการนักศึกษา","leaves":[{"code":"clinic","label":"ห้องพยาบาล"},{"code":"OSS","label":"หน่วยบริการเบ็ดเสร็จ"},{"code":"scholarship","label":"แผนกทุนการศึกษา"},{"code":"CC","label":"คอนแทคเซ็นเตอร์"}]},{"unit":"ศูนย์พัฒนานักศึกษาแบบองค์รวม","leaves":[{"code":"STUDEV","label":"แผนก พก และ ทล"},{"code":"SportsF","label":"สนามกีฬา"},{"code":"SportsE","label":"อุปกรณ์กีฬา"}]},{"unit":"เวิร์คอินเทค","leaves":[{"code":"Work-Integ","label":"เวิร์คอินเทค"}]}]},{"line":"สายการคลังและกลยุทธ์องค์กร","units":[{"unit":"ฝ่ายการคลัง","leaves":[{"code":"Fin","label":"ฝ่ายการคลัง"}]},{"unit":"ฝ่ายจัดหาและบริหารทรัพย์สิน","leaves":[{"code":"Supply","label":"แผนกพัสดุ"},{"code":"Purchase","label":"แผนกจัดซื้อ"}]}]},{"line":"หน่วยงานขึ้นตรงกับอธิการบดี","units":[{"unit":"สื่อสารองค์กร","leaves":[{"code":"CorpCom","label":"ส่วนกลาง"},{"code":"Photo","label":"งานถ่ายภาพ"}]}]},{"line":"สายบริหารและบริการการศึกษา","units":[{"unit":"สำนักอำนวยการ","leaves":[{"code":"BUS_SHUTTLE","label":"รถรับส่งภายใน"},{"code":"BUS_CENTRAL","label":"รถส่วนกลาง"},{"code":"BUS_REPAIR","label":"งานซ่อมแซมยานพาหนะ"},{"code":"BUS_REQUEST","label":"งานขอใช้ยานพาหนะ"},{"code":"PRESS","label":"แผนกบริการสิ่งพิมพ์"},{"code":"CATERING","label":"งานบริการจัดเลี้ยง"},{"code":"DOC_EXT","label":"งานเสนอเอกสารภายนอกเพื่อพิจารณา"},{"code":"DOC_ARC","label":"งานจัดเก็บ/สืบค้นเอกสารสำคัญ"},{"code":"COMPLAINT","label":"งานจัดการข้อร้องเรียน"}]},{"unit":"หอสมุดและพื้นที่การเรียนรู้","leaves":[{"code":"BoardGame","label":"บริการยืมบอร์ดเกมและจิ๊กซอว์"},{"code":"Services","label":"บริการของห้องสมุด"},{"code":"OnlineServices","label":"Online Services"}]},{"unit":"สำนักมาตรฐาน","leaves":[{"code":"QA","label":"สำนักมาตรฐานคุณภาพการศึกษา"}]},{"unit":"ศูนย์บริหารศิลปวัฒนธรรม","leaves":[{"code":"Museum","label":"พิพิธภัณฑสถานเครื่องถ้วยเอเชียตะวันออกเฉียงใต้"}]},{"unit":"เลขานุการสายบริหารฯ","leaves":[{"code":"SECY_AES","label":"เลขานุการสายบริหารฯ"}]}]},{"line":"สายวิชาการ","units":[{"unit":"บัญชี","leaves":[{"code":"ASU_AC","label":"คณะบัญชี"}]},{"unit":"บริหารธุรกิจ","leaves":[{"code":"ASU_BA","label":"คณะบริหารธุรกิจ"}]},{"unit":"นิเทศศาสตร์","leaves":[{"code":"ASU_CA","label":"คณะนิเทศศาสตร์ (ASU)"},{"code":"ASU_CA_Media","label":"ศูนย์ผลิตสื่อ"},{"code":"ASU_CA_EDM","label":"EDM"},{"code":"ASU_CA_PA","label":"PA"}]},{"unit":"นิติศาสตร์","leaves":[{"code":"ASU_LA","label":"คณะนิติศาสตร์"}]},{"unit":"มนุษยศาสตร์ฯ","leaves":[{"code":"ASU_HM","label":"มนุษยศาสตร์ฯ (ASU)"},{"code":"SUP_HM","label":"มนุษยศาสตร์ฯ (เจ้าหน้าที่สนับสนุน)"}]},{"unit":"เศรษฐศาสตร์ฯ","leaves":[{"code":"ASU_EC","label":"คณะเศรษฐศาสตร์และการลงทุน"}]},{"unit":"เทคโนโลยีฯ","leaves":[{"code":"ASU_ITI","label":"คณะเทคโนโลยีสารสนเทศและนวัตกรรม"}]},{"unit":"ศิลปกรรมศาสตร์","leaves":[{"code":"ASU_FA","label":"ศิลปกรรมศาสตร์ (ASU)"},{"code":"SUP_FA_Wood","label":"ห้องปฏิบัติการงานไม้"},{"code":"SUP_FA_Com","label":"ห้องปฏิบัติการคอมพิวเตอร์"},{"code":"SUP_FA_Photo","label":"ห้องปฏิบัติการภาพถ่าย"},{"code":"SUP_FA_fashion","label":"ห้องปฏิบัติการแฟชั่น"}]},{"unit":"วิศวกรรมศาสตร์","leaves":[{"code":"ASU_EE1","label":"วิศวกรรมศาสตร์ (ASU)"},{"code":"ASU_EE2","label":"วิศวกรรมศาสตร์ (ห้องปฏิบัติการ)"}]},{"unit":"สถาปัตยกรรมศาสตร์","leaves":[{"code":"ASU_ARC","label":"คณะสถาปัตยกรรมศาสตร์"}]},{"unit":"การสร้างเจ้าของธุรกิจฯ","leaves":[{"code":"ASU_SEM","label":"คณะการสร้างเจ้าของธุรกิจและการบริหารกิจการ (SEM)"}]},{"unit":"ดิจิทัลมีเดียฯ","leaves":[{"code":"ASU_DC","label":"คณะดิจิทัลมีเดียและศิลปะภาพยนตร์"}]},{"unit":"บัณฑิตวิทยาลัย","leaves":[{"code":"ASU_grad","label":"บัณฑิตวิทยาลัย"}]},{"unit":"GE","leaves":[{"code":"GE","label":"ศูนย์บริหารจัดการหมวดวิชาศึกษาทั่วไป - GE"}]}]},{"line":"สายนานาชาติ","units":[{"unit":"วิทยาลัยนานาชาติ","leaves":[{"code":"ASU_BUI","label":"วิทยาลัยนานาชาติ"}]},{"unit":"ฝ่ายกิจการต่างประเทศ","leaves":[{"code":"FRO_1","label":"Translation Services"},{"code":"FRO_2","label":"Recommendation Letter"}]},{"unit":"สถาบันภาษา","leaves":[{"code":"ASU_LI1","label":"สอบถามเรื่องวิชา EN"},{"code":"ASU_LI2","label":"Speexx / ห้องปฏิบัติการภาษา"}]},{"unit":"วิทยาลัยนานาชาติจีน","leaves":[{"code":"ASU_BUCI","label":"วิทยาลัยนานาชาติจีน"}]}]}];
+
+// นำทางไปยังหน่วยงานที่เลือก — คงพารามิเตอร์อื่นที่มีอยู่ (เช่น lang) แต่ตั้ง/แทนที่ unit และตัด staff เดิมทิ้ง
+// (staff เป็นรหัสรายบุคคลเฉพาะของหน่วยเดิม เอาไปใช้กับหน่วยใหม่ไม่ได้)
+function goToUnit_(code) {
+  const url = new URL(location.href);
+  url.searchParams.set("unit", code);
+  url.searchParams.delete("staff");
+  location.href = url.toString();
+}
+
+// วาดหน้าเลือกหน่วยงานแบบ tree (สาย > หน่วยงาน > หน่วยย่อย) กดขยาย/ยุบได้เหมือนหน้า dashboard
+// invalidCode: โค้ดที่พิมพ์มาใน ?unit=... แต่หาไม่เจอ (ใช้โชว์ข้อความเตือนเพิ่ม ถ้ามี)
+function renderUnitPicker(invalidCode) {
+  if (!unitPickerTree || !unitPickerSection) return;
+
+  const introEl = document.getElementById("unitPickerIntro");
+  if (introEl) {
+    introEl.textContent = invalidCode
+      ? `ไม่พบหน่วยงาน "${invalidCode}" กรุณาเลือกหน่วยงานที่ท่านต้องการประเมินจากรายชื่อด้านล่าง`
+      : "กรุณาเลือกหน่วยงานที่ท่านต้องการประเมิน";
+  }
+
+  unitPickerTree.innerHTML = "";
+
+  UNIT_TREE.forEach((lineObj, lineIdx) => {
+    const lineEl = document.createElement("div");
+    lineEl.className = "up-line" + (lineIdx === 0 ? " open" : "");
+
+    const header = document.createElement("button");
+    header.type = "button";
+    header.className = "up-line-header";
+    header.innerHTML = `<span class="up-caret">▶</span><span>${lineObj.line}</span>`;
+    header.addEventListener("click", () => lineEl.classList.toggle("open"));
+
+    const body = document.createElement("div");
+    body.className = "up-line-body";
+
+    lineObj.units.forEach(unitObj => {
+      if (unitObj.leaves.length === 1) {
+        // หน่วยงานที่มีหน่วยย่อยเดียว -> กดตรงๆ ไม่ต้องขยาย
+        const leaf = unitObj.leaves[0];
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "up-unit-single";
+        btn.innerHTML = `<span>${leaf.label}</span><span class="up-leaf-arrow">›</span>`;
+        btn.addEventListener("click", () => goToUnit_(leaf.code));
+        body.appendChild(btn);
+        return;
+      }
+
+      // หน่วยงานที่มีหลายหน่วยย่อย -> ขยาย/ยุบ
+      const unitEl = document.createElement("div");
+      unitEl.className = "up-unit";
+
+      const uHeader = document.createElement("button");
+      uHeader.type = "button";
+      uHeader.className = "up-unit-header";
+      uHeader.innerHTML = `<span class="up-caret">▶</span><span>${unitObj.unit}</span>`;
+      uHeader.addEventListener("click", () => unitEl.classList.toggle("open"));
+
+      const uBody = document.createElement("div");
+      uBody.className = "up-unit-body";
+
+      unitObj.leaves.forEach(leaf => {
+        const leafBtn = document.createElement("button");
+        leafBtn.type = "button";
+        leafBtn.className = "up-leaf";
+        leafBtn.innerHTML = `<span>${leaf.label}</span><span class="up-leaf-arrow">›</span>`;
+        leafBtn.addEventListener("click", () => goToUnit_(leaf.code));
+        uBody.appendChild(leafBtn);
+      });
+
+      unitEl.append(uHeader, uBody);
+      body.appendChild(unitEl);
+    });
+
+    lineEl.append(header, body);
+    unitPickerTree.appendChild(lineEl);
+  });
+
+  // ซ่อนฟอร์มทั้งหมด โชว์แค่หน้าเลือกหน่วยงาน
+  form?.classList.add("hidden");
+  qUserSection?.classList.add("hidden");
+  studentInfoSection?.classList.add("hidden");
+  q0Section?.classList.add("hidden");
+  unitPickerSection.classList.remove("hidden");
+}
 
 // ภาษาปัจจุบัน
 let CURRENT_LANG = localStorage.getItem("lang") || "th";
@@ -943,9 +1050,9 @@ async function loadServices() {
     // อ่าน config ของหน่วย
     let conf = data[DEPARTMENT];
     if (!conf) {
-      q0Section?.classList.add("hidden");
-      qUserSection?.classList.add("hidden");
-      studentInfoSection?.classList.add("hidden");
+      // ไม่มี ?unit=... เลย (DEPARTMENT === "") หรือใส่โค้ดที่ไม่มีอยู่จริง -> โชว์หน้าเลือกหน่วยงานแทนฟอร์ม
+      // (เดิม fallback เป็น "ASU_HM" ทำให้เข้าลิงก์เปล่าแล้วโดนพาไปหน้าคณะมนุษยศาสตร์ฯ โดยไม่ตั้งใจ)
+      renderUnitPicker(DEPARTMENT || null);
       return;
     }
     // รองรับโครงเก่า (array options ตรงๆ)
