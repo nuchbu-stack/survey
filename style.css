@@ -564,7 +564,11 @@ select:focus {
   color: inherit;
 }
 
-.up-line-header:hover { background: #e2ecfa; }
+.up-line-header:hover {
+  background: #1976D2;
+  color: #fff;
+}
+.up-line-header:hover .up-caret { color: #fff; }
 
 .up-caret {
   display: inline-block;
@@ -603,9 +607,12 @@ select:focus {
 }
 
 .up-unit-header:hover {
+  background: #1976D2;
   border-color: #1976D2;
+  color: #fff;
   box-shadow: 0 0 0 2px rgba(25,118,210,0.08);
 }
+.up-unit-header:hover .up-caret { color: #fff; }
 
 .up-unit.open > .up-unit-header .up-caret { transform: rotate(90deg); }
 
@@ -638,9 +645,11 @@ select:focus {
 
 .up-leaf:hover {
   border-color: #1976D2;
-  background: #f6faff;
+  background: #1976D2;
+  color: #fff;
   box-shadow: 0 0 0 2px rgba(25,118,210,0.08);
 }
+.up-leaf:hover .up-leaf-arrow { color: #fff; }
 
 .up-leaf-arrow { color: #90a4bf; }
 
@@ -666,9 +675,12 @@ select:focus {
 }
 
 .up-unit-single:hover {
+  background: #1976D2;
   border-color: #1976D2;
+  color: #fff;
   box-shadow: 0 0 0 2px rgba(25,118,210,0.08);
 }
+.up-unit-single:hover .up-leaf-arrow { color: #fff; }
 
 @media (max-width: 480px) {
   .up-line-header { font-size: 0.95rem; padding: 10px 12px; }
