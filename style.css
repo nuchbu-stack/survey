@@ -516,6 +516,8 @@ select:focus {
 }
 
 .up-line-header {
+  appearance: none;
+  -webkit-appearance: none;
   display: flex;
   align-items: center;
   gap: 8px;
@@ -530,6 +532,36 @@ select:focus {
   cursor: pointer;
   text-align: left;
   transition: background .2s;
+}
+
+/* กัน browser/OS บางเครื่อง (เช่น Chromebook ของโรงเรียน) ทาสีปุ่มพื้นเข้ม+ตัวอักษรจางหายตอน focus/active
+   ทับสไตล์ที่ตั้งเอง (native button theme) — reset appearance ทุกปุ่มในหน้าเลือกหน่วยงาน แล้วกำหนด focus เอง */
+.up-line-header,
+.up-unit-header,
+.up-unit-single,
+.up-leaf {
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+.up-line-header:focus-visible,
+.up-unit-header:focus-visible,
+.up-unit-single:focus-visible,
+.up-leaf:focus-visible {
+  outline: 2px solid #1976D2;
+  outline-offset: 2px;
+}
+
+.up-line-header:focus,
+.up-unit-header:focus,
+.up-unit-single:focus,
+.up-leaf:focus,
+.up-line-header:active,
+.up-unit-header:active,
+.up-unit-single:active,
+.up-leaf:active {
+  background: inherit;
+  color: inherit;
 }
 
 .up-line-header:hover { background: #e2ecfa; }

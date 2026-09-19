@@ -60,7 +60,14 @@ const LANG_PARAM  = (params.get("lang") || "").toLowerCase();
  * ไม่งั้นจะกดแล้วไม่มีฟอร์มให้ตอบ) — ไม่มีการ generate อัตโนมัติจากชีทในตอนนี้ (ต่างจาก programs.json/unitsConfig.json)
  * เพราะ Dim_Unit อยู่คนละสเปรดชีตกับระบบฟอร์มนี้ (อยู่ฝั่ง dashboard pipeline)
  ********************/
-const UNIT_TREE = [{"line":"สายกิจการนักศึกษา","units":[{"unit":"สำนักทะเบียน","leaves":[{"code":"records_office","label":"สำนักทะเบียน"}]},{"unit":"ศูนย์บริการนักศึกษา","leaves":[{"code":"clinic","label":"ห้องพยาบาล"},{"code":"OSS","label":"หน่วยบริการเบ็ดเสร็จ"},{"code":"scholarship","label":"แผนกทุนการศึกษา"},{"code":"CC","label":"คอนแทคเซ็นเตอร์"}]},{"unit":"ศูนย์พัฒนานักศึกษาแบบองค์รวม","leaves":[{"code":"STUDEV","label":"แผนก พก และ ทล"},{"code":"SportsF","label":"สนามกีฬา"},{"code":"SportsE","label":"อุปกรณ์กีฬา"}]},{"unit":"เวิร์คอินเทค","leaves":[{"code":"Work-Integ","label":"เวิร์คอินเทค"}]}]},{"line":"สายการคลังและกลยุทธ์องค์กร","units":[{"unit":"ฝ่ายการคลัง","leaves":[{"code":"Fin","label":"ฝ่ายการคลัง"}]},{"unit":"ฝ่ายจัดหาและบริหารทรัพย์สิน","leaves":[{"code":"Supply","label":"แผนกพัสดุ"},{"code":"Purchase","label":"แผนกจัดซื้อ"}]}]},{"line":"หน่วยงานขึ้นตรงกับอธิการบดี","units":[{"unit":"สื่อสารองค์กร","leaves":[{"code":"CorpCom","label":"ส่วนกลาง"},{"code":"Photo","label":"งานถ่ายภาพ"}]}]},{"line":"สายบริหารและบริการการศึกษา","units":[{"unit":"สำนักอำนวยการ","leaves":[{"code":"BUS_SHUTTLE","label":"รถรับส่งภายใน"},{"code":"BUS_CENTRAL","label":"รถส่วนกลาง"},{"code":"BUS_REPAIR","label":"งานซ่อมแซมยานพาหนะ"},{"code":"BUS_REQUEST","label":"งานขอใช้ยานพาหนะ"},{"code":"PRESS","label":"แผนกบริการสิ่งพิมพ์"},{"code":"CATERING","label":"งานบริการจัดเลี้ยง"},{"code":"DOC_EXT","label":"งานเสนอเอกสารภายนอกเพื่อพิจารณา"},{"code":"DOC_ARC","label":"งานจัดเก็บ/สืบค้นเอกสารสำคัญ"},{"code":"COMPLAINT","label":"งานจัดการข้อร้องเรียน"}]},{"unit":"หอสมุดและพื้นที่การเรียนรู้","leaves":[{"code":"BoardGame","label":"บริการยืมบอร์ดเกมและจิ๊กซอว์"},{"code":"Services","label":"บริการของห้องสมุด"},{"code":"OnlineServices","label":"Online Services"}]},{"unit":"สำนักมาตรฐาน","leaves":[{"code":"QA","label":"สำนักมาตรฐานคุณภาพการศึกษา"}]},{"unit":"ศูนย์บริหารศิลปวัฒนธรรม","leaves":[{"code":"Museum","label":"พิพิธภัณฑสถานเครื่องถ้วยเอเชียตะวันออกเฉียงใต้"}]},{"unit":"เลขานุการสายบริหารฯ","leaves":[{"code":"SECY_AES","label":"เลขานุการสายบริหารฯ"}]}]},{"line":"สายวิชาการ","units":[{"unit":"บัญชี","leaves":[{"code":"ASU_AC","label":"คณะบัญชี"}]},{"unit":"บริหารธุรกิจ","leaves":[{"code":"ASU_BA","label":"คณะบริหารธุรกิจ"}]},{"unit":"นิเทศศาสตร์","leaves":[{"code":"ASU_CA","label":"คณะนิเทศศาสตร์ (ASU)"},{"code":"ASU_CA_Media","label":"ศูนย์ผลิตสื่อ"},{"code":"ASU_CA_EDM","label":"EDM"},{"code":"ASU_CA_PA","label":"PA"}]},{"unit":"นิติศาสตร์","leaves":[{"code":"ASU_LA","label":"คณะนิติศาสตร์"}]},{"unit":"มนุษยศาสตร์ฯ","leaves":[{"code":"ASU_HM","label":"มนุษยศาสตร์ฯ (ASU)"},{"code":"SUP_HM","label":"มนุษยศาสตร์ฯ (เจ้าหน้าที่สนับสนุน)"}]},{"unit":"เศรษฐศาสตร์ฯ","leaves":[{"code":"ASU_EC","label":"คณะเศรษฐศาสตร์และการลงทุน"}]},{"unit":"เทคโนโลยีฯ","leaves":[{"code":"ASU_ITI","label":"คณะเทคโนโลยีสารสนเทศและนวัตกรรม"}]},{"unit":"ศิลปกรรมศาสตร์","leaves":[{"code":"ASU_FA","label":"ศิลปกรรมศาสตร์ (ASU)"},{"code":"SUP_FA_Wood","label":"ห้องปฏิบัติการงานไม้"},{"code":"SUP_FA_Com","label":"ห้องปฏิบัติการคอมพิวเตอร์"},{"code":"SUP_FA_Photo","label":"ห้องปฏิบัติการภาพถ่าย"},{"code":"SUP_FA_fashion","label":"ห้องปฏิบัติการแฟชั่น"}]},{"unit":"วิศวกรรมศาสตร์","leaves":[{"code":"ASU_EE1","label":"วิศวกรรมศาสตร์ (ASU)"},{"code":"ASU_EE2","label":"วิศวกรรมศาสตร์ (ห้องปฏิบัติการ)"}]},{"unit":"สถาปัตยกรรมศาสตร์","leaves":[{"code":"ASU_ARC","label":"คณะสถาปัตยกรรมศาสตร์"}]},{"unit":"การสร้างเจ้าของธุรกิจฯ","leaves":[{"code":"ASU_SEM","label":"คณะการสร้างเจ้าของธุรกิจและการบริหารกิจการ (SEM)"}]},{"unit":"ดิจิทัลมีเดียฯ","leaves":[{"code":"ASU_DC","label":"คณะดิจิทัลมีเดียและศิลปะภาพยนตร์"}]},{"unit":"บัณฑิตวิทยาลัย","leaves":[{"code":"ASU_grad","label":"บัณฑิตวิทยาลัย"}]},{"unit":"GE","leaves":[{"code":"GE","label":"ศูนย์บริหารจัดการหมวดวิชาศึกษาทั่วไป - GE"}]}]},{"line":"สายนานาชาติ","units":[{"unit":"วิทยาลัยนานาชาติ","leaves":[{"code":"ASU_BUI","label":"วิทยาลัยนานาชาติ"}]},{"unit":"ฝ่ายกิจการต่างประเทศ","leaves":[{"code":"FRO_1","label":"Translation Services"},{"code":"FRO_2","label":"Recommendation Letter"}]},{"unit":"สถาบันภาษา","leaves":[{"code":"ASU_LI1","label":"สอบถามเรื่องวิชา EN"},{"code":"ASU_LI2","label":"Speexx / ห้องปฏิบัติการภาษา"}]},{"unit":"วิทยาลัยนานาชาติจีน","leaves":[{"code":"ASU_BUCI","label":"วิทยาลัยนานาชาติจีน"}]}]}];
+// แต่ละ line/unit/leaf เก็บ {th, en} — ใช้ pickLabel(obj, CURRENT_LANG) ตอนวาด เพื่อให้สลับภาษาได้ครบ
+// (unit_name_en/subunit_name_en ใน Dim_Unit ยังว่างอยู่ ณ ตอนที่ทำ จึงแปล EN เองแบบ best-effort
+// บางชื่อหน่วยย่อยภายใน อาจไม่ตรงศัพท์ทางการ 100% — แก้ตรงนี้ได้ถ้าต้องการชื่อทางการกว่านี้)
+const UNIT_TREE = [{"line":{"th":"สายกิจการนักศึกษา","en":"Student Affairs"},"units":[{"unit":{"th":"สำนักทะเบียน","en":"Office of the Registrar"},"leaves":[{"code":"records_office","label":{"th":"สำนักทะเบียน","en":"Office of the Registrar"}}]},{"unit":{"th":"ศูนย์บริการนักศึกษา","en":"Student Service Center"},"leaves":[{"code":"clinic","label":{"th":"ห้องพยาบาล","en":"Clinic"}},{"code":"OSS","label":{"th":"หน่วยบริการเบ็ดเสร็จ","en":"One Stop Services"}},{"code":"scholarship","label":{"th":"แผนกทุนการศึกษา","en":"Scholarship Department"}},{"code":"CC","label":{"th":"คอนแทคเซ็นเตอร์","en":"Contact Center"}}]},{"unit":{"th":"ศูนย์พัฒนานักศึกษาแบบองค์รวม","en":"Center for Holistic Student Development"},"leaves":[{"code":"STUDEV","label":{"th":"แผนก พก และ ทล","en":"Student Activities & Welfare Dept."}},{"code":"SportsF","label":{"th":"สนามกีฬา","en":"Sports Facilities"}},{"code":"SportsE","label":{"th":"อุปกรณ์กีฬา","en":"Sports Equipment"}}]},{"unit":{"th":"เวิร์คอินเทค","en":"Work-Integ"},"leaves":[{"code":"Work-Integ","label":{"th":"เวิร์คอินเทค","en":"Work-Integ"}}]}]},{"line":{"th":"สายการคลังและกลยุทธ์องค์กร","en":"Finance & Corporate Strategy"},"units":[{"unit":{"th":"ฝ่ายการคลัง","en":"Financial Affairs Office"},"leaves":[{"code":"Fin","label":{"th":"ฝ่ายการคลัง","en":"Financial Affairs Office"}}]},{"unit":{"th":"ฝ่ายจัดหาและบริหารทรัพย์สิน","en":"Procurement & Asset Management Division"},"leaves":[{"code":"Supply","label":{"th":"แผนกพัสดุ","en":"Supply Department"}},{"code":"Purchase","label":{"th":"แผนกจัดซื้อ","en":"Purchasing Department"}}]}]},{"line":{"th":"หน่วยงานขึ้นตรงกับอธิการบดี","en":"Units under the President's Office"},"units":[{"unit":{"th":"สื่อสารองค์กร","en":"Corporate Communication"},"leaves":[{"code":"CorpCom","label":{"th":"ส่วนกลาง","en":"Head Office"}},{"code":"Photo","label":{"th":"งานถ่ายภาพ","en":"Photography Unit"}}]}]},{"line":{"th":"สายบริหารและบริการการศึกษา","en":"Administrative & Educational Services"},"units":[{"unit":{"th":"สำนักอำนวยการ","en":"Administrative Affairs Office"},"leaves":[{"code":"BUS_SHUTTLE","label":{"th":"รถรับส่งภายใน","en":"Internal Shuttle Bus"}},{"code":"BUS_CENTRAL","label":{"th":"รถส่วนกลาง","en":"Central Vehicle Pool"}},{"code":"BUS_REPAIR","label":{"th":"งานซ่อมแซมยานพาหนะ","en":"Vehicle Repair Service"}},{"code":"BUS_REQUEST","label":{"th":"งานขอใช้ยานพาหนะ","en":"Vehicle Request Service"}},{"code":"PRESS","label":{"th":"แผนกบริการสิ่งพิมพ์","en":"Printing Services"}},{"code":"CATERING","label":{"th":"งานบริการจัดเลี้ยง","en":"Catering Service"}},{"code":"DOC_EXT","label":{"th":"งานเสนอเอกสารภายนอกเพื่อพิจารณา","en":"External Document Submission"}},{"code":"DOC_ARC","label":{"th":"งานจัดเก็บ/สืบค้นเอกสารสำคัญ","en":"Document Archive & Retrieval"}},{"code":"COMPLAINT","label":{"th":"งานจัดการข้อร้องเรียน","en":"Complaint Management"}}]},{"unit":{"th":"หอสมุดและพื้นที่การเรียนรู้","en":"Library and Learning Space"},"leaves":[{"code":"BoardGame","label":{"th":"บริการยืมบอร์ดเกมและจิ๊กซอว์","en":"Board Game & Jigsaw Puzzle Borrowing Service"}},{"code":"Services","label":{"th":"บริการของห้องสมุด","en":"Library Services"}},{"code":"OnlineServices","label":{"th":"Online Services","en":"Online Services"}}]},{"unit":{"th":"สำนักมาตรฐาน","en":"Education Quality and Standards Office"},"leaves":[{"code":"QA","label":{"th":"สำนักมาตรฐานคุณภาพการศึกษา","en":"Education Quality and Standards Office"}}]},{"unit":{"th":"ศูนย์บริหารศิลปวัฒนธรรม","en":"Arts and Culture Center"},"leaves":[{"code":"Museum","label":{"th":"พิพิธภัณฑสถานเครื่องถ้วยเอเชียตะวันออกเฉียงใต้","en":"Southeast Asian Ceramic Museum"}}]},{"unit":{"th":"เลขานุการสายบริหารฯ","en":"Secretary - Administrative and Educational Services Division"},"leaves":[{"code":"SECY_AES","label":{"th":"เลขานุการสายบริหารฯ","en":"Secretary - Administrative and Educational Services Division"}}]}]},{"line":{"th":"สายวิชาการ","en":"Academic Affairs"},"units":[{"unit":{"th":"บัญชี","en":"School of Accounting"},"leaves":[{"code":"ASU_AC","label":{"th":"คณะบัญชี","en":"School of Accounting"}}]},{"unit":{"th":"บริหารธุรกิจ","en":"School of Business Administration"},"leaves":[{"code":"ASU_BA","label":{"th":"คณะบริหารธุรกิจ","en":"School of Business Administration"}}]},{"unit":{"th":"นิเทศศาสตร์","en":"School of Communication Arts"},"leaves":[{"code":"ASU_CA","label":{"th":"คณะนิเทศศาสตร์ (ASU)","en":"School of Communication Arts (ASU)"}},{"code":"ASU_CA_Media","label":{"th":"ศูนย์ผลิตสื่อ","en":"Media Center"}},{"code":"ASU_CA_EDM","label":{"th":"EDM","en":"EDM"}},{"code":"ASU_CA_PA","label":{"th":"PA","en":"PA"}}]},{"unit":{"th":"นิติศาสตร์","en":"School of Law"},"leaves":[{"code":"ASU_LA","label":{"th":"คณะนิติศาสตร์","en":"School of Law"}}]},{"unit":{"th":"มนุษยศาสตร์ฯ","en":"School of Humanities and Tourism Management"},"leaves":[{"code":"ASU_HM","label":{"th":"มนุษยศาสตร์ฯ (ASU)","en":"School of Humanities and Tourism Management (ASU)"}},{"code":"SUP_HM","label":{"th":"มนุษยศาสตร์ฯ (เจ้าหน้าที่สนับสนุน)","en":"School of Humanities and Tourism Management (Support Staff)"}}]},{"unit":{"th":"เศรษฐศาสตร์ฯ","en":"School of Economics and Investment"},"leaves":[{"code":"ASU_EC","label":{"th":"คณะเศรษฐศาสตร์และการลงทุน","en":"School of Economics and Investment"}}]},{"unit":{"th":"เทคโนโลยีฯ","en":"School of Information Technology and Innovation"},"leaves":[{"code":"ASU_ITI","label":{"th":"คณะเทคโนโลยีสารสนเทศและนวัตกรรม","en":"School of Information Technology and Innovation"}}]},{"unit":{"th":"ศิลปกรรมศาสตร์","en":"School of Fine and Applied Arts"},"leaves":[{"code":"ASU_FA","label":{"th":"ศิลปกรรมศาสตร์ (ASU)","en":"School of Fine and Applied Arts (ASU)"}},{"code":"SUP_FA_Wood","label":{"th":"ห้องปฏิบัติการงานไม้","en":"Wood Workshop"}},{"code":"SUP_FA_Com","label":{"th":"ห้องปฏิบัติการคอมพิวเตอร์","en":"Computer Lab"}},{"code":"SUP_FA_Photo","label":{"th":"ห้องปฏิบัติการภาพถ่าย","en":"Photography Lab"}},{"code":"SUP_FA_fashion","label":{"th":"ห้องปฏิบัติการแฟชั่น","en":"Fashion Lab"}}]},{"unit":{"th":"วิศวกรรมศาสตร์","en":"School of Engineering"},"leaves":[{"code":"ASU_EE1","label":{"th":"วิศวกรรมศาสตร์ (ASU)","en":"School of Engineering (ASU)"}},{"code":"ASU_EE2","label":{"th":"วิศวกรรมศาสตร์ (ห้องปฏิบัติการ)","en":"School of Engineering (Laboratory)"}}]},{"unit":{"th":"สถาปัตยกรรมศาสตร์","en":"School of Architecture"},"leaves":[{"code":"ASU_ARC","label":{"th":"คณะสถาปัตยกรรมศาสตร์","en":"School of Architecture"}}]},{"unit":{"th":"การสร้างเจ้าของธุรกิจฯ","en":"School of Entrepreneurship and Management"},"leaves":[{"code":"ASU_SEM","label":{"th":"คณะการสร้างเจ้าของธุรกิจและการบริหารกิจการ (SEM)","en":"School of Entrepreneurship and Management"}}]},{"unit":{"th":"ดิจิทัลมีเดียฯ","en":"School of Digital Media and Cinematic Arts"},"leaves":[{"code":"ASU_DC","label":{"th":"คณะดิจิทัลมีเดียและศิลปะภาพยนตร์","en":"School of Digital Media and Cinematic Arts"}}]},{"unit":{"th":"บัณฑิตวิทยาลัย","en":"Graduate School"},"leaves":[{"code":"ASU_grad","label":{"th":"บัณฑิตวิทยาลัย","en":"Graduate School"}}]},{"unit":{"th":"GE","en":"General Education Administration Center"},"leaves":[{"code":"GE","label":{"th":"ศูนย์บริหารจัดการหมวดวิชาศึกษาทั่วไป - GE","en":"General Education Administration Center"}}]}]},{"line":{"th":"สายนานาชาติ","en":"International Affairs"},"units":[{"unit":{"th":"วิทยาลัยนานาชาติ","en":"Bangkok University International"},"leaves":[{"code":"ASU_BUI","label":{"th":"วิทยาลัยนานาชาติ","en":"Bangkok University International"}}]},{"unit":{"th":"ฝ่ายกิจการต่างประเทศ","en":"International Affairs Division"},"leaves":[{"code":"FRO_1","label":{"th":"Translation Services","en":"Translation Services"}},{"code":"FRO_2","label":{"th":"Recommendation Letter","en":"Recommendation Letter"}}]},{"unit":{"th":"สถาบันภาษา","en":"Language Institute"},"leaves":[{"code":"ASU_LI1","label":{"th":"สอบถามเรื่องวิชา EN","en":"English Course Inquiries"}},{"code":"ASU_LI2","label":{"th":"Speexx / ห้องปฏิบัติการภาษา","en":"Speexx / Language Lab"}}]},{"unit":{"th":"วิทยาลัยนานาชาติจีน","en":"Bangkok University Chinese International"},"leaves":[{"code":"ASU_BUCI","label":{"th":"วิทยาลัยนานาชาติจีน","en":"Bangkok University Chinese International"}}]}]}];
+
+// จำว่า .up-line/.up-unit ไหนถูกขยายไว้อยู่ (คั่นด้วย index) เพื่อคง state ไว้ตอน re-render (เช่นตอนสลับภาษา)
+const UNIT_PICKER_OPEN = { lines: new Set([0]), units: new Set() };
+let UNIT_PICKER_LAST_INVALID = null; // จำโค้ดที่พิมพ์ผิดไว้ ใช้ตอน re-render (สลับภาษา) ให้ข้อความเตือนยังโชว์ถูก
 
 // นำทางไปยังหน่วยงานที่เลือก — คงพารามิเตอร์อื่นที่มีอยู่ (เช่น lang) แต่ตั้ง/แทนที่ unit และตัด staff เดิมทิ้ง
 // (staff เป็นรหัสรายบุคคลเฉพาะของหน่วยเดิม เอาไปใช้กับหน่วยใหม่ไม่ได้)
@@ -72,40 +79,53 @@ function goToUnit_(code) {
 }
 
 // วาดหน้าเลือกหน่วยงานแบบ tree (สาย > หน่วยงาน > หน่วยย่อย) กดขยาย/ยุบได้เหมือนหน้า dashboard
-// invalidCode: โค้ดที่พิมพ์มาใน ?unit=... แต่หาไม่เจอ (ใช้โชว์ข้อความเตือนเพิ่ม ถ้ามี)
+// invalidCode: โค้ดที่พิมพ์มาใน ?unit=... แต่หาไม่เจอ (ใช้โชว์ข้อความเตือนเพิ่ม ถ้ามี, undefined = ใช้ค่าที่จำไว้ล่าสุด
+// เผื่อเรียกซ้ำตอนสลับภาษา — ดู switchLang/applyLang ด้านล่างที่เรียก renderUnitPicker() โดยไม่ส่ง argument)
 function renderUnitPicker(invalidCode) {
   if (!unitPickerTree || !unitPickerSection) return;
+  if (invalidCode !== undefined) UNIT_PICKER_LAST_INVALID = invalidCode;
+  const shownInvalidCode = UNIT_PICKER_LAST_INVALID;
 
   const introEl = document.getElementById("unitPickerIntro");
   if (introEl) {
-    introEl.textContent = invalidCode
-      ? `ไม่พบหน่วยงาน "${invalidCode}" กรุณาเลือกหน่วยงานที่ท่านต้องการประเมินจากรายชื่อด้านล่าง`
-      : "กรุณาเลือกหน่วยงานที่ท่านต้องการประเมิน";
+    introEl.textContent = shownInvalidCode
+      ? (CURRENT_LANG === "en"
+          ? `Unit "${shownInvalidCode}" not found. Please choose the unit you'd like to evaluate from the list below.`
+          : `ไม่พบหน่วยงาน "${shownInvalidCode}" กรุณาเลือกหน่วยงานที่ท่านต้องการประเมินจากรายชื่อด้านล่าง`)
+      : (CURRENT_LANG === "en"
+          ? "Please choose the unit you'd like to evaluate"
+          : "กรุณาเลือกหน่วยงานที่ท่านต้องการประเมิน");
   }
 
   unitPickerTree.innerHTML = "";
 
   UNIT_TREE.forEach((lineObj, lineIdx) => {
     const lineEl = document.createElement("div");
-    lineEl.className = "up-line" + (lineIdx === 0 ? " open" : "");
+    lineEl.className = "up-line" + (UNIT_PICKER_OPEN.lines.has(lineIdx) ? " open" : "");
 
     const header = document.createElement("button");
     header.type = "button";
     header.className = "up-line-header";
-    header.innerHTML = `<span class="up-caret">▶</span><span>${lineObj.line}</span>`;
-    header.addEventListener("click", () => lineEl.classList.toggle("open"));
+    header.innerHTML = `<span class="up-caret">▶</span><span>${pickLabel(lineObj.line, CURRENT_LANG)}</span>`;
+    header.addEventListener("click", () => {
+      lineEl.classList.toggle("open");
+      if (lineEl.classList.contains("open")) UNIT_PICKER_OPEN.lines.add(lineIdx);
+      else UNIT_PICKER_OPEN.lines.delete(lineIdx);
+    });
 
     const body = document.createElement("div");
     body.className = "up-line-body";
 
-    lineObj.units.forEach(unitObj => {
+    lineObj.units.forEach((unitObj, unitIdx) => {
+      const unitKey = lineIdx + "-" + unitIdx;
+
       if (unitObj.leaves.length === 1) {
         // หน่วยงานที่มีหน่วยย่อยเดียว -> กดตรงๆ ไม่ต้องขยาย
         const leaf = unitObj.leaves[0];
         const btn = document.createElement("button");
         btn.type = "button";
         btn.className = "up-unit-single";
-        btn.innerHTML = `<span>${leaf.label}</span><span class="up-leaf-arrow">›</span>`;
+        btn.innerHTML = `<span>${pickLabel(leaf.label, CURRENT_LANG)}</span><span class="up-leaf-arrow">›</span>`;
         btn.addEventListener("click", () => goToUnit_(leaf.code));
         body.appendChild(btn);
         return;
@@ -113,13 +133,17 @@ function renderUnitPicker(invalidCode) {
 
       // หน่วยงานที่มีหลายหน่วยย่อย -> ขยาย/ยุบ
       const unitEl = document.createElement("div");
-      unitEl.className = "up-unit";
+      unitEl.className = "up-unit" + (UNIT_PICKER_OPEN.units.has(unitKey) ? " open" : "");
 
       const uHeader = document.createElement("button");
       uHeader.type = "button";
       uHeader.className = "up-unit-header";
-      uHeader.innerHTML = `<span class="up-caret">▶</span><span>${unitObj.unit}</span>`;
-      uHeader.addEventListener("click", () => unitEl.classList.toggle("open"));
+      uHeader.innerHTML = `<span class="up-caret">▶</span><span>${pickLabel(unitObj.unit, CURRENT_LANG)}</span>`;
+      uHeader.addEventListener("click", () => {
+        unitEl.classList.toggle("open");
+        if (unitEl.classList.contains("open")) UNIT_PICKER_OPEN.units.add(unitKey);
+        else UNIT_PICKER_OPEN.units.delete(unitKey);
+      });
 
       const uBody = document.createElement("div");
       uBody.className = "up-unit-body";
@@ -128,7 +152,7 @@ function renderUnitPicker(invalidCode) {
         const leafBtn = document.createElement("button");
         leafBtn.type = "button";
         leafBtn.className = "up-leaf";
-        leafBtn.innerHTML = `<span>${leaf.label}</span><span class="up-leaf-arrow">›</span>`;
+        leafBtn.innerHTML = `<span>${pickLabel(leaf.label, CURRENT_LANG)}</span><span class="up-leaf-arrow">›</span>`;
         leafBtn.addEventListener("click", () => goToUnit_(leaf.code));
         uBody.appendChild(leafBtn);
       });
@@ -1691,6 +1715,12 @@ function applyLang(lang) {
 
   // อัปเดตข้อความ error ให้ตรงภาษา
   updateErrorTexts();
+
+  // ถ้ากำลังโชว์หน้าเลือกหน่วยงานอยู่ (ไม่มี ?unit=... หรือโค้ดผิด) ให้วาดใหม่ตามภาษาที่เพิ่งเปลี่ยน
+  // (renderUnitPicker() ไม่ส่ง argument -> ใช้ CURRENT_LANG ล่าสุด + จำ invalidCode/สถานะขยายที่เปิดไว้เดิม)
+  if (unitPickerSection && !unitPickerSection.classList.contains("hidden")) {
+    renderUnitPicker();
+  }
 }
 
 document.addEventListener("DOMContentLoaded", () => {
