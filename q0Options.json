@@ -2049,6 +2049,102 @@
       }
     ]
   },
+  "Lib_Activity": {
+    "config": {
+      "group": "support",
+      "langs": [
+        "th",
+        "en"
+      ],
+      "default_lang": "th",
+      "sheet_label": "การเข้าร่วมกิจกรรม",
+      "display_title": {
+        "th": "สำนักหอสมุดและพื้นที่การเรียนรู้",
+        "en": "Library and Learning Space"
+      },
+      "providers": {
+        "mode": "auto",
+        "show_provider_in_ui": "none",
+        "label": {
+          "th": "ผู้ให้บริการ",
+          "en": "Service provider"
+        },
+        "aggregate_label": {
+          "th": "ประเมินรวมทั้งหน่วยงาน",
+          "en": "Evaluate the unit"
+        },
+        "require_on_list": true,
+        "allow_aggregate_in_list": false,
+        "people": [
+          {
+            "code": "Lib_Activity",
+            "display_th": "การเข้าร่วมกิจกรรม",
+            "display_en": "Activity Experience"
+          }
+        ]
+      }
+    },
+    "options": [
+      {
+        "th": "การเข้าร่วมงานหนังสือ",
+        "en": "Book Fair"
+      },
+      {
+        "th": "การเข้าร่วมงานจัดแสดงผลงานนักศึกษา / ผลิตภัณฑ์ชุมชน",
+        "en": "Student Work / Community Product Exhibition"
+      },
+      {
+        "th": "การเข้าชมนิทรรศการ",
+        "en": "Exhibition / Showcase"
+      }
+    ]
+  },
+  "iKBS": {
+    "config": {
+      "group": "support",
+      "langs": [
+        "th",
+        "en"
+      ],
+      "default_lang": "th",
+      "sheet_label": "การเข้าร่วมกิจกรรม",
+      "display_title": {
+        "th": "สำนักหอสมุดและพื้นที่การเรียนรู้",
+        "en": "Library and Learning Space"
+      },
+      "providers": {
+        "mode": "auto",
+        "show_provider_in_ui": "none",
+        "label": {
+          "th": "ผู้ให้บริการ",
+          "en": "Service provider"
+        },
+        "aggregate_label": {
+          "th": "ประเมินรวมทั้งหน่วยงาน",
+          "en": "Evaluate the unit"
+        },
+        "require_on_list": true,
+        "allow_aggregate_in_list": false,
+        "people": [
+          {
+            "code": "iKBS",
+            "display_th": "ประเมิน Website iKBS (Intelligent Knowledge Base System)",
+            "display_en": "iKBS (Intelligent Knowledge Base System) Website Evaluation"
+          }
+        ]
+      }
+    },
+    "options": [
+      {
+        "th": "เข้าใช้งาน Website iKBS",
+        "en": "Accessing the iKBS Website"
+      },
+      {
+        "th": "การติดต่อประสานงาน เผยแพร่ KM  ใน Website iKBS",
+        "en": "Coordination and Requests for Publishing Knowledge Management (KM) Content on the iKBS Website"
+      }
+    ]
+  },  
   "BUS_SHUTTLE": {
     "config": {
       "group": "support",
